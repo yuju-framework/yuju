@@ -1,0 +1,1 @@
+<iframe id="{$id}" width="{$width}" height="{$height}" src="{$src}" frameborder="0" allowfullscreen></iframe>

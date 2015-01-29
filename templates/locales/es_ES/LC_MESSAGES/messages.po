@@ -1,0 +1,538 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Yuju v0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-26 12:47+0200\n"
+"PO-Revision-Date: 2013-07-26 13:14+0100\n"
+"Last-Translator: \n"
+"Language-Team: PeopleTIC\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: es_ES\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: /var/www/projects/yujuSF/class/Yuju_View.php:609
+msgid " compiled..."
+msgstr " compilado..."
+
+#: /var/www/projects/yujuSF/class/Boolean.php:129
+msgid "Yes"
+msgstr "Sí"
+
+#: /var/www/projects/yujuSF/class/Boolean.php:131
+msgid "No"
+msgstr "No"
+
+#: /var/www/projects/yujuSF/class/Utils.php:62
+msgid "First"
+msgstr "Primero"
+
+#: /var/www/projects/yujuSF/class/Yuju_Project.php:420
+msgid "Copying"
+msgstr "Copiando"
+
+#: /var/www/projects/yujuSF/class/Date.php:607
+#: /var/www/projects/yujuSF/class/Date.php:628
+#: /var/www/projects/yujuSF/class/Date.php:652
+msgid "Actually"
+msgstr "Actualidad"
+
+#: /var/www/projects/yujuSF/class/Date.php:672
+msgid "January"
+msgstr "Enero"
+
+#: /var/www/projects/yujuSF/class/Date.php:673
+msgid "February"
+msgstr "Febrero"
+
+#: /var/www/projects/yujuSF/class/Date.php:674
+msgid "March"
+msgstr "Marzo"
+
+#: /var/www/projects/yujuSF/class/Date.php:675
+msgid "April"
+msgstr "Abril"
+
+#: /var/www/projects/yujuSF/class/Date.php:676
+msgid "May"
+msgstr "Mayo"
+
+#: /var/www/projects/yujuSF/class/Date.php:677
+msgid "June"
+msgstr "Junio"
+
+#: /var/www/projects/yujuSF/class/Date.php:678
+msgid "July"
+msgstr "Julio"
+
+#: /var/www/projects/yujuSF/class/Date.php:679
+msgid "August"
+msgstr "Agosto"
+
+#: /var/www/projects/yujuSF/class/Date.php:680
+msgid "September"
+msgstr "Septiembre"
+
+#: /var/www/projects/yujuSF/class/Date.php:681
+msgid "October"
+msgstr "Octubre"
+
+#: /var/www/projects/yujuSF/class/Date.php:682
+msgid "November"
+msgstr "Noviembre"
+
+#: /var/www/projects/yujuSF/class/Date.php:683
+msgid "December"
+msgstr "Diciembre"
+
+#: /var/www/projects/yujuSF/class/Date.php:696
+msgid "Monday"
+msgstr "Lunes"
+
+#: /var/www/projects/yujuSF/class/Date.php:697
+msgid "Tuesday"
+msgstr "Martes"
+
+#: /var/www/projects/yujuSF/class/Date.php:698
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: /var/www/projects/yujuSF/class/Date.php:699
+msgid "Thursday"
+msgstr "Jueves"
+
+#: /var/www/projects/yujuSF/class/Date.php:700
+msgid "Friday"
+msgstr "Viernes"
+
+#: /var/www/projects/yujuSF/class/Date.php:701
+msgid "Saturday"
+msgstr "Sabado"
+
+#: /var/www/projects/yujuSF/class/Date.php:702
+msgid "Sunday"
+msgstr "Domingo"
+
+#: /var/www/projects/yujuSF/class/Date.php:827
+#: /var/www/projects/yujuSF/class/Date.php:835
+#: /var/www/projects/yujuSF/class/Date.php:842
+#: /var/www/projects/yujuSF/class/Date.php:849
+#: /var/www/projects/yujuSF/class/Date.php:856
+#: /var/www/projects/yujuSF/class/Date.php:863
+#: /var/www/projects/yujuSF/class/Date.php:892
+#: /var/www/projects/yujuSF/class/Date.php:899
+#: /var/www/projects/yujuSF/class/Date.php:906
+msgid "On "
+msgstr "En "
+
+#: /var/www/projects/yujuSF/class/Date.php:827
+msgid " years"
+msgstr " años"
+
+#: /var/www/projects/yujuSF/class/Date.php:830
+#: /var/www/projects/yujuSF/class/Date.php:838
+#: /var/www/projects/yujuSF/class/Date.php:845
+#: /var/www/projects/yujuSF/class/Date.php:852
+#: /var/www/projects/yujuSF/class/Date.php:859
+#: /var/www/projects/yujuSF/class/Date.php:866
+#: /var/www/projects/yujuSF/class/Date.php:895
+#: /var/www/projects/yujuSF/class/Date.php:902
+#: /var/www/projects/yujuSF/class/Date.php:909
+msgid "Since "
+msgstr "Hace "
+
+#: /var/www/projects/yujuSF/class/Date.php:830
+msgid " years ago"
+msgstr " años"
+
+#: /var/www/projects/yujuSF/class/Date.php:835
+msgid " months"
+msgstr " meses"
+
+#: /var/www/projects/yujuSF/class/Date.php:838
+msgid " months ago"
+msgstr " meses"
+
+#: /var/www/projects/yujuSF/class/Date.php:842
+msgid " days"
+msgstr " dias"
+
+#: /var/www/projects/yujuSF/class/Date.php:845
+msgid " days ago"
+msgstr "dias"
+
+#: /var/www/projects/yujuSF/class/Date.php:849
+#: /var/www/projects/yujuSF/class/Date.php:892
+msgid " hours"
+msgstr " horas"
+
+#: /var/www/projects/yujuSF/class/Date.php:852
+#: /var/www/projects/yujuSF/class/Date.php:895
+msgid " hours ago"
+msgstr " horas"
+
+#: /var/www/projects/yujuSF/class/Date.php:856
+#: /var/www/projects/yujuSF/class/Date.php:899
+msgid " minutes"
+msgstr " minutos"
+
+#: /var/www/projects/yujuSF/class/Date.php:859
+#: /var/www/projects/yujuSF/class/Date.php:902
+msgid " minutes ago"
+msgstr " minutos"
+
+#: /var/www/projects/yujuSF/class/Date.php:863
+#: /var/www/projects/yujuSF/class/Date.php:906
+msgid " seconds"
+msgstr " segundos"
+
+#: /var/www/projects/yujuSF/class/Date.php:866
+#: /var/www/projects/yujuSF/class/Date.php:909
+msgid " seconds ago"
+msgstr " segundos"
+
+#: /var/www/projects/yujuSF/class/DB.php:126
+msgid "SQL Error begin transaction"
+msgstr "Error SQL iniciando transacción"
+
+#: /var/www/projects/yujuSF/class/DB.php:127
+#: /var/www/projects/yujuSF/class/DB.php:158
+#: /var/www/projects/yujuSF/class/DB.php:189
+#: /var/www/projects/yujuSF/class/DB.php:286
+#: /var/www/projects/yujuSF/class/DB.php:339
+#: /var/www/projects/yujuSF/class/DB.php:430
+#: /var/www/projects/yujuSF/class/DB.php:467
+msgid " user: "
+msgstr " usuario: "
+
+#: /var/www/projects/yujuSF/class/DB.php:157
+msgid "SQL Error rollback transaction"
+msgstr "Error SQL eliminando transacción"
+
+#: /var/www/projects/yujuSF/class/DB.php:188
+msgid "SQL Error commit transaction"
+msgstr "Error SQL enviando transacción"
+
+#: /var/www/projects/yujuSF/class/DB.php:285
+msgid "SQL Error selecting database"
+msgstr "Error SQL seleccionando base de datos"
+
+#: /var/www/projects/yujuSF/class/DB.php:338
+msgid "SQL Error "
+msgstr "Error SQL"
+
+#: /var/www/projects/yujuSF/class/DB.php:429
+#: /var/www/projects/yujuSF/class/DB.php:466
+msgid "SQL Error creating schema "
+msgstr "Error SQL creando esquema"
+
+#: /var/www/projects/yujuSF/class/Contact.php:208
+msgid "You must enter a valid e-mail"
+msgstr "Debes escribir un e-mail válido"
+
+#: /var/www/projects/yujuSF/class/Contact.php:271
+msgid "Contact "
+msgstr "Contactar"
+
+#: /var/www/projects/yujuSF/class/Contact.php:280
+msgid "Failed to send the contact form"
+msgstr "Error enviando el formulario de contacto"
+
+#: /var/www/projects/yujuSF/modules/admin-editcontent/controller/main.php:53
+msgid "Edit page: "
+msgstr "Editar pagina: "
+
+#: /var/www/projects/yujuSF/lib/create.php:38
+msgid "Project name: "
+msgstr "Nombre del proyecto: "
+
+#: /var/www/projects/yujuSF/lib/create.php:40
+msgid "Invalid name"
+msgstr "Nombre invalido"
+
+#: /var/www/projects/yujuSF/lib/create.php:48
+msgid "Email administrator: "
+msgstr "Email administrador"
+
+#: /var/www/projects/yujuSF/lib/create.php:54
+msgid "Directory: "
+msgstr "Directorio: "
+
+#: /var/www/projects/yujuSF/lib/create.php:56
+msgid "Invalid directory"
+msgstr "Directorio invalido"
+
+#: /var/www/projects/yujuSF/lib/create.php:60
+msgid "Error creating structure"
+msgstr "Error creando la estructura"
+
+#: /var/www/projects/yujuSF/lib/create.php:67
+msgid "Domain: "
+msgstr "Dominio: "
+
+#: /var/www/projects/yujuSF/lib/create.php:69
+msgid "Invalid domain"
+msgstr "Dominio invalido"
+
+#: /var/www/projects/yujuSF/lib/create.php:76
+msgid "Database Host: "
+msgstr "Servidor BBDD: "
+
+#: /var/www/projects/yujuSF/lib/create.php:83
+msgid ""
+"Database Type (posibles values mysql, sqlserver, oracle (not implemented "
+"yet): "
+msgstr ""
+"Tipo BBDD (valores posibles: mysql, sqlserver, oracle (aún no "
+"implementado)): "
+
+#: /var/www/projects/yujuSF/lib/create.php:89
+msgid "Database name: "
+msgstr "Nombre BBDD: "
+
+#: /var/www/projects/yujuSF/lib/create.php:95
+msgid "Database user: "
+msgstr "Usuario BBDD: "
+
+#: /var/www/projects/yujuSF/lib/create.php:101
+msgid "Database password: "
+msgstr "Contraseña BBDD: "
+
+#: /var/www/projects/yujuSF/lib/create.php:104
+msgid "Create admin pages: [y/n]"
+msgstr "Crear administrador de Yuju: [y/n] "
+
+#: /var/www/projects/yujuSF/lib/create.php:107
+msgid "Admin section password: "
+msgstr "Contraseña admin Yuju: "
+
+#: /var/www/projects/yujuSF/lib/create.php:113
+msgid "Error creating database"
+msgstr "Error creando la BBDD"
+
+#: /var/www/projects/yujuSF/lib/create.php:118
+msgid "Error setting config"
+msgstr "Error aplicando configuracion"
+
+#: /var/www/projects/yujuSF/lib/create.php:123
+msgid "Error compiling project"
+msgstr "Error compilando el proyecto"
+
+#: /var/www/projects/yujuSF/lib/create.php:126
+msgid "Project "
+msgstr "Proyecto "
+
+#: /var/www/projects/yujuSF/lib/create.php:126
+msgid " created"
+msgstr " creado"
+
+#: /var/www/projects/yujuSF/lib/delete.php:46
+msgid "Error connecting to host"
+msgstr "Error conectando al servidor"
+
+#: /var/www/projects/yujuSF/lib/delete.php:50
+msgid "Error droping database "
+msgstr "Error eliminando la BBDD"
+
+#: gtAPI.php:2
+msgid "Hello, "
+msgstr "Hola, "
+
+#: gtAPI.php:4
+msgid "e-mail"
+msgstr "e-mail"
+
+#: gtAPI.php:6
+msgid "pass"
+msgstr "contraseña"
+
+#: gtAPI.php:8
+msgid "Log In"
+msgstr "Entrar"
+
+#: gtAPI.php:10
+msgid "Client"
+msgstr "Cliente"
+
+#: gtAPI.php:12
+msgid "Slot"
+msgstr "Slot"
+
+#: gtAPI.php:14
+msgid "Width"
+msgstr "Ancho"
+
+#: gtAPI.php:16
+msgid "Height"
+msgstr "Alto"
+
+#: gtAPI.php:18 gtAPI.php:62 gtAPI.php:98
+msgid "Save"
+msgstr "Guardar"
+
+#: gtAPI.php:20
+msgid "title"
+msgstr "titulo"
+
+#: gtAPI.php:22
+msgid "schema"
+msgstr "esquema"
+
+#: gtAPI.php:24
+msgid "type"
+msgstr "tipo"
+
+#: gtAPI.php:26
+msgid "cssfiles"
+msgstr "ficheros css"
+
+#: gtAPI.php:28
+msgid "jsfiles"
+msgstr "ficheros js"
+
+#: gtAPI.php:30
+msgid "keywords"
+msgstr "palabras clave"
+
+#: gtAPI.php:32
+msgid "description"
+msgstr "descripcion"
+
+#: gtAPI.php:34
+msgid "modules"
+msgstr "modulos"
+
+#: gtAPI.php:36 gtAPI.php:84
+msgid "Save and compile"
+msgstr "Guardar y compilar"
+
+#: gtAPI.php:38 gtAPI.php:86
+msgid "Go back"
+msgstr "Atrás"
+
+#: gtAPI.php:40
+msgid "Add page"
+msgstr "Añadir pagina"
+
+#: gtAPI.php:42
+msgid "Rebuild all pages"
+msgstr "Recompilar todo"
+
+#: gtAPI.php:44
+msgid "Site settings"
+msgstr "Propiedades del sitio"
+
+#: gtAPI.php:46
+msgid "Logout"
+msgstr "Salir"
+
+#: gtAPI.php:48
+msgid "Page name"
+msgstr "Nombre de la página"
+
+#: gtAPI.php:50
+msgid "Edit Page"
+msgstr "Editar página"
+
+#: gtAPI.php:52
+msgid "Edit Page Settings"
+msgstr "Editar propiedades de página"
+
+#: gtAPI.php:54
+msgid "Delete Page"
+msgstr "Borrar página"
+
+#: gtAPI.php:56
+msgid "Rebuild Page"
+msgstr "Recompilar página"
+
+#: gtAPI.php:58
+msgid "Edit Google Analytics Module"
+msgstr "Editar módulo de Google Analytics"
+
+#: gtAPI.php:60
+msgid "Id"
+msgstr "Id"
+
+#: gtAPI.php:64
+msgid "Project name"
+msgstr "Nombre del proyecto"
+
+#: gtAPI.php:66
+msgid "Admin mail"
+msgstr "Mail administrador"
+
+#: gtAPI.php:68
+msgid "Domain"
+msgstr "Dominio"
+
+#: gtAPI.php:70
+msgid "Root folder"
+msgstr "Carpeta raiz"
+
+#: gtAPI.php:72
+msgid "DBHost"
+msgstr "Servidor BBDD"
+
+#: gtAPI.php:74
+msgid "DBType"
+msgstr "Tipo BBDD"
+
+#: gtAPI.php:76
+msgid "DBUser"
+msgstr "Usuario BBDD"
+
+#: gtAPI.php:78
+msgid "DBPass"
+msgstr "Contraseña BBDD"
+
+#: gtAPI.php:80
+msgid "DBName"
+msgstr "Nombre BBDD"
+
+#: gtAPI.php:82
+msgid "Admin pass (sha1)"
+msgstr "Contraseña administrador (SHA1)"
+
+#: gtAPI.php:88
+msgid "SHA1 password converter"
+msgstr "Convertidor de contraseñas a SHA1"
+
+#: gtAPI.php:90
+msgid "Unencrypted"
+msgstr "Desencriptada"
+
+#: gtAPI.php:92
+msgid "Encrypted"
+msgstr "Encriptada"
+
+#: gtAPI.php:94
+msgid "Crypt pass"
+msgstr "Encriptar contraseña"
+
+#: gtAPI.php:96
+msgid "Edit content"
+msgstr "Editar contenido"
+
+#: gtAPI.php:100
+msgid "User"
+msgstr "Usuario"
+
+#: gtAPI.php:102
+msgid "Pass"
+msgstr "Contraseña"
+
+#: gtAPI.php:104
+msgid "Login"
+msgstr "Entrar"
+
+#: gtAPI.php:106
+msgid "404. Page not found"
+msgstr "404. Página no encontrada"

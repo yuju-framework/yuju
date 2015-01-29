@@ -1,0 +1,1 @@
+<img src={$src} width="{$width|default:""}" height="{$height|default:""}" />

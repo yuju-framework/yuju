@@ -1,0 +1,8 @@
+RewriteEngine on
+RewriteCond %{THE_REQUEST} ^GET\ .*/index\.(php|html)\ HTTP
+RewriteRule ^(.*)index\.(php|html)$ /$1 [R=301,S]
+
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$ $1 [L]
+
+RewriteRule ^(.*)$ index.php?p=$1 [QSA]
