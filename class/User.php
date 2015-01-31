@@ -1,5 +1,4 @@
 <?php
-
 /**
  * User File
  *
@@ -40,7 +39,8 @@
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
-class User {
+class User
+{
 
     /**
      * Id
@@ -112,7 +112,8 @@ class User {
      * @access public
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -122,7 +123,8 @@ class User {
      * @access public
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -134,7 +136,8 @@ class User {
      * @access public
      * @return string
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
@@ -144,7 +147,8 @@ class User {
      * @access public
      * @return string
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 

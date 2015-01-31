@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Text File
  * 
@@ -42,7 +41,6 @@
  */
 class Text
 {
-
     /**
      * Returns a random string
      * 
@@ -50,7 +48,6 @@ class Text
      * 
      * @return string
      */
-    
     public static function getAleatoryText($num) 
     {
         $text = '';
@@ -73,7 +70,4 @@ class Text
         }
         return $text;
     }
-
 }
-
-?>
