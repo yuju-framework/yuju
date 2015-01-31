@@ -40,6 +40,9 @@ function compile($directory, $page)
 {
     // TODO: read config, connect to data base and delete database
     include 'lib/config.php';
+    if (substr($directory, strlen($directory) - 1) != '/') {
+        $directory=$directory.'/';
+    }
     include $directory.'conf/site.php';
     
     $view = new Yuju_View();
