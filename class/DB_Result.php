@@ -122,7 +122,16 @@ class DB_Result
                 break;
         }
     }
-
+	
+    public function freeResult()
+    {
+        switch ($this->_dbtype) {
+            case 'sqlserver':
+                return mssql_free_result($this->_result);
+                break;
+        }
+    }
+    
     public function seek($num)
     {
         switch ($this->_dbtype) {

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DB File
  *
@@ -221,7 +220,7 @@ class DB
         $con = null;
         switch ($dbtype) {
             case 'mysql':
-                $con = new mysqli($dbhost, $dbuser, $dbpass, $dbdata);
+                $con = @new mysqli($dbhost, $dbuser, $dbpass, $dbdata);
                 if ($con->connect_error) {
                     return false;
                 }
@@ -411,10 +410,11 @@ class DB
     public static function createSchema($name, $connection = 1)
     {
         if (!DB::isConnected($connection - 1)) {
-            if (!DB::Connection()) {
+            if (!DB::connection()) {
                 return false;
             }
         }
+        
         switch (self::$_connection[$connection - 1][0]) {
             case 'mysql':
                 $sql = 'CREATE DATABASE ' . DB::parse($name) . ';';
@@ -426,8 +426,8 @@ class DB
                         $user = '';
                     }
                     mail(
-                            MAILADM, _('SQL Error creating schema '), $sql . ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                        MAILADM, _('SQL Error creating schema '), $sql . ' -> ' . self::$_connection[$connection - 1][1]->error .
+                        _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
                     );
                     return false;
                 }
