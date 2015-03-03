@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_View.php 192 2014-09-17 14:09:30Z danifdez $
+ * @version  SVN: $Id: Yuju_View.php 202 2015-03-03 10:46:54Z danifdez $
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
@@ -44,7 +44,8 @@ if (defined('API')) {
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
-class Yuju_View {
+class Yuju_View
+{
 
     /**
      * Name
@@ -245,7 +246,7 @@ class Yuju_View {
     {
         if ($var != null) {
             if (substr($var,0,3)=='MOD') {
-                if(isset($this->modules[$var])) {
+                if (isset($this->modules[$var])) {
                     return $this->modules[$var];
                 } else {
                     return array();

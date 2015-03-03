@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 149 2013-11-20 12:01:54Z danifdez $
+ * @version  SVN: $Id: ORM_SQLServer_WS_CSharp.php 200 2015-03-03 10:46:08Z danifdez $
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
@@ -225,6 +225,8 @@ namespace '.$this->namespace.'
                 $object .= '(myReader.IsDBNull('.$i.') == true) ? "" : myReader.GetDateTime('.$i.').ToString();'."\n";
             } elseif ($field['type'] == 'smallint') {
                 $object .= '(myReader.IsDBNull('.$i.') == true) ? "" : myReader.GetInt16('.$i.').ToString();'."\n";
+            } elseif ($field['type'] == 'decimal') {
+                $object .= '(myReader.IsDBNull('.$i.') == true) ? "" : myReader.GetDecimal('.$i.').ToString();'."\n";
             }
             $i++;
         }
@@ -300,7 +302,7 @@ namespace '.$this->namespace.'
             $campos.=$name.',';
         }
         $campos = substr($campos,0, -1);
-        $object .= "                command.CommandText=\"SELECT ".$campos." FROM (SELECT ".$campos.", ROW_NUMBER() OVER (ORDER BY \"+order+\" \"+orderdir+\") AS rows FROM ".$this->table." \" + where + whereNums;\n";
+        $object .= "                command.CommandText=\"SELECT ".$campos." FROM (SELECT ".$campos.", ROW_NUMBER() OVER (ORDER BY \"+order+\" \"+orderdir+\") AS rows FROM ".$this->table." \" + where + whereNums + \" ORDER BY \"+order+\" \"+orderdir;\n";
         $object .= "                command.Prepare ();\n";
         $object .= "                using (SqlDataReader myReader = command.ExecuteReader (CommandBehavior.Default))\n";
         $object .= "                {\n";
@@ -318,6 +320,9 @@ namespace '.$this->namespace.'
                     break;
                 case "datetime":
                     $object .= "                        ".strtolower($this->object_name).".".$name." = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetDateTime (".$c.").ToString();\n";
+                    break;
+                case "decimal":
+                    $object .= "                        ".strtolower($this->object_name).".".$name." = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetDecimal (".$c.").ToString();\n";
                     break;
             }
             $c++;

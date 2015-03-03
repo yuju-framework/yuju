@@ -24,7 +24,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: DB_Result.php 148 2013-11-20 09:16:17Z cristianmv $
+ * @version  SVN: $Id: DB_Result.php 196 2015-03-03 10:43:41Z danifdez $
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */

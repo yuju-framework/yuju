@@ -24,7 +24,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_Project.php 174 2014-03-12 11:52:44Z carlosmelga $
+ * @version  SVN: $Id: Yuju_Project.php 202 2015-03-03 10:46:54Z danifdez $
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
@@ -305,15 +305,15 @@ class Yuju_Project
     {
         $return=false;
         switch ($dbtype) {
-            case 'mysql':
-            case 'sqlserver':
-            case 'oracle':
-                $this->dbtype=$dbtype;
-                $return=true;
-                break;
-            default:
-                $return=false;
-                break;
+        case 'mysql':
+        case 'sqlserver':
+        case 'oracle':
+            $this->dbtype=$dbtype;
+            $return=true;
+            break;
+        default:
+            $return=false;
+            break;
         }
         return $return;
     }
@@ -393,21 +393,45 @@ class Yuju_Project
         return true;
     }
 
+    /**
+     * Getter admin pass
+     * 
+     * @return string
+     */
     public function getAdminpass()
     {
         return $this->adminpass;
     }
 
+    /**
+     * Setter admin pass
+     * 
+     * @param string $adminpass admin pass
+     * 
+     * @return void
+     */
     public function setAdminpass($adminpass)
     {
         $this->adminpass=$adminpass;
     }
 
+    /**
+     * Getter language
+     * 
+     * @return string
+     */
     public function getLanguage()
     {
         return $this->language;
     }
 
+    /**
+     * Setter language
+     * 
+     * @param string $language language
+     * 
+     * @return void
+     */
     public function setLanguage($language)
     {
         if (Utils::isLanguageSupported($language)) {
@@ -426,11 +450,11 @@ class Yuju_Project
      */
     public function createStructure()
     {
-    	if (!Dir::exist($this->root)) {
-        	if (!Dir::mkdir($this->root, true)) {
-            	return false;
-        	}
-    	}
+        if (!Dir::exist($this->root)) {
+            if (!Dir::mkdir($this->root, true)) {
+                return false;
+            }
+        }
         if (!Dir::copy($this->api.'templates/', $this->root)) {
             echo _("Copying");
             return false;
@@ -445,31 +469,38 @@ class Yuju_Project
     /**
      * Create project database
      *
+     * @param boolean $adminSect create database with admin secction 
+     * 
      * @return boolean
      * @since version 1.0
      */
     public function createDatabase($adminSect)
     {
         if (!DB::connection(
-                        $this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, $this->dbname
-                )
-        ) {
-        	if (!DB::createSchema($this->dbname)) {
-        		return false;
-        	}
-        	if (!DB::selectDB($this->dbname)) {
-        		return false;
-        	}
+            $this->dbtype, $this->dbhost, $this->dbuser,
+            $this->dbpass, $this->dbname
+        )) {
+            if (!DB::connection(
+            $this->dbtype, $this->dbhost, $this->dbuser,
+            $this->dbpass)
+            ) {
+                return false;
+            }
+            if (!DB::createSchema($this->dbname)) {
+                return false;
+            }
+            if (!DB::selectDB($this->dbname)) {
+                return false;
+            }
         } else {
-        	if (!DB::connection(
-        			$this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, ''
-        	)
-        	) {
-        		return false;
-        	}
-	        if (!DB::selectDB($this->dbname)) {
-	            return false;
-	        }
+            if (!DB::connection(
+                $this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, ''
+            )) {
+                return false;
+            }
+            if (!DB::selectDB($this->dbname)) {
+                return false;
+            }
         }
         DB::beginTransaction();
         $sql='CREATE TABLE `page` (';
@@ -487,12 +518,14 @@ class Yuju_Project
         $sql.='  PRIMARY KEY (`name`)';
         $sql.=') ENGINE=MyISAM DEFAULT CHARSET=utf8;';
         if (!DB::query($sql)) {
+            DB::rollback();
             return false;
         }
         $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`modules`,`parent`,`sitemap`) ';
         $sql.='VALUES(\'index\',\'Home\',\'default\',\'html\',';
         $sql.='\'{"1":[{"html": {"value": "<p>Hello World!</p>"}}]}\',\'\',1)';
         if (!DB::query($sql)) {
+            DB::rollback();
             return false;
         }
 
@@ -504,6 +537,7 @@ class Yuju_Project
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"1":[{"admin-content":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
+                DB::rollback();
                 return false;
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
@@ -512,6 +546,7 @@ class Yuju_Project
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"1":[{"admin-editcontent":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
+                DB::rollback();
                 return false;
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
@@ -520,6 +555,7 @@ class Yuju_Project
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"1":[{"admin-editsettings":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
+                DB::rollback();
                 return false;
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
@@ -528,6 +564,7 @@ class Yuju_Project
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"1":[{"admin-editsiteconfig":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
+                DB::rollback();
                 return false;
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
@@ -536,10 +573,11 @@ class Yuju_Project
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"1":[{"admin-login":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
+                DB::rollback();
                 return false;
             }
         }
-
+        DB::commit();
         return true;
     }
 
@@ -583,7 +621,8 @@ class Yuju_Project
             );
             foreach ($vars as $key=> $value) {
                 $newline=preg_replace(
-                        '/^define\(\''.$key.'\', \'(.*)\'\);/', 'define(\''.$key.'\', \''.$value.'\');', $line
+                    '/^define\(\''.$key.'\', \'(.*)\'\);/', 'define(\''.$key.'\', \''.$value.'\');',
+                    $line
                 );
                 if ($newline != $line) {
                     $newfile.=$newline;
@@ -621,7 +660,10 @@ class Yuju_Project
                 'PROJECT'=>&$this->root,
             );
             foreach ($vars as $key=> $value) {
-                $newline=preg_replace('/^'.$key.'=(.*)/', $key.'="'.$value.'"', $line);
+                $newline = preg_replace(
+                    '/^'.$key.'=(.*)/', $key.'="'.$value.'"', 
+                    $line
+                );
                 if ($newline != $line) {
                     $newfile.=$newline;
                     $new=true;
@@ -654,6 +696,13 @@ class Yuju_Project
         return Yuju_View::compileAll();
     }
     
+    /**
+     * Get modules
+     * 
+     * @param string $root root directory
+     * 
+     * @return array 
+     */
     public static function getAllModules($root)
     {
         $modules = array();
@@ -674,6 +723,13 @@ class Yuju_Project
         return $modules;
     }
     
+    /**
+     * Get public modules
+     * 
+     * @param string $root root directory
+     * 
+     * @return array
+     */
     public static function getAllPublicModules($root)
     {
         $modules = array();
@@ -681,7 +737,7 @@ class Yuju_Project
         foreach ($directories as $dir) {
             $explode = explode('/', $dir);
             if (substr($explode[count($explode)-1], 0, 5)!= 'admin-'
-                            && substr($explode[count($explode)-1], 0, 4)!= 'rpc-'
+                && substr($explode[count($explode)-1], 0, 4)!= 'rpc-'
             ) {
                 $modules[] = $explode[count($explode)-1];
             }
@@ -691,8 +747,8 @@ class Yuju_Project
             foreach ($directories as $dir) {
                 $explode = explode('/', $dir);
                 if (substr($explode[count($explode)-1], 0, 6)!= 'admin-'
-                                && substr($explode[count($explode)-1], 0, 4)!= 'rpc-'
-                                && !in_array($explode[count($explode)-1], $modules)
+                    && substr($explode[count($explode)-1], 0, 4)!= 'rpc-'
+                    && !in_array($explode[count($explode)-1], $modules)
                 ) {
                     $modules[] = $explode[count($explode)-1];
                 }

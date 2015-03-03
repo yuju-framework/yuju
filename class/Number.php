@@ -24,7 +24,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Number.php 158 2013-12-16 11:59:55Z carlosmelga $
+ * @version  SVN: $Id: Number.php 199 2015-03-03 10:45:53Z danifdez $
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
@@ -318,7 +318,11 @@ class Number
         }
         
         $ex = explode(".", $var);
-        return strlen($ex[1]);
+        if (count($ex)==1) {
+            return 0;
+        } else {
+            return strlen($ex[1]);
+        }
     }
 
     public static function countNumbers($var)

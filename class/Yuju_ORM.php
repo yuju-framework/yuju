@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 181 2014-03-20 15:31:04Z danifdez $
+ * @version  SVN: $Id: Yuju_ORM.php 202 2015-03-03 10:46:54Z danifdez $
  * @link     http://sourceforge.net/projects/yuju/
  * @since    version 1.0
  */
