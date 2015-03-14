@@ -25,7 +25,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: yuju.php 92 2013-05-06 11:24:12Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -63,6 +63,19 @@ case 'delete':
 case 'compile':
     include 'lib/compile.php';
     compile($argv[2], $argv[3]);
+    break;
+case 'orm':
+    include 'lib/orm.php';
+    if (count($argv)<5) {
+        showHelp();
+        exit;
+    }
+    if (isset($arv[6])) {
+        $name = $arv[6];
+    } else {
+        $name = null;
+    }
+    orm($argv[2], $argv[3], $argv[4], $argv[5], $name);
     break;
 default:
     showHelp();
