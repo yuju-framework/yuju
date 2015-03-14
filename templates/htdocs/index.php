@@ -24,12 +24,12 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: index.php 120 2013-07-29 08:48:14Z carlosmelga $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 session_start();
 require '../conf/site.php';
-date_default_timezone_set('Europe/Madrid');
+date_default_timezone_set(TIMEZONE);
 /**
  * Autoload classes
  *
