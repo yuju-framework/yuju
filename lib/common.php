@@ -24,7 +24,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: common.php 120 2013-07-29 08:48:14Z carlosmelga $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -38,6 +38,7 @@ function showHelp()
     global $argv;
     echo "Usage: $argv[0] create\n";
     echo "       $argv[0] delete <directory>\n";
-    echo "       $argv[0] compile <directory> <modname/'compile-all-web-pages'>\n";
+    echo "       $argv[0] compile <directory> <modname|'compile-all-web-pages'>\n";
+    echo "       $argv[0] orm <directory> <object> <type> <table> [object name]\n";
 }
 ?>
