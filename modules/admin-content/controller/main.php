@@ -25,7 +25,7 @@
  * @author   Carlos Melgarejo <cmelgarejo@peopletic.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: main.php 123 2013-08-23 11:49:49Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 if (!isset($_SESSION['adminsession'])) {

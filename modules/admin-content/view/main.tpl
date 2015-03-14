@@ -74,7 +74,7 @@
                                     </thead>
                                     <tbody>
                                     {foreach $pages as $page}
-                                        {if substr($page->getName(), 0, 5) != "admin"}
+                                        {if $page->getName() == 'admin' || substr($page->getName(), 0, 6) != "admin-"}
                                         <tr class="odd gradeX">
                                             <td><a href="{$DOMAIN}{if $page->getName()!='index'}{$page->getName()}{/if}" target="_blank">{$page->getName()}</a></td>
                                             <td>{$page->getTitle()}</td>
