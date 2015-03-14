@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Abstract_Quotation.php 78 2013-05-05 18:44:49Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 abstract class Abstract_Quotation implements IYuju_Array
@@ -199,55 +199,56 @@ abstract class Abstract_Quotation implements IYuju_Array
     }
     
     /**
-     * Load
+     * Load Contacto
      *
-     * @param integer $id id
-     * 
-     * @return void
+     * @param mixed $var Id or DB_Result fetch object
+     *
+     * @return boolean
      */
-    public function load($id)
-    {
-        if (is_numeric($id)) {
-            $return=DB::Query('SELECT * FROM quotation WHERE id='.DB::Parse($id));
-            if ($return->numRows()>0) {
-                $quotation=$return->fetchObject();
-                $this->id=$quotation->id;
-                $this->idcompany=$quotation->idcompany;
-                $this->date->setDateFromDB($quotation->date);
-                $this->datevalid->setDateFromDB($quotation->datevalid);
-                $this->conditions=$quotation->conditions;
-                $this->subtotal=$quotation->subtotal;
-                $this->total=$quotation->total;
-            }
-        }
-    }
+    abstract public function load($var);
     
     /**
-     * Insert
+     * Insert Quotation
      * 
      * @return boolean
      */
     abstract public function insert();
     
     /**
-     * Update
+     * Update Quotation
      * 
      * @return boolean
      */
     abstract public function update();
     
     /**
-     * Delete
+     * Delete Quotation
      *
      * @return boolean
      */
     abstract public function delete();
     
     /**
-     * Get all
+     * Return all objects
      *
      * @return Yuju_Array
      */
-    abstract public static function getAll();
+    public static function getAll()
+    {
+        return Quotation::search(array());
+    }
+    
+    /**
+     * Search function
+     *
+     * @param array   $parameters filter array
+     * @param integer $num        number of elements
+     * @param integer $page       page number
+     * @param integer $yuju       return a Yuju_Array or array
+     *
+     * @return boolean|Yuju_Array
+     */
+    abstract public static function search(array $parameters, $num=null,
+        $page=null, $yuju=true
+    );
 }
-?>

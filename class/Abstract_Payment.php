@@ -19,25 +19,25 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category XXX
- * @package  XXX
- * @author   XXX <xxx@xxx.com>
+ * @category Core
+ * @package  YujuFramework
+ * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 153 2013-12-05 09:56:05Z cristianmv $
- * @link     XXX
- * @since    XXX
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    version 1.0
  */
 
 /**
  * Abstract_Payment Class
  *
- * @category XXX
- * @package  XXX
- * @author   XXX <xxx@xxx.com>
+ * @category Core
+ * @package  YujuFramework
+ * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: XXX
- * @link     XXX
- * @since    XXX
+ * @version  Release: 1.0
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    version 1.0
  */
 abstract class Abstract_Payment implements IYuju_Array
 {
@@ -115,11 +115,11 @@ abstract class Abstract_Payment implements IYuju_Array
     /**
      * Load Payment
      *
-     * @param integer $id Id
+     * @param mixed $var Id or DB_Result fetch object
      *
      * @return boolean
      */
-    abstract public function load($id);
+    abstract public function load($var);
     
 
     /**
@@ -152,63 +152,18 @@ abstract class Abstract_Payment implements IYuju_Array
     {
         return Payment::search(array());
     }
+    
     /**
-     * Return Array
+     * Search function
      *
-     * @return Array
+     * @param array   $parameters filter array
+     * @param integer $num        number of elements
+     * @param integer $page       page number
+     * @param integer $yuju       return a Yuju_Array or array
+     *
+     * @return boolean|Yuju_Array
      */
-     public static function search(array $parametros, $num=null, $page=null, $yuju=true) {
-        if ($yuju) {
-            $array = new Yuju_Array(new Payment());
-        } else {
-                $array = array();
-        } 
-        $where = "";
-        foreach ($parametros as $key => $param) {
-            switch ($key) {
-                case "like-name":
-                    $where.='name LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    break;
-                case "eq-name":
-                    $where.='name =\'' . DB::Parse($param) . '\' AND ';
-                    break;
-                case "like-text":
-                    $where.='text LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    break;
-                case "eq-text":
-                    $where.='text =\'' . DB::Parse($param) . '\' AND ';
-                    break;
-          }    
-        } 
-        if (Error::haveError("PaymentSearchError")) {
-            return false;
-        } else {
-            if($yuju) {
-                $sql = "SELECT id FROM "; 
-            } else {
-                $sql = "SELECT * FROM ";
-            } 
-            $sql.="payment";
-            if ($where != "") {
-                $where = " WHERE " . substr($where, 0, strlen($where) - 4);
-            }
-            $return = DB::Query($sql . $where );
-            if($num==null || $page==null) {
-                if ($yuju) { 
-                    while ($payment = $return->fetchObject()) {
-                        $array->add($payment->id); 
-                    } 
-                } else { 
-                    $array = $return->toArray();
-                } 
-            } else { 
-                if ($yuju) { 
-                    $array->loadFromDB($return,"id", $num, $page);
-                } else { 
-                    $array = $return->toArray($num, $page);
-                } 
-            } 
-        return $array;
-        } 
-     }
+     abstract public static function search(array $parameters, $num=null,
+         $page=null, $yuju=true
+     );
 }

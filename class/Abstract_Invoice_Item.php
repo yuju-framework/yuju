@@ -19,25 +19,25 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category XXX
- * @package  XXX
- * @author   XXX <xxx@xxx.com>
+ * @category Core
+ * @package  YujuFramework
+ * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 153 2013-12-05 09:56:05Z cristianmv $
- * @link     XXX
- * @since    XXX
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    version 1.0
  */
 
 /**
  * Abstract_Invoice_Item Class
  *
- * @category XXX
- * @package  XXX
- * @author   XXX <xxx@xxx.com>
+ * @category Core
+ * @package  YujuFramework
+ * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: XXX
- * @link     XXX
- * @since    XXX
+ * @version  Release: 1.0
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    version 1.0
  */
 abstract class Abstract_Invoice_Item implements IYuju_Array
 {
@@ -68,11 +68,11 @@ abstract class Abstract_Invoice_Item implements IYuju_Array
     {
         $this->id = new Number();
         $this->idinvoice = new Number();
-        $this->price = new Number(Number::DECIMAL, true, 999999999999999999, 999999999999999999, null, null);
-        $this->units = new Number(Number::DECIMAL, true, 999999999999999999, 999999999999999999, null, null);
+        $this->price = new Number(Number::DECIMAL, true, 99, 2, null, null);
+        $this->units = new Number();
         $this->discount_percent = new Number();
-        $this->discount_fixed = new Number(Number::DECIMAL, true, 999999999999999999, 999999999999999999, null, null);
-        $this->tax = new Number(Number::DECIMAL, true, 999999999999999999, 999999999999999999, null, null);
+        $this->discount_fixed = new Number(Number::DECIMAL, true, 99, 2, null, null);
+        $this->tax = new Number(Number::DECIMAL, true, 99, 2, null, null);
     }
 
     /**
@@ -143,7 +143,7 @@ abstract class Abstract_Invoice_Item implements IYuju_Array
      *
      * @return int
      */
-    public function getDiscount_percent()
+    public function getDiscountPercent()
     {
         return $this->discount_percent;
     }
@@ -153,7 +153,7 @@ abstract class Abstract_Invoice_Item implements IYuju_Array
      *
      * @return decimal
      */
-    public function getDiscount_fixed()
+    public function getDiscountFixed()
     {
         return $this->discount_fixed;
     }
@@ -194,11 +194,11 @@ abstract class Abstract_Invoice_Item implements IYuju_Array
     /**
      * Load Invoice_Item
      *
-     * @param integer $id Id
+     * @param mixed $var Id or DB_Result fetch object
      *
      * @return boolean
      */
-    abstract public function load($id);
+    abstract public function load($var);
     
     /**
      * Insert Invoice_Item
@@ -230,231 +230,18 @@ abstract class Abstract_Invoice_Item implements IYuju_Array
     {
         return Invoice_Item::search(array());
     }
+    
     /**
-     * Return Array
+     * Search function
      *
-     * @return Array
+     * @param array   $parameters filter array
+     * @param integer $num        number of elements
+     * @param integer $page       page number
+     * @param integer $yuju       return a Yuju_Array or array
+     *
+     * @return boolean|Yuju_Array
      */
-     public static function search(array $parametros, $num=null, $page=null, $yuju=true) {
-        if ($yuju) {
-            $array = new Yuju_Array(new Invoice_Item());
-        } else {
-                $array = array();
-        } 
-        $where = "";
-        foreach ($parametros as $key => $param) {
-            switch ($key) {
-                case "eq-idinvoice":
-                    if (is_numeric($param)) {
-                        $where.='`idinvoice` =\'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in eq-idinvoice is not a number");
-                    }
-                    break;
-                case "like-idinvoice":
-                    if (is_numeric($param)) {
-                        $where.='`idinvoice` LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in like-idinvoice is not a number");
-                    }
-                    break;
-                case "from-idinvoice":
-                    if (is_numeric($param)) {
-                        $where.='`idinvoice` >= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in from-idinvoice is not a number");
-                    }
-                    break;
-                case "to-idinvoice":
-                    if (is_numeric($param)) {
-                        $where.='`idinvoice` <= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in to-idinvoice, is not a number");
-                    }
-                    break;
-                case "like-name":
-                    $where.='name LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    break;
-                case "eq-name":
-                    $where.='name =\'' . DB::Parse($param) . '\' AND ';
-                    break;
-                case "eq-price":
-                    if (is_numeric($param)) {
-                        $where.='`price` =\'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in eq-price is not a number");
-                    }
-                    break;
-                case "like-price":
-                    if (is_numeric($param)) {
-                        $where.='`price` LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in like-price is not a number");
-                    }
-                    break;
-                case "from-price":
-                    if (is_numeric($param)) {
-                        $where.='`price` >= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in from-price is not a number");
-                    }
-                    break;
-                case "to-price":
-                    if (is_numeric($param)) {
-                        $where.='`price` <= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in to-price, is not a number");
-                    }
-                    break;
-                case "eq-units":
-                    if (is_numeric($param)) {
-                        $where.='`units` =\'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in eq-units is not a number");
-                    }
-                    break;
-                case "like-units":
-                    if (is_numeric($param)) {
-                        $where.='`units` LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in like-units is not a number");
-                    }
-                    break;
-                case "from-units":
-                    if (is_numeric($param)) {
-                        $where.='`units` >= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in from-units is not a number");
-                    }
-                    break;
-                case "to-units":
-                    if (is_numeric($param)) {
-                        $where.='`units` <= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in to-units, is not a number");
-                    }
-                    break;
-                case "eq-discount_percent":
-                    if (is_numeric($param)) {
-                        $where.='`discount_percent` =\'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in eq-discount_percent is not a number");
-                    }
-                    break;
-                case "like-discount_percent":
-                    if (is_numeric($param)) {
-                        $where.='`discount_percent` LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in like-discount_percent is not a number");
-                    }
-                    break;
-                case "from-discount_percent":
-                    if (is_numeric($param)) {
-                        $where.='`discount_percent` >= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in from-discount_percent is not a number");
-                    }
-                    break;
-                case "to-discount_percent":
-                    if (is_numeric($param)) {
-                        $where.='`discount_percent` <= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in to-discount_percent, is not a number");
-                    }
-                    break;
-                case "eq-discount_fixed":
-                    if (is_numeric($param)) {
-                        $where.='`discount_fixed` =\'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in eq-discount_fixed is not a number");
-                    }
-                    break;
-                case "like-discount_fixed":
-                    if (is_numeric($param)) {
-                        $where.='`discount_fixed` LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in like-discount_fixed is not a number");
-                    }
-                    break;
-                case "from-discount_fixed":
-                    if (is_numeric($param)) {
-                        $where.='`discount_fixed` >= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in from-discount_fixed is not a number");
-                    }
-                    break;
-                case "to-discount_fixed":
-                    if (is_numeric($param)) {
-                        $where.='`discount_fixed` <= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in to-discount_fixed, is not a number");
-                    }
-                    break;
-                case "eq-tax":
-                    if (is_numeric($param)) {
-                        $where.='`tax` =\'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in eq-tax is not a number");
-                    }
-                    break;
-                case "like-tax":
-                    if (is_numeric($param)) {
-                        $where.='`tax` LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in like-tax is not a number");
-                    }
-                    break;
-                case "from-tax":
-                    if (is_numeric($param)) {
-                        $where.='`tax` >= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in from-tax is not a number");
-                    }
-                    break;
-                case "to-tax":
-                    if (is_numeric($param)) {
-                        $where.='`tax` <= \'' . DB::Parse($param) . '\' AND ';
-                    } else {
-                        Error::setError("Invoice_ItemSearchError", "You Cant insert $param in to-tax, is not a number");
-                    }
-                    break;
-                case "like-obs":
-                    $where.='obs LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    break;
-                case "eq-obs":
-                    $where.='obs =\'' . DB::Parse($param) . '\' AND ';
-                    break;
-          }    
-        } 
-        if (Error::haveError("Invoice_ItemSearchError")) {
-            return false;
-        } else {
-            if($yuju) {
-                $sql = "SELECT id FROM "; 
-            } else {
-                $sql = "SELECT * FROM ";
-            } 
-            $sql.="invoice_item";
-            if ($where != "") {
-                $where = " WHERE " . substr($where, 0, strlen($where) - 4);
-            }
-            $return = DB::Query($sql . $where );
-            if($num==null || $page==null) {
-                if ($yuju) { 
-                    while ($invoice_item = $return->fetchObject()) {
-                        $array->add($invoice_item->id); 
-                    } 
-                } else { 
-                    $array = $return->toArray();
-                } 
-            } else { 
-                if ($yuju) { 
-                    $array->loadFromDB($return,"id", $num, $page);
-                } else { 
-                    $array = $return->toArray($num, $page);
-                } 
-            } 
-        return $array;
-        } 
-     }
+     abstract public static function search(array $parameters, $num=null, 
+         $page=null, $yuju=true
+     );
 }
