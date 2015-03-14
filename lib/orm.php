@@ -1,6 +1,6 @@
 <?php
 /**
- * Yuju common command line File
+ * Yuju ORM command line File
  *
  * PHP version 5
  *
@@ -23,22 +23,40 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: common.php 120 2013-07-29 08:48:14Z carlosmelga $
+ * @version  1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 /**
- * Show help
+ * ORM page
+ *
+ * @param string $directory directory
+ * @param string $page      page name
  *
  * @return void
  */
-function showHelp()
+function orm($directory, $command, $type, $table, $name = null)
 {
-    global $argv;
-    echo "Usage: $argv[0] create\n";
-    echo "       $argv[0] delete <directory>\n";
-    echo "       $argv[0] compile <directory> <modname|'compile-all-web-pages'>\n";
-    echo "       $argv[0] orm <directory> <object> <type> <table> [object name]\n";
+    // TODO: read config, connect to data base and delete database
+    include 'lib/config.php';
+    if (substr($directory, strlen($directory) - 1) != '/') {
+        $directory=$directory.'/';
+    }
+    include $directory.'conf/site.php';
+    //if (class_exists($type, true) && is_a($type, 'AbstractYuju_ORM')) {
+        $orm = new Yuju_ORM(new $type);
+        switch ($command) {
+            case 'object':
+                $orm->load($table);
+                $file = new File();
+                if ($name == null) {
+                    $name = ucwords($table);
+                }
+                $file->setContent($orm->generateObject($name));
+                $file->create($directory.'class/'.$name.'.php');
+                $file->close();
+        }
+    //}
+    //echo _('Type do not exist')."\n";
 }
-?>
