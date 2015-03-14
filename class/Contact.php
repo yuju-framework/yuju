@@ -24,7 +24,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: Contact.php 78 2013-05-05 18:44:49Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Contact

@@ -24,7 +24,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: Boolean.php 120 2013-07-29 08:48:14Z carlosmelga $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Boolean
@@ -55,7 +55,7 @@ class Boolean
      */
     public function __construct()
     {
-        $this->_value="0";
+        $this->_value= 0;
     }
 
     /**
@@ -67,7 +67,7 @@ class Boolean
      */
     protected function isBoolean($val)
     {
-        if ($val=='0' || $val=='1') {
+        if ($val== 0 || $val== 1) {
             return true;
         } else {
             return false;
@@ -107,7 +107,7 @@ class Boolean
     public function setValue($val)
     {
         if ($this->isBoolean($val)) {
-            $this->_value=$val;
+            $this->_value=intval($val);
             return true;
         } else {
             if ($val==null || $val=='') {
@@ -119,15 +119,15 @@ class Boolean
     }
 
     /**
-     * Description ....
+     * Get value name
      *
      * @return string
      */
     public function getNameValue()
     {
-        if ($this->_value=="1") {
+        if ($this->_value == 1) {
             return _('Yes');
-        } elseif ($this->_value=="0") {
+        } elseif ($this->_value == 0) {
             return _('No');
         }
     }

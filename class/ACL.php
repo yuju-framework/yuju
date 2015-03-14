@@ -24,7 +24,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: ACL.php 145 2013-11-19 11:15:23Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class ACL
@@ -134,7 +134,7 @@ class ACL
         $return=DB::Query('SELECT * FROM aclpermission');
         if ($return->numRows()>0) {
             while ($result=$return->fetchObject()) {
-                $acls[]=array($result->id,$result->permission);
+                $acls[]=array($result->id, $result->permission);
             }
         }
         return $acls;
