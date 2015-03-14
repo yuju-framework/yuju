@@ -24,7 +24,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  SVN: $Id: Date.php 158 2013-12-16 11:59:55Z carlosmelga $
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Date
@@ -102,13 +102,7 @@ class Date
      */
     public function __construct()
     {
-        date_default_timezone_set('Europe/Madrid');
-        $this->_day     = "";
-        $this->_month   = "";
-        $this->_year    = "";
-        $this->_hour    = "";
-        $this->_minutes = "";
-        $this->_seconds = "";
+        $this->setNull();
     }
     
     /**
@@ -204,6 +198,16 @@ class Date
         } else {
             return false;
         }
+    }
+    
+    public function setNull()
+    {
+        $this->_day     = "";
+        $this->_month   = "";
+        $this->_year    = "";
+        $this->_hour    = "";
+        $this->_minutes = "";
+        $this->_seconds = "";
     }
 
     /**
@@ -512,22 +516,30 @@ class Date
         if ($date=='') {
             return true;
         }
-        if (preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $date, $regs)) {
-            $this->setDay($regs[3]);
-            $this->setMonth($regs[2]);
-            $this->setYear($regs[1]);
-            return true;
-        } else {
-            return false;
-        }
+        if (preg_match("/([0-9]{4})[-|\/]([0-9]{1,2})[-|\/]([0-9]{1,2})/", $date, $regs)) {
+            if (checkdate($regs[2], $regs[3], $regs[1])) {
+                $this->setDay($regs[3]);
+                $this->setMonth($regs[2]);
+                $this->setYear($regs[1]);
+                return true;
+            }
+        } elseif (preg_match("/([0-9]{1,2})[-|\/]([0-9]{1,2})[-|\/]([0-9]{4})/", $date, $regs)) {
+            if (checkdate($regs[2], $regs[1], $regs[3])) {
+                $this->setDay($regs[1]);
+                $this->setMonth($regs[2]);
+                $this->setYear($regs[3]);
+                return true;
+            }
+        } 
+        return false;
     }
 
     /**
-     * Set present date
+     * Set actual date
      * 
      * @return void
      */
-    public function setPresentDate()
+    public function setNow()
     {
         $date=getdate();
         $this->_day     = $date['mday'];
