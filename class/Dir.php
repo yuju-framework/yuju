@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Directory File
  *
@@ -24,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Dir.php 197 2015-03-03 10:44:53Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -37,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Dir
@@ -204,8 +203,10 @@ class Dir
     /**
      * List files on the directory
      * 
+     * @param string  $directory directory name
+     * @param boolean $deep      deep list
+     * 
      * @return array
-     * @since version 1.0
      */
     public static function listFiles($directory, $deep = false)
     {
@@ -219,7 +220,10 @@ class Dir
             } else {
                 if ($file != "." && $file != "..") {
                     if ($deep) {
-                        $arrayFiles=array_merge($arrayFiles, Dir::listFiles($directory."/".$file, true));
+                        $arrayFiles=array_merge(
+                            $arrayFiles,
+                            Dir::listFiles($directory."/".$file, true)
+                        );
                     }
                 }
             }
@@ -227,6 +231,14 @@ class Dir
         return $arrayFiles;
     }
     
+    /**
+     * List directories
+     * 
+     * @param string  $directory directory
+     * @param boolean $deep      deep list
+     * 
+     * @return array
+     */
     public function listDirectories($directory, $deep = false)
     {
         $files=scandir($directory); // get all file names
@@ -235,11 +247,13 @@ class Dir
             if (is_dir($directory."/".$file) && $file!='.' && $file!='..') {
                 $arrayFiles[]=$directory."/".$file;
                 if ($deep) {
-                    $arrayFiles=array_merge($arrayFiles, Dir::listDirectories($directory."/".$file, true));
+                    $arrayFiles=array_merge(
+                        $arrayFiles,
+                        Dir::listDirectories($directory."/".$file, true)
+                    );
                 }
             }
         }
         return $arrayFiles;
     }
-
 }

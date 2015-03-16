@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Carlos Melgarejo <cmelgarejo@peopletic.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: main.php 190 2014-09-05 19:19:42Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 if (isset($_POST) && count($_POST) >= 0) {

@@ -23,9 +23,9 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Error.php 80 2013-05-05 18:46:29Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
- * @since    version 1.0
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    1.0
  */
 
 /**
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Error
@@ -126,4 +126,3 @@ class Error
         }
     }
 }
-?>

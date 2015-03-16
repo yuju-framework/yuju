@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Email.php 80 2013-05-05 18:46:29Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -34,13 +34,14 @@
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
- * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Email
 {
+
     /**
      * Determine if email valide
      *
@@ -51,7 +52,7 @@ class Email
     public static function validEmail($mail)
     {
         $match = "/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@";
-        $match.= "+([_a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]{2,200}\.[a-zA-Z]{2,6}$/";
+        $match .= "+([_a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]{2,200}\.[a-zA-Z]{2,6}$/";
         if (preg_match($match, $mail)) {
             return true;
         } else {
@@ -59,4 +60,3 @@ class Email
         }
     }
 }
-?>

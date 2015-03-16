@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: User.php 201 2015-03-03 10:46:42Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,10 +36,10 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class User
+class User implements IYuju_Array
 {
 
     /**
@@ -160,7 +160,8 @@ class User
      * @access public
      * @return void
      */
-    public function setUser($user) {
+    public function setUser($user)
+    {
         $this->user = $user;
     }
 
@@ -171,7 +172,8 @@ class User
      * 
      * @return void
      */
-    public function setPass($pass) {
+    public function setPass($pass)
+    {
         $this->pass = $pass;
     }
 
@@ -181,8 +183,27 @@ class User
      * @access public
      * @return string
      */
-    public function getRole() {
+    public function getRole()
+    {
         return $this->role;
+    }
+    
+    /**
+     * Determine if user is a role
+     * 
+     * @param string $role role
+     * 
+     * @return boolean
+     */
+    public function isA($role)
+    {
+        $explode = explode(',', $this->role);
+        if (count($explode)>0) {
+            if (array_search($role, $explode) !== false) {
+                return true;
+            } 
+        }
+        return false;
     }
 
     /**
@@ -193,7 +214,8 @@ class User
      * @access public
      * @return string
      */
-    public function setRole($role) {
+    public function setRole($role)
+    {
         $this->role = $role;
     }
 
@@ -204,7 +226,8 @@ class User
      * 
      * @return void
      */
-    public function setAcl($var) {
+    public function setAcl($var)
+    {
         $this->acl->setAcl($var);
     }
 
@@ -213,7 +236,8 @@ class User
      *
      * @return ACL
      */
-    public function getACL() {
+    public function getACL()
+    {
         return $this->acl;
     }
 
@@ -222,7 +246,8 @@ class User
      *
      * @return Boolean
      */
-    public function getValid() {
+    public function getValid()
+    {
         return $this->valid;
     }
 
@@ -233,7 +258,8 @@ class User
      * 
      * @return void
      */
-    public function setValid($valid) {
+    public function setValid($valid)
+    {
         $this->valid->setValue($valid);
     }
 
@@ -244,7 +270,8 @@ class User
      * 
      * @return void
      */
-    public function updateValid($valid) {
+    public function updateValid($valid)
+    {
         $this->valid->setValue($valid);
         $this->update();
     }
@@ -256,14 +283,16 @@ class User
      * 
      * @return boolean
      */
-    public function havePermission($var) {
+    public function havePermission($var)
+    {
         return $this->acl->getAcl($var);
     }
 
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->acl = new ACL();
         $this->valid = new Boolean();
         $this->id = new Number();
@@ -272,25 +301,34 @@ class User
     /**
      * Load user
      *
-     * @param integer $id  id
-     * @param string  $rol role
+     * @param mixed $var Id or DB_Result fetch object
      *
      * @access public
      * @return User
      */
-    public function load($id, $rol = null) {
-        if (is_numeric($id)) {
-            $return = DB::Query('SELECT * FROM user WHERE id=' . DB::Parse($id));
-            if ($return->numRows() > 0) {
+    public function load($var)
+    {
+        if (is_numeric($var)) {
+            $return = DB::query('SELECT * FROM user WHERE id='.DB::parse($var));
+            if ($return->numRows()>0) {
                 $user = $return->fetchObject();
-                $this->id->setValue($user->id);
-                $this->user = $user->user;
-                $this->name = $user->name;
-                $this->role = $user->role;
-                $this->valid->setValue($user->valid);
-                $this->acl->LoadAcl($user->acl);
+                $return->freeResult();
+            } else {
+                $user = null;
             }
+        } else {
+            $user = $var;
         }
+        if ($user != null) {
+            $this->id->setValue($user->id);
+            $this->user = $user->user;
+            $this->name = $user->name;
+            $this->role = $user->role;
+            $this->valid->setValue($user->valid);
+            $this->acl->LoadAcl($user->acl);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -298,7 +336,8 @@ class User
      * 
      * @return boolean
      */
-    public function insert() {
+    public function insert()
+    {
         $sql = 'INSERT INTO user ';
         $sql.='(user,pass,name,valid,role,acl) ';
         $sql.='VALUES(\'' . DB::Parse($this->user) . '\',';
@@ -319,7 +358,8 @@ class User
      *
      * @return boolean
      */
-    public function update() {
+    public function update()
+    {
         $sql = 'UPDATE user SET';
         $sql.=' user=\'' . DB::Parse($this->user) . '\',';
         $sql.='name=\'' . DB::Parse($this->name) . '\',';
@@ -337,7 +377,8 @@ class User
      *
      * @return boolean
      */
-    public function delete() {
+    public function delete()
+    {
         if (DB::Query('DELETE FROM user WHERE id=' . $this->id->getValueToDB())) {
             return true;
         }
@@ -354,8 +395,8 @@ class User
      * @access public
      * @return boolean
      */
-    public function login($user, $pass, $acl = array()) {
-
+    public function login($user, $pass, $acl = array())
+    {
         $login = $this->authentication($user, $pass);
         if ($login) {
             $this->load($login);
@@ -372,13 +413,16 @@ class User
      * @access public
      * @return void
      */
-    public function logout() {
+    public function logout()
+    {
         unset($_SESSION['iduser']);
         unset($_SESSION['user']);
         $_SESSION = array();
         $params = session_get_cookie_params();
         setcookie(
-                session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]
+            session_name(), '', time() - 42000, 
+            $params["path"], $params["domain"], 
+            $params["secure"], $params["httponly"]
         );
         session_destroy();
     }
@@ -389,7 +433,8 @@ class User
      * @access public
      * @return boolean
      */
-    public static function isLogin() {
+    public static function isLogin()
+    {
         if (isset($_SESSION['iduser']) && is_numeric($_SESSION['iduser'])) {
             return true;
         } else {
@@ -404,7 +449,8 @@ class User
      * @static
      * @return User      
      */
-    public static function getLoggedUser() {
+    public static function getLoggedUser()
+    {
         return unserialize($_SESSION['user']);
     }
 
@@ -417,10 +463,11 @@ class User
      * @access public
      * @return integer user id or zero for non users
      */
-    public function authentication($user, $pass) {
+    public function authentication($user, $pass)
+    {
         $result = DB::query(
-                        'SELECT id FROM user WHERE user=\'' . DB::parse($user) .
-                        '\' AND pass=SHA1(\'' . DB::parse($pass) . '\') AND valid=1'
+            'SELECT id FROM user WHERE user=\'' . DB::parse($user) .
+            '\' AND pass=SHA1(\'' . DB::parse($pass) . '\') AND valid=1'
         );
         if ($result->numRows() == 1) {
             $user = $result->fetchObject();
@@ -438,10 +485,11 @@ class User
      * @access public
      * @return boolean
      */
-    public function updatePass($pass) {
+    public function updatePass($pass)
+    {
         DB::query(
-                'UPDATE user SET pass=SHA1(\'' . DB::parse($pass) . '\') WHERE id=' .
-                DB::parse($this->id->getValueToDB())
+            'UPDATE user SET pass=SHA1(\'' . DB::parse($pass) . '\') WHERE id=' .
+            DB::parse($this->id->getValueToDB())
         );
         return true;
     }
@@ -449,14 +497,15 @@ class User
     /**
      * Email remember
      * 
-     * @param string $user user
+     * @param string $email email
      * 
      * @access public
      * @return boolean
      */
-    public function emailRemeber($email) {
+    public function emailRemeber($email)
+    {
         $result = DB::query(
-                        'SELECT id FROM user WHERE user=\'' . DB::Parse($email) . '\''
+            'SELECT id FROM user WHERE user=\'' . DB::Parse($email) . '\''
         );
         if ($result->numRows() == 1) {
             $return = $result->fetchObject();
@@ -478,14 +527,24 @@ class User
      * @access public
      * @return void
      */
-    public function saveUser() {
+    public function saveUser()
+    {
         $_SESSION['iduser'] = $this->id->getValue();
         $_SESSION['user'] = serialize($this);
     }
 
-    public static function checkUsernameAvailability($name, $id = 0) {
-
-        $sql = "SELECT count(id) as id FROM user WHERE user='" . $name . "' AND id != " . $id;
+    /**
+     * Check if username exist
+     * 
+     * @param string  $name user name
+     * @param integer $id   id
+     * 
+     * @return boolean
+     */
+    public static function checkUsernameAvailability($name, $id = 0)
+    {
+        $sql = "SELECT count(id) as id FROM user ';
+        $sql.= 'WHERE user='".$name."' AND id!=".DB::parse($id);
         $result = DB::query($sql);
 
         $count = $result->fetchObject();
@@ -495,7 +554,75 @@ class User
         }
         return false;
     }
-
+    
+    /**
+     * Return all objects
+     *
+     * @return Yuju_Array
+     */
+    public static function getAll()
+    {
+        return User::search(array());
+    }
+    
+    /**
+     * Search function
+     *
+     * @param array   $parameters filter array
+     * @param integer $num        number of elements
+     * @param integer $page       page number
+     * @param integer $yuju       return a Yuju_Array or array
+     *
+     * @return boolean|Yuju_Array
+     */
+    public static function search(array $parameters, $num=null,
+        $page=null, $yuju=true
+    ) {
+        if ($yuju) {
+            $array = new Yuju_Array();
+        } else {
+            $array = array();
+        }
+        $where = '';
+        foreach ($parameters as $key => $param) {
+            switch ($key) {
+            case "eq-user":
+                $where.='`user` =\''.DB::Parse($param) . '\' AND ';
+                break;
+            case "like-user":
+                $where.='`user` LIKE \'%'.DB::Parse($param) . '%\' AND ';
+                break;
+            case "eq-name":
+                $where.='`name` =\''.DB::Parse($param) . '\' AND ';
+                break;
+            case "like-name":
+                $where.='`name` LIKE \'%'.DB::Parse($param) . '%\' AND ';
+                break;
+            case "eq-role":
+                $where.='`role` =\''.DB::Parse($param) . '\' AND ';
+                break;
+            case "like-role":
+                $where.='`user` LIKE \'%'.DB::Parse($param) . '%\' AND ';
+                break;
+            case "eq-valid":
+                $where.='`valid` =\''.DB::Parse($param) . '\' AND ';
+                break;
+            }
+        }
+        $sql = 'SELECT * FROM ';
+        $sql.='user';
+        if ($where != "") {
+            $where = " WHERE " . substr($where, 0, strlen($where) - 4);
+        }
+        $return = DB::Query($sql . $where);
+        if ($yuju) {
+            $array->loadFromDB($return, new User(), $num, $page);
+        } else {
+            $array = $return->toArray($num, $page);
+        }
+        $return->freeResult();
+        return $array;
+    }
 }
 
 ?>

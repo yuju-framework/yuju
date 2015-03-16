@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Utils File
  *
@@ -24,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Utils.php 120 2013-07-29 08:48:14Z carlosmelga $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -37,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Utils
@@ -61,25 +60,25 @@ class Utils
             $max_page = ceil($count / $num);
 
             if ($page > 1) {
-                $pager.='<a href="' . $url . '1">' . _('First') . '</a>';
+                $pager.='<a href="'.$url.'1">'._('First').'</a>';
             }
 
             if ($page - 2 > 0) {
-                $pager.=' <a href="' . $url . ($page - 2) . '">' . ($page - 2) . '</a>';
+                $pager.=' <a href="'.$url.($page - 2).'">'.($page - 2).'</a>';
             }
 
             if ($page - 1 > 0) {
-                $pager.=' <a href="' . $url . ($page - 1) . '">' . ($page - 1) . '</a>';
+                $pager.=' <a href="'.$url.($page - 1).'">'.($page - 1).'</a>';
             }
 
             $pager.=' ' . $page;
 
             if ($page + 1 <= $max_page) {
-                $pager.=' <a href="' . $url . ($page + 1) . '">' . ($page + 1) . '</a>';
+                $pager.=' <a href="'.$url.($page + 1).'">'.($page + 1).'</a>';
             }
 
             if ($page + 2 <= $max_page) {
-                $pager.=' <a href="' . $url . ($page + 2) . '">' . ($page + 2) . '</a>';
+                $pager.=' <a href="'.$url.($page + 2).'">'.($page + 2).'</a>';
             }
 
             if ($page < $max_page) {
@@ -98,9 +97,9 @@ class Utils
     public static function getOS()
     {
         switch (php_uname('s')) {
-            case 'Linux':
-                return 'linux';
-                break;
+        case 'Linux':
+            return 'linux';
+            break;
         }
     }
 

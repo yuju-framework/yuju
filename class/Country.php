@@ -19,25 +19,25 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category XXX
- * @package  XXX
- * @author   XXX <xxx@xxx.com>
+ * @category Core
+ * @package  YujuFramework
+ * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 153 2013-12-05 09:56:05Z cristianmv $
- * @link     XXX
- * @since    XXX
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    version 1.0
  */
 
 /**
  * Country Class
  *
- * @category XXX
- * @package  XXX
- * @author   XXX <xxx@xxx.com>
+ * @category Core
+ * @package  YujuFramework
+ * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: XXX
- * @link     XXX
- * @since    XXX
+ * @version  Release: 1.0
+ * @link     https://github.com/yuju-framework/yuju
+ * @since    version 1.0
  */
 class Country implements IYuju_Array
 {
@@ -170,32 +170,40 @@ class Country implements IYuju_Array
     {
         return Country::search(array());
     }
+    
     /**
-     * Return Array
+     * Search function
      *
-     * @return Array
+     * @param array   $parameters filter array
+     * @param integer $num        number of elements
+     * @param integer $page       page number
+     * @param integer $yuju       return a Yuju_Array or array
+     *
+     * @return boolean|Yuju_Array
      */
-     public static function search(array $parametros, $num=null, $page=null, $yuju=true) {
+    public static function search(array $parameters,
+        $num=null, $page=null, $yuju=true
+    ) {
         if ($yuju) {
-            $array = new Yuju_Array(new Country());
+            $array = new Yuju_Array();
         } else {
-                $array = array();
+            $array = array();
         } 
         $where = "";
         foreach ($parametros as $key => $param) {
             switch ($key) {
-                case "like-name":
-                    $where.='name LIKE \'%' . DB::Parse($param) . '%\' AND ';
-                    break;
-                case "eq-name":
-                    $where.='name =\'' . DB::Parse($param) . '\' AND ';
-                    break;
-          }    
+            case "like-name":
+                $where.='name LIKE \'%' . DB::Parse($param) . '%\' AND ';
+                break;
+            case "eq-name":
+                $where.='name =\'' . DB::Parse($param) . '\' AND ';
+                break;
+            }    
         } 
         if (Error::haveError("CountrySearchError")) {
             return false;
         } else {
-            if($yuju) {
+            if ($yuju) {
                 $sql = "SELECT id FROM "; 
             } else {
                 $sql = "SELECT * FROM ";
@@ -204,8 +212,8 @@ class Country implements IYuju_Array
             if ($where != "") {
                 $where = " WHERE " . substr($where, 0, strlen($where) - 4);
             }
-            $return = DB::Query($sql . $where );
-            if($num==null || $page==null) {
+            $return = DB::Query($sql.$where);
+            if ($num==null || $page==null) {
                 if ($yuju) { 
                     while ($country = $return->fetchObject()) {
                         $array->add($country->id); 
@@ -215,18 +223,12 @@ class Country implements IYuju_Array
                 } 
             } else { 
                 if ($yuju) { 
-                    $array->loadFromDB($return,"id", $num, $page);
+                    $array->loadFromDB($return, "id", $num, $page);
                 } else { 
                     $array = $return->toArray($num, $page);
                 } 
             } 
-        return $array;
+            return $array;
         } 
-     }
-     
-     public static function idToString($id) {
-         $country = new Country();
-         $country->load($id);
-         return $country->getName();
-     }
+    }
 }

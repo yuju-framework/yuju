@@ -23,9 +23,9 @@
  * @package  XXX
  * @author   XXX <xxx@xxx.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 153 2013-12-05 09:56:05Z cristianmv $
+ * @version  GIT: 
  * @link     XXX
- * @since    XXX
+ * @since    version 1.0
  */
 
 /**
@@ -37,7 +37,7 @@
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: XXX
  * @link     XXX
- * @since    XXX
+ * @since    version 1.0
  */
 class Tax implements IYuju_Array
 {

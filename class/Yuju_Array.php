@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Yuju_Array Class
  *
@@ -24,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_Array.php 187 2014-09-05 19:17:05Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -37,10 +36,11 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class Yuju_Array implements Iterator {
+class Yuju_Array implements Iterator
+{
 
     /**
      * Position
@@ -57,45 +57,28 @@ class Yuju_Array implements Iterator {
      * @access private
      */
     private $_array = array();
-
-    /**
-     * Full object
-     *
-     * @var    boolean
-     * @access private
-     */
-    private $_full = false;
-
-    /**
-     * Template object
-     *
-     * @var    IYuju_Array
-     * @access private
-     */
-    private $_object = null;
     
     private $_count = 0;
 
     /**
      * Constructor
-     *
-     * @param IYuju_Array $object object
-     * @param boolean     $full   full object
      * 
      * @access public
      */
-    public function __construct(IYuju_Array $object, $full = false) {
-        $this->_full = $full;
-        $this->_object = $object;
+    public function __construct()
+    {
+        
     }
 
     /**
      * Rewind
      *
      * @access public
+     * 
      * @return void
      */
-    public function rewind() {
+    public function rewind()
+    {
         $this->_position = 0;
     }
 
@@ -103,29 +86,23 @@ class Yuju_Array implements Iterator {
      * Current
      *
      * @access public
+     * 
      * @return object
      */
-    public function current() {
-        if (is_null($this->_array[$this->_position][1])) {
-            $obj = clone($this->_object);
-            if ($this->_full) {
-                $obj->load($this->_array[$this->_position][0]);
-                $this->_array[$this->_position][1] = $obj;
-            } else {
-                $obj->load($this->_array[$this->_position][0]);
-                $this->_array[$this->_position][1] = $obj;
-            }
-        }
-        return $this->_array[$this->_position][1];
+    public function current()
+    {
+        return $this->_array[$this->_position];
     }
 
     /**
      * Key
      *
      * @access public
+     * 
      * @return void
      */
-    public function key() {
+    public function key()
+    {
         return $this->_position;
     }
 
@@ -133,9 +110,11 @@ class Yuju_Array implements Iterator {
      * Next
      *
      * @access public
+     * 
      * @return void
      */
-    public function next() {
+    public function next()
+    {
         ++$this->_position;
     }
 
@@ -145,28 +124,23 @@ class Yuju_Array implements Iterator {
      * @access public
      * @return boolean
      */
-    public function valid() {
+    public function valid()
+    {
         return isset($this->_array[$this->_position]);
     }
 
     /**
-     * Add
-     *
-     * @param integer $num number or Object
+     * Add object 
+     * 
+     * @param mixed $object number or Object
      * 
      * @access public
      * @return void
      */
-    public function add($object) {
-        if ($object instanceof IYuju_Array) {
-            $this->_count++;
-            $this->_array[] = array($this->count()+1, $object);
-        } elseif (!is_numeric($object)) {
-            return false;
-        } else {
-            $this->_count++;
-            $this->_array[] = array($object, null);
-        }
+    public function add($object)
+    {
+        $this->_count++;
+        $this->_array[] = clone($object);
     }
 
     /**
@@ -176,36 +150,43 @@ class Yuju_Array implements Iterator {
      * 
      * @return void
      */
-    public function del($num) {
+    public function del($num)
+    {
         //TODO: todo
-    }
-
-   /**
-     * Count
-     *
-     * @access public
-     * @return integer
-     */
-    public function count() {
-        return $this->_count;
-    }
-
-     /**
-     * GetNumRows
-     *
-     * @access public
-     * @return integer
-     */
-    public function getNumRows() {
-        return count($this->_array);
     }
 
     /**
      * Count
      *
      * @access public
+     * @return integer
      */
-    public function setCount($count) {
+    public function count()
+    {
+        return $this->_count;
+    }
+
+     /**
+     * GetRows
+     *
+     * @access public
+     * @return integer
+     */
+    public function getRows()
+    {
+        return count($this->_array);
+    }
+
+    /**
+     * Count
+     * 
+     * @param integer $count count
+     *
+     * @access public
+     * @return boolean
+     */
+    public function setCount($count)
+    {
         $this->_count = $count;
         return true;
     }
@@ -216,9 +197,11 @@ class Yuju_Array implements Iterator {
      * @param integer $num number
      * 
      * @access public
+     * 
      * @return boolean
      */
-    public function setkey($num) {
+    public function setkey($num)
+    {
         if (is_numeric($num)) {
             $current = $this->_position;
             $this->_position = $num;
@@ -240,7 +223,8 @@ class Yuju_Array implements Iterator {
      * 
      * @return boolean
      */
-    public function exist($num) {
+    public function exist($num)
+    {
         foreach ($this->_array as $register) {
             if ($register[0] == $num) {
                 return true;
@@ -249,29 +233,47 @@ class Yuju_Array implements Iterator {
         return false;
     }
 
-    public function loadFromDB(&$return, $database_id, $num, $page) {
-
+    /**
+     * Load object from database
+     * 
+     * @param mixed       &$return return database object
+     * @param IYuju_Array $object  object
+     * @param string      $num     num rows
+     * @param string      $page    page number
+     * 
+     * @return void
+     */
+    public function loadFromDB(&$return, IYuju_Array $object,
+        $num = null, $page = null
+    ) {
         if ($return->numRows() > 0) {
-            $pagedResult = (($page - 1) * $num);  
-            $return->seek($pagedResult);
-            $this->setCount($return->numRows());
-
-            if ($num > $this->count()) {
-                $numreg = $this->count();
-            } elseif (($this->count() - $pagedResult) < $num) {
-                $numreg = ($this->count() - $pagedResult);
+            if ($num == null || $page == null) {
+                while ($register = $return->fetchObject()) {
+                    $obj = $object;
+                    $obj->load($register);
+                    $this->add($obj);
+                }
             } else {
-                $numreg = $num;
+                $pagedResult = (($page - 1) * $num);  
+                $return->seek($pagedResult);
+                $this->setCount($return->numRows());
+    
+                if ($num > $this->count()) {
+                    $numreg = $this->count();
+                } elseif (($this->count() - $pagedResult) < $num) {
+                    $numreg = ($this->count() - $pagedResult);
+                } else {
+                    $numreg = $num;
+                }
+    
+                for ($count = 0; $count < $numreg; $count++) {
+                    $register = $return->fetchObject();
+                    $obj = $object;
+                    $obj->load($register);
+                    $this->add($obj);
+                }
+                $this->setCount($return->numRows());
             }
-
-            for ($count = 0; $count < $numreg; $count++) {
-                $register = $return->fetchObject();
-                $this->add($register->$database_id);
-            }
-            $this->setCount($return->numRows());
         }
     }
-
 }
-
-?>

@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Date.php 158 2013-12-16 11:59:55Z carlosmelga $
+ * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -148,7 +148,8 @@ class Date
         ) {
             return "'".$this->_year.sprintf("%02s", $this->_month).
                 sprintf("%02s", $this->_day).sprintf("%02s", $this->_hour).
-                sprintf("%02s", $this->_minutes).sprintf("%02s", $this->_seconds)."'";
+                sprintf("%02s", $this->_minutes).
+                sprintf("%02s", $this->_seconds)."'";
         } else {
             return "NULL";
         }
@@ -200,14 +201,19 @@ class Date
         }
     }
     
+    /**
+     * Set null values
+     * 
+     * @return void
+     */
     public function setNull()
     {
-        $this->_day     = "";
-        $this->_month   = "";
-        $this->_year    = "";
-        $this->_hour    = "";
-        $this->_minutes = "";
-        $this->_seconds = "";
+        $this->_day     = '';
+        $this->_month   = '';
+        $this->_year    = '';
+        $this->_hour    = '';
+        $this->_minutes = '';
+        $this->_seconds = '';
     }
 
     /**
@@ -268,7 +274,8 @@ class Date
         if (checkdate($month, $day, $year) 
             && (($hour==0 || $hour==00) 
             || ($minutes==0 || $minutes==00) 
-            || ($seconds==0 || $seconds==00)) ) {
+            || ($seconds==0 || $seconds==00))
+        ) {
             $this->setDay($day);
             $this->setMonth($month);
             $this->setYear($year);
@@ -516,14 +523,17 @@ class Date
         if ($date=='') {
             return true;
         }
-        if (preg_match("/([0-9]{4})[-|\/]([0-9]{1,2})[-|\/]([0-9]{1,2})/", $date, $regs)) {
+        
+        $data_format1 = "/([0-9]{4})[-|\/]([0-9]{1,2})[-|\/]([0-9]{1,2})/";
+        $data_format2 = "/([0-9]{1,2})[-|\/]([0-9]{1,2})[-|\/]([0-9]{4})/";
+        if (preg_match($data_format1, $date, $regs)) {
             if (checkdate($regs[2], $regs[3], $regs[1])) {
                 $this->setDay($regs[3]);
                 $this->setMonth($regs[2]);
                 $this->setYear($regs[1]);
                 return true;
             }
-        } elseif (preg_match("/([0-9]{1,2})[-|\/]([0-9]{1,2})[-|\/]([0-9]{4})/", $date, $regs)) {
+        } elseif (preg_match($data_format2, $date, $regs)) {
             if (checkdate($regs[2], $regs[1], $regs[3])) {
                 $this->setDay($regs[1]);
                 $this->setMonth($regs[2]);
@@ -552,7 +562,9 @@ class Date
 
     /**
      * Get present date and time by name
-     * @todo string ingles retorno
+     * 
+     * @todo return english format
+     * 
      * @return string
      */
     public function getPresentDateTimeByName()
@@ -954,4 +966,3 @@ class Date
         return $date;
     }
 }
-?>

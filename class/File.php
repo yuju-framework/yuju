@@ -1,5 +1,4 @@
 <?php
-
 /**
  * File File
  *
@@ -24,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: File.php 198 2015-03-03 10:45:20Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -37,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class File implements IYuju_Array
@@ -186,6 +185,11 @@ class File implements IYuju_Array
         return end(explode(".", $this->name));
     }
 
+    /**
+     * Get name file without extension
+     *  
+     * @return string
+     */
     public function getNameNoExtension()
     {
         $name = explode(".", $this->name);
@@ -261,6 +265,13 @@ class File implements IYuju_Array
         return true;
     }
     
+    /**
+     * Create file
+     * 
+     * @param string $file file name
+     * 
+     * @return boolean
+     */
     public function create($file)
     {
         if (File::exist($file)) {
@@ -490,5 +501,3 @@ class File implements IYuju_Array
     }
 
 }
-
-?>

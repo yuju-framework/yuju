@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Yuju_ORM File
  *
@@ -24,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_ORM.php 138 2013-11-08 11:50:44Z cristianmv $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -37,11 +36,11 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class Yuju_ORMTest {
-
+class Yuju_ORMTest
+{
     protected $table;
     protected $object_name;
     private $_fields;
@@ -216,7 +215,8 @@ class Yuju_ORMTest {
      * 
      * @return string
      */
-    public function generateObject($object_name = '') {
+    public function generateObject($object_name = '')
+    {
         $this->object_name = $object_name;
         $object = "<?php\n";
         $object.= $this->generateDocFile();
@@ -247,7 +247,8 @@ class Yuju_ORMTest {
         return $object;
     }
     
-    public function generateTestObjectInRoute($object_name, $table, $route) {
+    public function generateTestObjectInRoute($object_name, $table, $route)
+    {
         $gestor = fopen($route."/".$object_name."Test.php", "w");
         $this->load($table);
         $obj = $this->generateObject($object_name);   
@@ -260,7 +261,8 @@ class Yuju_ORMTest {
      * 
      * @return string
      */
-    public function generateDocFile() {
+    public function generateDocFile()
+    {
         $return = '/**' . "\n";
         $return .= ' * ' . $this->object_name . ' File' . "\n";
         $return .= ' *' . "\n";
@@ -284,8 +286,8 @@ class Yuju_ORMTest {
         $return .= ' * @category XXX' . "\n";
         $return .= ' * @package  XXX' . "\n";
         $return .= ' * @author   XXX <xxx@xxx.com>' . "\n";
-        $return .= ' * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1' . "\n";
-        $return .= ' * @version  SVN: $Id: $' . "\n";
+        $return .= ' * @license  XXX'."\n";
+        $return .= ' * @version  XXX'."\n";
         $return .= ' * @link     XXX' . "\n";
         $return .= ' * @since    XXX' . "\n";
         $return .= ' */' . "\n";
@@ -297,14 +299,15 @@ class Yuju_ORMTest {
      * 
      * @return string
      */
-    public function generateDocClass() {
+    public function generateDocClass()
+    {
         $return = '/**' . "\n";
         $return .= ' * ' . $this->object_name . ' Class' . "\n";
         $return .= ' *' . "\n";
         $return .= ' * @category XXX' . "\n";
         $return .= ' * @package  XXX' . "\n";
         $return .= ' * @author   XXX <xxx@xxx.com>' . "\n";
-        $return .= ' * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1' . "\n";
+        $return .= ' * @license  XXX'."\n";
         $return .= ' * @version  Release: XXX' . "\n";
         $return .= ' * @link     XXX' . "\n";
         $return .= ' * @since    XXX' . "\n";
@@ -317,11 +320,10 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateVars() {
+    public function generateVars()
+    {
         $object = '';
-        
         $object .= "    protected \$_" . strtolower($this->object_name) . ";\n\n";
-        
         return $object;
     }	
 
@@ -330,7 +332,8 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateCreateClassObject() { //$object_name
+    public function generateCreateClassObject()
+    {
 	$object = '';
         $object.= '    public function create'.$this->object_name.'()' . "\n";
         $object.= '    {' . "\n";		
@@ -338,7 +341,6 @@ class Yuju_ORMTest {
 		$object.= '		$gestor = fopen(ROOT."'.$this->object_name.'.php", "w");' . "\n";
 		$object.= '		$orm = new Yuju_ORM();' . "\n";
 		$object.= '		$orm->load("'.$this->table.'");' . "\n";
-                        		//generar el pagesLang
 		$object.= '		$obj = $orm->generateObject("'.$this->object_name.'");   ' . "\n";
 		$object.= '		fputs($gestor,$obj);' . "\n";
 		$object.= '		fclose ($gestor);' . "\n";
@@ -351,7 +353,8 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateConstructor() {
+    public function generateConstructor()
+    {
         $object = '    /**' . "\n";
         $object.= '     * Constructor ' . "\n";
         $object.= '     *' . "\n";
@@ -369,7 +372,8 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateCleanTable() {
+    public function generateCleanTable()
+    {
 		$object = '    /**' . "\n";
 		$object.= '     * CleanTable'. "\n";
 		$object.= '     *' . "\n";
@@ -386,7 +390,8 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateGetterSetter() {
+    public function generateGetterSetter()
+    {
         $object = '';
         //TODO: if name field contains _ is next upper char
         foreach ($this->_fields as $name => $field) {
@@ -418,68 +423,68 @@ class Yuju_ORMTest {
             $object .= "    public function testGet" . ucwords($name) . "()\n";
             $object .= "    {\n";
             $object .= '        $this->setUp();'."\n";
-			 switch ($field['type']) {
-                case 'date':
-					$object .= '        $fecha = new Date();'."\n";
-					$object .= '        $fecha->setDate(25, 11, 2000);'."\n";
-                    $object .= '        $this->_' . strtolower($this->object_name) .'->get'.ucfirst($name).'()->setDate(25, 11, 2000);'."\n";  
-					$object .= '        $this->assertEquals($fecha->getDay(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getDay());'."\n";
-					$object .= '        $this->assertEquals($fecha->getMonth(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getMonth());'."\n";
-					$object .= '        $this->assertEquals($fecha->getYear(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getYear());'."\n";
-                    break;
-                case 'datetime':
-					$object .= '        $objDateTime = new Date();'."\n";
-					$object .= '        $objDateTime->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
-                    $object .= '        $this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
-					$object .= '        $this->assertEquals($objDateTime->getDay(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getDay());'."\n";
-					$object .= '        $this->assertEquals($objDateTime->getMonth(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getMonth());'."\n";
-					$object .= '        $this->assertEquals($objDateTime->getYear(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getYear());'."\n";
-					$object .= '        $this->assertEquals($objDateTime->getMinutes(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getMinutes());'."\n";
-					$object .= '        $this->assertEquals($objDateTime->getHour(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getHour());'."\n";
-					$object .= '        $this->assertEquals($objDateTime->getSeconds(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getSeconds());'."\n";					
-                    break;
-                case 'time':
-					$time = "00:00:20";
-					$object .= '        $dtime = new Date();'."\n";
-					$object .= '        $dtime->setTime("'.$time.'");'."\n";
-                    $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setTime("'.$time.'");'."\n";
-                    $object .= '        $this->assertEquals($dtime->getHour(),$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getHour());'."\n";
-					$object .= '        $this->assertEquals($dtime->getMinutes(),$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getMinutes());'."\n";
-					$object .= '        $this->assertEquals($dtime->getSeconds(),$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getSeconds());'."\n";
-                    break;
-                case 'timestamp':
-                    $object .= '        $objDateTime = new Date();'."\n";
-					$object .= '        $objDateTime->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
-                    $object .= '        $this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
-                    $object .= '        $this->assertEquals($objDateTime->getDate(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getDate());'."\n";
-                    break;
-                case 'year':
-                    $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setValue(1990);'."\n";
-                    $object .= '        $this->assertEquals(1990,$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getValue());'."\n";
-                    break;    
-                case 'bigint':
-                case 'decimal':
-                case 'double':
-                case 'float':
-                case 'int':
-                case 'mediumint':
-                case 'smallint':
-                case 'tinyint':
-                    $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setValue(24);'."\n";
-                    $object .= '        $this->assertEquals(24,$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getValue());'."\n";
-                    break;  
-                case 'bit':               
-                    $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setValue(1);'."\n";
-                    $object .= '        $this->assertEquals(1,$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getValue());'."\n";
-                    break;
-				case 'char':               
-                    $object .= '        $this->assertTrue($this->_' . strtolower($this->object_name) . '->set'.ucfirst($name).'("a"));'."\n";
-                    $object .= '        $this->assertEquals("a",$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '());'."\n";
-					break;						
-                default :
-                    $object .= '        $this->assertTrue($this->_' . strtolower($this->object_name) . '->set'.ucfirst($name).'("aaa"));'."\n";
-                    $object .= '        $this->assertEquals("aaa",$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '());'."\n";
-                    break;
+            switch ($field['type']) {
+            case 'date':
+				$object .= '        $fecha = new Date();'."\n";
+				$object .= '        $fecha->setDate(25, 11, 2000);'."\n";
+                $object .= '        $this->_' . strtolower($this->object_name) .'->get'.ucfirst($name).'()->setDate(25, 11, 2000);'."\n";  
+				$object .= '        $this->assertEquals($fecha->getDay(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getDay());'."\n";
+				$object .= '        $this->assertEquals($fecha->getMonth(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getMonth());'."\n";
+				$object .= '        $this->assertEquals($fecha->getYear(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getYear());'."\n";
+                break;
+            case 'datetime':
+				$object .= '        $objDateTime = new Date();'."\n";
+				$object .= '        $objDateTime->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
+                $object .= '        $this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
+				$object .= '        $this->assertEquals($objDateTime->getDay(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getDay());'."\n";
+				$object .= '        $this->assertEquals($objDateTime->getMonth(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getMonth());'."\n";
+				$object .= '        $this->assertEquals($objDateTime->getYear(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getYear());'."\n";
+				$object .= '        $this->assertEquals($objDateTime->getMinutes(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getMinutes());'."\n";
+				$object .= '        $this->assertEquals($objDateTime->getHour(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getHour());'."\n";
+				$object .= '        $this->assertEquals($objDateTime->getSeconds(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getSeconds());'."\n";					
+                break;
+            case 'time':
+				$time = "00:00:20";
+				$object .= '        $dtime = new Date();'."\n";
+				$object .= '        $dtime->setTime("'.$time.'");'."\n";
+                $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setTime("'.$time.'");'."\n";
+                $object .= '        $this->assertEquals($dtime->getHour(),$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getHour());'."\n";
+				$object .= '        $this->assertEquals($dtime->getMinutes(),$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getMinutes());'."\n";
+				$object .= '        $this->assertEquals($dtime->getSeconds(),$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getSeconds());'."\n";
+                break;
+            case 'timestamp':
+                $object .= '        $objDateTime = new Date();'."\n";
+				$object .= '        $objDateTime->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
+                $object .= '        $this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
+                $object .= '        $this->assertEquals($objDateTime->getDate(),$this->_' . strtolower($this->object_name) .'->get'.ucfirst($name). '()->getDate());'."\n";
+                break;
+            case 'year':
+                $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setValue(1990);'."\n";
+                $object .= '        $this->assertEquals(1990,$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getValue());'."\n";
+                break;    
+            case 'bigint':
+            case 'decimal':
+            case 'double':
+            case 'float':
+            case 'int':
+            case 'mediumint':
+            case 'smallint':
+            case 'tinyint':
+                $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setValue(24);'."\n";
+                $object .= '        $this->assertEquals(24,$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getValue());'."\n";
+                break;  
+            case 'bit':               
+                $object .= '        $this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->setValue(1);'."\n";
+                $object .= '        $this->assertEquals(1,$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '()->getValue());'."\n";
+                break;
+			case 'char':               
+                $object .= '        $this->assertTrue($this->_' . strtolower($this->object_name) . '->set'.ucfirst($name).'("a"));'."\n";
+                $object .= '        $this->assertEquals("a",$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '());'."\n";
+				break;						
+            default :
+                $object .= '        $this->assertTrue($this->_' . strtolower($this->object_name) . '->set'.ucfirst($name).'("aaa"));'."\n";
+                $object .= '        $this->assertEquals("aaa",$this->_' . strtolower($this->object_name) . '->get' . ucfirst($name) . '());'."\n";
+                break;
             }
             $object .= "    }\n\n";
             
@@ -492,7 +497,8 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateTestInsert() {
+    public function generateTestInsert()
+    {
         $object = '    /**' . "\n";
         $object.= '     * Insert ' . $this->object_name . "\n";
         $object.= '     *' . "\n";
@@ -502,110 +508,110 @@ class Yuju_ORMTest {
         $object .= "    {\n";
         $object .= '        $this->setUp();'."\n"; 
         $object .= '        $this->cleanTable();'."\n"; 		
-                        foreach ($this->_fields as $name => $field) {
-							if (!$field['primary_key']) {
-								switch ($field['type']) {
-									case 'date':
-										$fecha = date("Y-m-d");
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDate(6, 6, 2006);'."\n";
-										break;
-									case 'datetime':									
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
-										break;
-									case 'time':
-										$time = "00:00:30";
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setTime("'.$time.'");'."\n";
-										break;
-									case 'timestamp':
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
-										break;
-									case 'year':
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(1990);'."\n";
-										break;    
-									case 'bigint':
-									case 'decimal':
-									case 'double':
-									case 'float':
-									case 'int':
-									case 'mediumint':
-									case 'smallint':
-									case 'tinyint':
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(24);'."\n";
-										break;  
-									case 'bit':               
-										$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(1);'."\n";
-										break;
-									case 'char':               
-										$object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("c");'."\n";
-										break;											
-									default :
-										$object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("carlos");'."\n";
-										break;
-								}
-							}
-   
-                            
-                            
-                        }  
+        foreach ($this->_fields as $name => $field) {
+			if (!$field['primary_key']) {
+				switch ($field['type']) {
+				case 'date':
+					$fecha = date("Y-m-d");
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDate(6, 6, 2006);'."\n";
+					break;
+				case 'datetime':									
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
+					break;
+				case 'time':
+					$time = "00:00:30";
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setTime("'.$time.'");'."\n";
+					break;
+				case 'timestamp':
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(11, 12, 2000, 14, 10, 12);'."\n";
+					break;
+				case 'year':
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(1990);'."\n";
+					break;    
+				case 'bigint':
+				case 'decimal':
+				case 'double':
+				case 'float':
+				case 'int':
+				case 'mediumint':
+				case 'smallint':
+				case 'tinyint':
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(24);'."\n";
+					break;  
+				case 'bit':               
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(1);'."\n";
+					break;
+				case 'char':               
+					$object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("c");'."\n";
+					break;											
+				default :
+					$object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("carlos");'."\n";
+					break;
+				}
+			}
+
+            
+            
+        }  
         $object .= "\n".'      	//Checks'."\n"; 						
         $object .= '        $this->assertTrue($this->_'.strtolower($this->object_name).'->insert());'."\n";     
         $object .= '        $this->assertFalse($this->_'.strtolower($this->object_name).'->load(2));'."\n";		
 		$object .= '        $this->assertTrue($this->_'.strtolower($this->object_name).'->load(1));'."\n";		
-							foreach ($this->_fields as $name => $field) {
-                                if (!$field['primary_key']) {
-                                    switch ($field['type']) {
-                                        case 'date':											
-                                            $object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2006,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-                                            break;
-                                        case 'datetime':
-										    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-											$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'time':
-                                            $time = "00:00:30";
-                                            $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(30,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'timestamp':
-										    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-											$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'year':
-                                            $object .= '        $this->assertEquals(1990,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;   
-                                        case 'bigint':
-                                        case 'decimal':
-                                        case 'double':
-                                        case 'float':
-                                        case 'int':
-                                        case 'mediumint':
-                                        case 'smallint':
-                                        case 'tinyint':
-                                            $object .= '        $this->assertEquals(24,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;  
-                                        case 'bit':               
-                                            $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;
-										case 'char':               
-                                            $object .= '        $this->assertEquals("c",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'());'."\n";
-                                            break;
-                                        default :
-										    $object .= '        $this->assertEquals("carlos",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()); '."\n";
-                                            break;
-                                    }
-                                }
-                            }
+		foreach ($this->_fields as $name => $field) {
+            if (!$field['primary_key']) {
+                switch ($field['type']) {
+                case 'date':											
+                    $object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2006,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+                    break;
+                case 'datetime':
+				    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+					$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'time':
+                    $time = "00:00:30";
+                    $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(30,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'timestamp':
+				    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+					$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'year':
+                    $object .= '        $this->assertEquals(1990,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;   
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                    $object .= '        $this->assertEquals(24,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;  
+                case 'bit':               
+                    $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;
+				case 'char':               
+                    $object .= '        $this->assertEquals("c",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'());'."\n";
+                    break;
+                default :
+				    $object .= '        $this->assertEquals("carlos",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()); '."\n";
+                    break;
+                }
+            }
+        }
         $object .= "    }\n\n";
         return $object;
     }
@@ -615,8 +621,8 @@ class Yuju_ORMTest {
      *
      * @return string
      */
-    public function generateTestLoad() {
-  
+    public function generateTestLoad()
+    {
         // TODO: make dinamic Primary Key
         $object = '    /**' . "\n";
         $object.= '     * Load ' . $this->object_name . "\n";
@@ -631,61 +637,61 @@ class Yuju_ORMTest {
 		$object .= '        $this->assertFalse($this->_'.strtolower($this->object_name).'->load(20));'."\n";
         $object .= '        $this->assertTrue($this->_'.strtolower($this->object_name).'->load(1));'."\n";        
 		$object .= "\n".'      	//Checks'."\n";
-							foreach ($this->_fields as $name => $field) {
-                                if (!$field['primary_key']) {
-                                    switch ($field['type']) {
-                                        case 'date':											
-                                            $object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2006,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-                                            break;
-                                        case 'datetime':
-										    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-											$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'time':
-                                            $time = "00:00:30";
-                                            $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(30,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'timestamp':
-										    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-											$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'year':
-                                            $object .= '        $this->assertEquals(1990,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;   
-                                        case 'bigint':
-                                        case 'decimal':
-                                        case 'double':
-                                        case 'float':
-                                        case 'int':
-                                        case 'mediumint':
-                                        case 'smallint':
-                                        case 'tinyint':
-                                            $object .= '        $this->assertEquals(24,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;  
-                                        case 'bit':               
-                                            $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;
-										case 'char':               
-                                            $object .= '        $this->assertEquals("c",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'());'."\n";
-                                            break;
-                                        default :
-										    $object .= '        $this->assertEquals("carlos",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()); '."\n";
-                                            break;
-                                    }
-                                }
-                            }
+		foreach ($this->_fields as $name => $field) {
+            if (!$field['primary_key']) {
+                switch ($field['type']) {
+                case 'date':											
+                    $object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(6,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2006,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+                    break;
+                case 'datetime':
+				    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+					$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'time':
+                    $time = "00:00:30";
+                    $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(30,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'timestamp':
+				    $object .= '        $this->assertEquals(11,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+					$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'year':
+                    $object .= '        $this->assertEquals(1990,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;   
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                    $object .= '        $this->assertEquals(24,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;  
+                case 'bit':               
+                    $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;
+				case 'char':               
+                    $object .= '        $this->assertEquals("c",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'());'."\n";
+                    break;
+                default :
+				    $object .= '        $this->assertEquals("carlos",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()); '."\n";
+                    break;
+                }
+            }
+        }
         $object .= "    }\n\n";
         return $object;
     }
@@ -695,7 +701,8 @@ class Yuju_ORMTest {
      * 
      * @return string
      */
-    public function generateTestUpdate() {
+    public function generateTestUpdate()
+    {
         $object = '    /**' . "\n";
         $object.= '     * Update ' . $this->object_name . "\n";
         $object.= '     *' . "\n";
@@ -708,106 +715,106 @@ class Yuju_ORMTest {
         $object .= '        $this->setUp();'."\n";
         $object .= '        $this->_'.strtolower($this->object_name).'->load(1);'."\n";
 		$object .= "\n".'        //Insert parameters;'."\n";
-                            foreach ($this->_fields as $name => $field) {
-                                if (!$field['primary_key']) {
-                                    switch ($field['type']) {
-                                        case 'date':
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDate(2,2,2002);'."\n";
-                                            break;
-                                        case 'datetime':
-											$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(1, 1, 2000, 14, 10, 12);'."\n";
-                                            break;
-                                        case 'time':
-                                            $time = "00:00:25";
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setTime("'.$time.'");'."\n";
-                                            break;
-                                        case 'timestamp':
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(1, 1, 2000, 14, 10, 12);'."\n";
-                                            break;
-                                        case 'year':
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(1991);'."\n";
-                                            break;   
-                                        case 'bigint':
-                                        case 'decimal':
-                                        case 'double':
-                                        case 'float':
-                                        case 'int':
-                                        case 'mediumint':
-                                        case 'smallint':
-                                        case 'tinyint':
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(25);'."\n";
-                                            break;  
-                                        case 'bit':               
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(0);'."\n";
-                                            break;
-										case 'char':               
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("j");'."\n";
-                                            break;											
-                                        default :
-                                            $object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("jean");'."\n";
-                                            break;
-                                    }
-                                }
-                            }
+        foreach ($this->_fields as $name => $field) {
+            if (!$field['primary_key']) {
+                switch ($field['type']) {
+                case 'date':
+                    $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDate(2,2,2002);'."\n";
+                    break;
+                case 'datetime':
+					$object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(1, 1, 2000, 14, 10, 12);'."\n";
+                    break;
+                case 'time':
+                    $time = "00:00:25";
+                    $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setTime("'.$time.'");'."\n";
+                    break;
+                case 'timestamp':
+                    $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setDateTime(1, 1, 2000, 14, 10, 12);'."\n";
+                    break;
+                case 'year':
+                    $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(1991);'."\n";
+                    break;   
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                    $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(25);'."\n";
+                    break;  
+                case 'bit':               
+                    $object .= '        $this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->setValue(0);'."\n";
+                    break;
+				case 'char':               
+                    $object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("j");'."\n";
+                    break;											
+                default :
+                    $object .= '        $this->_'.strtolower($this->object_name).'->set'.ucfirst($name).'("jean");'."\n";
+                    break;
+                }
+            }
+        }
 		$object .= "\n".'   	//Checks;'."\n";							
         $object .= '        $this->assertTrue($this->_'.strtolower($this->object_name).'->update());'."\n"; 
         $object .= '        $this->assertFalse($this->_'.strtolower($this->object_name).'->load(2));'."\n";		
 		$object .= '        $this->assertTrue($this->_'.strtolower($this->object_name).'->load(1));'."\n";
-							foreach ($this->_fields as $name => $field) {
-                                if (!$field['primary_key']) {
-                                    switch ($field['type']) {
-                                        case 'date':											
-                                            $object .= '        $this->assertEquals(2,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(2,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2002,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-                                            break;
-                                        case 'datetime':
-										    $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-											$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'time':
-                                            $time = "00:00:25";
-                                            $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(25,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'timestamp':
-										    $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
-											$object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
-											$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
-											$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
-											$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
-											$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
-                                            break;
-                                        case 'year':
-                                            $object .= '        $this->assertEquals(1991,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;   
-                                        case 'bigint':
-                                        case 'decimal':
-                                        case 'double':
-                                        case 'float':
-                                        case 'int':
-                                        case 'mediumint':
-                                        case 'smallint':
-                                        case 'tinyint':
-                                            $object .= '        $this->assertEquals(25,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;  
-                                        case 'bit':               
-                                            $object .= '        $this->assertEquals(0,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
-                                            break;
-										case 'char':               
-                                            $object .= '        $this->assertEquals("j",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'());'."\n";
-                                            break;
-                                        default :
-										    $object .= '        $this->assertEquals("jean",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()); '."\n";
-                                            break;
-                                    }
-                                }
-                            }
+		foreach ($this->_fields as $name => $field) {
+            if (!$field['primary_key']) {
+                switch ($field['type']) {
+                case 'date':											
+                    $object .= '        $this->assertEquals(2,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(2,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2002,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+                    break;
+                case 'datetime':
+				    $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+					$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'time':
+                    $time = "00:00:25";
+                    $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(25,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'timestamp':
+				    $object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getDay());'."\n";
+					$object .= '        $this->assertEquals(1,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMonth());'."\n";
+					$object .= '        $this->assertEquals(2000,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getYear());'."\n";
+					$object .= '        $this->assertEquals(14,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getHour());'."\n";
+					$object .= '        $this->assertEquals(10,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getMinutes());'."\n";
+					$object .= '        $this->assertEquals(12,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getSeconds());'."\n";
+                    break;
+                case 'year':
+                    $object .= '        $this->assertEquals(1991,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;   
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                    $object .= '        $this->assertEquals(25,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;  
+                case 'bit':               
+                    $object .= '        $this->assertEquals(0,$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()->getValue());'."\n";
+                    break;
+				case 'char':               
+                    $object .= '        $this->assertEquals("j",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'());'."\n";
+                    break;
+                default :
+				    $object .= '        $this->assertEquals("jean",$this->_'.strtolower($this->object_name).'->get'.ucfirst($name).'()); '."\n";
+                    break;
+                }
+            }
+        }
         $object .= "    }\n\n";
         return $object;
     }
@@ -827,8 +834,13 @@ class Yuju_ORMTest {
         $object .= '    }' . "\n\n";        
         return $object;
     }
-   
-       public function generateTestTableArray()
+    
+    /**
+     * Generate test table array
+     * 
+     * @return string
+     */
+    public function generateTestTableArray()
     {
         $object  = '    /**' . "\n";
         $object .= '     * Return a Table' . "\n";
@@ -838,18 +850,24 @@ class Yuju_ORMTest {
         $object .= '    public function TestTablaArray()' . "\n";
         $object .= '    {' . "\n";
         $object .= '        $this->setUp();'."\n";
-		$object .= '        $array=$this->_'.strtolower($this->object_name).'->tablaArray();'."\n";         
+        $object .= '        $array=$this->_'.strtolower($this->object_name).'->tablaArray();'."\n";         
         foreach ($this->_fields as $name => $field) {
-             if ($field['primary_key']) {
+            if ($field['primary_key']) {
                 $id=$name;
-             }
+            }
         } 
         $object .= '        $this->assertEquals(count($array["'.$id.'"]),1);'."\n"; 
         $object .= '    }'."\n\n";        
-		return $object;
+        return $object;
     }
-	
-	public function generateTestSearch(){
+    
+    /**
+     * Generate test search
+     * 
+     * @return string
+     */
+    public function generateTestSearch()
+    {
         $object  = "\n";
         $object  = '    /**' . "\n";
         $object .= '     * Return a Array' . "\n";
@@ -860,32 +878,31 @@ class Yuju_ORMTest {
         $object .= '        $this->setUp();'."\n";        
         $object .= '        $param = array();'."\n";     
         foreach ($this->_fields as $name => $field) {
-             if ($field['primary_key']) {
+            if ($field['primary_key']) {
                 $id=$name;
-             }else{
+            } else {
                 switch ($field['type']) {
-                       case 'date': 
-                       case 'datetime':
-                       case 'time':
-                       case 'timestamp':
-                       case 'year': 
-                       case 'bigint':
-                       case 'decimal':
-                       case 'double':
-                       case 'float':
-                       case 'int':
-                       case 'mediumint':
-                       case 'smallint':
-                       case 'tinyint':
-                       case 'bit':               
-                           break;
-                       default :
-                           $campo = $name;
-                           break;
-                 }
-             }
-             
-        }         
+                case 'date': 
+                case 'datetime':
+                case 'time':
+                case 'timestamp':
+                case 'year': 
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                case 'bit':               
+                    break;
+                default :
+                    $campo = $name;
+                    break;
+                }
+            }
+        }      
         $object .= '        $param["like-'.$campo.'"]="e";'."\n";  
         $object .= '        $array = $this->_'.strtolower($this->object_name).'->search($param);'."\n";                         
         $object .= '        $this->assertEquals(1,count($array["'.$id.'"]));'."\n";          
@@ -897,7 +914,14 @@ class Yuju_ORMTest {
         
         return $object;
     }
-	public function generateTestSearchPager(){
+    
+    /**
+     * Generate test seach pager
+     * 
+     * @return string
+     */
+    public function generateTestSearchPager()
+    {
         $object  = "\n";
         $object  = '    /**' . "\n";
         $object .= '     * Return a Array' . "\n";
@@ -908,31 +932,30 @@ class Yuju_ORMTest {
         $object .= '        $this->setUp();'."\n";  
         $object .= '        $param = array();'."\n";  
         foreach ($this->_fields as $name => $field) {
-             if ($field['primary_key']) {
+            if ($field['primary_key']) {
                 $id=$name;
-             }else{
+            } else {
                 switch ($field['type']) {
-                       case 'date': 
-                       case 'datetime':
-                       case 'time':
-                       case 'timestamp':
-                       case 'year': 
-                       case 'bigint':
-                       case 'decimal':
-                       case 'double':
-                       case 'float':
-                       case 'int':
-                       case 'mediumint':
-                       case 'smallint':
-                       case 'tinyint':
-                       case 'bit':               
-                           break;
-                       default :
-                           $campo = $name;
-                           break;
-                 }
-             }
-             
+                case 'date': 
+                case 'datetime':
+                case 'time':
+                case 'timestamp':
+                case 'year': 
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                case 'bit':               
+                    break;
+                default :
+                    $campo = $name;
+                    break;
+                }
+            }
         }         
         $object .= '        $param["like-'.$campo.'"]="e";'."\n"; 
         $object .= '        $array = $this->_'.strtolower($this->object_name).'->search($param, 3, 1);'."\n";   
@@ -942,13 +965,14 @@ class Yuju_ORMTest {
         $object .= '     }'."\n\n";  
         return $object;
     }
-	
-	    /**
+    
+    /**
      * Generate delete function
      *
      * @return string
      */
-    public function generateTestDelete() {
+    public function generateTestDelete()
+    {
         $object = '    /**' . "\n";
         $object.= '     * Delete ' . $this->object_name . "\n";
         $object.= '     *' . "\n";
@@ -964,5 +988,4 @@ class Yuju_ORMTest {
         $object .= "    }\n\n";
         return $object;
     }
-
 }

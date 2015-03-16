@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: IYuju_Array.php 77 2013-05-05 18:42:52Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,20 +36,17 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 interface IYuju_Array
 {
     /**
-     * Load object
-     * 
-     * @param integer $id object id
-     * 
-     * @access public
+     * Load Object
+     *
+     * @param mixed $var Id or DB_Result fetch object
+     *
      * @return boolean
      */
-    public function load($id);
+    public function load($var);
 }
-
-?>

@@ -23,14 +23,12 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: main.php 169 2014-02-25 09:19:00Z carlosmelga $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 if (!isset($params['urlfail'])) {
-	echo 'hola';
-	exit;
     $urlfail=DOMAIN;
 } else {
     $urlfail=$params['urlfail'];

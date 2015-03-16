@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: ACL.php 145 2013-11-19 11:15:23Z danifdez $
+ * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */

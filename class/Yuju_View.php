@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_View.php 202 2015-03-03 10:46:54Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 if (defined('API')) {
@@ -41,7 +41,7 @@ if (defined('API')) {
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Yuju_View
@@ -163,6 +163,14 @@ class Yuju_View
         $this->modules = json_decode($modules, true);
     }
 
+    /**
+     * Get modules to JSON
+     * 
+     * @param string $var    modue name
+     * @param string $nummod num module
+     * 
+     * @return string|multitype:
+     */
     public function getModulesJson($var = null, $nummod = '0')
     {
         if ($var == null && $nummod =='0') {
@@ -245,7 +253,7 @@ class Yuju_View
     public function getModules($var = null, $nummod = '0')
     {
         if ($var != null) {
-            if (substr($var,0,3)=='MOD') {
+            if (substr($var, 0, 3)=='MOD') {
                 if (isset($this->modules[$var])) {
                     return $this->modules[$var];
                 } else {
@@ -300,26 +308,50 @@ class Yuju_View
         }
     }
 
+    /**
+     * Getter parent
+     * 
+     * @return string
+     */
     public function getParent()
     {
         return $this->parent;
     }
 
+    /**
+     * Setter parent
+     * 
+     * @param string $parent name page parent
+     * 
+     * @return void
+     */
     public function setParent($parent)
     {
         $this->parent = $parent;
     }
     
+    /**
+     * Getter sitemap
+     * 
+     * @return integer
+     */
     public function getSiteMap()
     {
         return $this->sitemap;
     }
     
+    /**
+     * Setter sitemap
+     * 
+     * @param integer $var sitemap
+     * 
+     * @return boolean
+     */
     public function setSiteMap($var)
     {
         if ($var=='0' || $var=='1') {
-           $this->sitemap = $var;
-           return true;
+            $this->sitemap = $var;
+            return true;
         }
         return false;
     }
@@ -500,6 +532,11 @@ class Yuju_View
         DB::query($sql);
     }
 
+    /**
+     * Insert page
+     * 
+     * @return void
+     */
     public function insert()
     {
         $sql = 'insert into page (`title`,`name`, `schema`, `type`, `cssfiles`, `jsfiles`, `keyword`, `description`, `modules`, `parent`, `sitemap`) VALUES ';
@@ -535,9 +572,17 @@ class Yuju_View
         return $all;
     }
     
+    /**
+     * Set OG meta
+     * 
+     * @param string $name  name
+     * @param value  $value value
+     * 
+     * @return void
+     */
     public function setOG($name, $value)
     {
-    	$this->meta .='<meta property="og:'.$name.'" content="'.$value.'" />';
+        $this->meta .='<meta property="og:'.$name.'" content="'.$value.'" />';
     }
 
     /**
@@ -557,8 +602,7 @@ class Yuju_View
         // Load modules
         foreach ($this->modules as $nummod => $mod) {
             // Name of module
-            //$namemod = '__MOD' . substr($nummod,3);
-        	$namemod = '__MOD'.$nummod;
+            $namemod = '__MOD' . substr($nummod, 3);
             if (!isset($$namemod)) {
                 // HACK: If not exist, create
                 $$namemod = '';
@@ -689,12 +733,13 @@ class Yuju_View
                 $header  = '<!DOCTYPE html>';
                 $header .= '<html>';
                 $header .= '<head>';
-                $header .= '<meta http-equiv="content-type" content="text/html;'; 
-                $header .= 'charset=UTF-8" />';
+                $header .= '<meta charset="utf-8">';
+                $header .= '<meta http-equiv="X-UA-Compatible" content="IE=edge">';
+                $header .= '<meta name="viewport" content="width=device-width, initial-scale=1">'; 
                 $header .= '<link rel="canonical" href="{$__canonical|default:\'' . $domain . '\'}"  />';
                 $header .= '<link href=' . DOMAIN . 'images/favicon.ico rel="shortcut icon" />';
                 $header .= '<meta name="generator" content="Yuju Framework" />';
-                $header .= '<title>{$__title|default:\'' . $this->title . ' - ' . PROJECT_NAME . '\'}</title>';
+                $header .= '<title>{$__title|default:\'' . $this->title . '\'}</title>';
                 $header .= '<meta name="description" ';
                 $header .= 'content="{$__description|default:\'' . $this->description . '\'}" />';
                 $header .= '<meta name="keywords" ';
@@ -847,14 +892,14 @@ class Yuju_View
     {
         $s = trim($s);
         $s = mb_strtolower($s);
-        $s = preg_replace("[á|à|â|ã|ª]","a",$s);
-        $s = preg_replace("[é|è|ê]","e",$s);
-        $s = preg_replace("[í|ì|î]","i",$s);
-        $s = preg_replace("[ó|ò|ô|õ|º]","o",$s);
-        $s = preg_replace("[ú|ù|û]","u",$s);
-        $s = preg_replace("[ñ]","n",$s);
-        $s = preg_replace("[ç]","c",$s);
-        $s = preg_replace("[']","-",$s);
+        $s = preg_replace("[á|à|â|ã|ª]", "a", $s);
+        $s = preg_replace("[é|è|ê]", "e", $s);
+        $s = preg_replace("[í|ì|î]", "i", $s);
+        $s = preg_replace("[ó|ò|ô|õ|º]", "o", $s);
+        $s = preg_replace("[ú|ù|û]", "u", $s);
+        $s = preg_replace("[ñ]", "n", $s);
+        $s = preg_replace("[ç]", "c", $s);
+        $s = preg_replace("[']", "-", $s);
         
         $s = preg_replace('([^A-Za-z0-9[:space:]-])', '', $s);
         $s = str_replace(" ", '-', $s);
@@ -887,7 +932,7 @@ class Yuju_View
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
         $result = DB::query('SELECT name from page WHERE sitemap=1');
-        while($obj = $result->fetchObject()) {
+        while ($obj = $result->fetchObject()) {
             $sitemap.='<url><loc>'.DOMAIN.$obj->name.'</loc></url>';
         }
         $sitemap.='</urlset>';
@@ -895,6 +940,13 @@ class Yuju_View
         return $sitemap;
     }
     
+    /**
+     * Get number modules by schema
+     * 
+     * @param string $schema schema name
+     * 
+     * @return integer
+     */
     public static function getNumModulesBySchema($schema)
     {
         $file = new File();
@@ -909,5 +961,3 @@ class Yuju_View
         return count($output_array[0]);
     }
 }
-
-?>

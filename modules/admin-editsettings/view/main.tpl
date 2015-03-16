@@ -75,6 +75,10 @@
             $('#listmodules').modal('hide');
         }
         
+        function updateSchema()
+        {
+            
+        }
     {/literal}
 </script>
 <div class="modal fade" id="listmodules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -179,10 +183,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{_("Schema")}</label>
-                                    <select name="schema" class="form-control">
+                                    <select name="schema" id="schema" class="form-control">
                                         <option value=""></option>
                                         {foreach from=$schemas item=schema}
-                                            <option value="{$schema->getNameNoExtension()}" nummod="{Yuju_View::getNumModulesBySchema($schema->getNameNoExtension())}" {if $schema->getNameNoExtension() == $page->getSchema()}selected="selected"{/if}>{$schema->getNameNoExtension()}</option>
+                                            <option value="{$schema->getNameNoExtension()}" nummod="{Yuju_View::getNumModulesBySchema($schema->getNameNoExtension())}" {if $schema->getNameNoExtension() == $page->getSchema()}selected="selected"{/if} onchange="updateSchema();">{$schema->getNameNoExtension()}</option>
                                         {/foreach}
                                     </select><button class="btn btn-default" type="button">{_("Change schema")}</button>
                                     <p class="help-block">{_("Page schema")}</p>

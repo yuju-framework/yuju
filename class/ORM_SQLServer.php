@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: ORM_SQLServer.php 200 2015-03-03 10:46:08Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
  class ORM_SQLServer extends AbstractYuju_ORM
@@ -80,9 +80,6 @@
              $first_field = null;
              
             while ($return = $result->fetchObject()) {
-                if ($return->COLUMN_NAME == 'id_sql_registros') {
-                    continue;
-                }
                 if ($first_field===null) {
                     $first_field = $return->COLUMN_NAME;
                 }
@@ -96,6 +93,8 @@
                 // Data type
                 if ($return->DATA_TYPE=='4') {
                     $type = 'int';
+                } elseif ($return->DATA_TYPE=='5') {
+                    $type = 'smallint';
                 } elseif ($return->DATA_TYPE=='3') {
                     $type = 'decimal';
                 } elseif ($return->DATA_TYPE == '-8' || $return->DATA_TYPE == '-9' || $return->DATA_TYPE == '-10' || $return->DATA_TYPE == '1' || $return->DATA_TYPE == '12') {
@@ -601,18 +600,20 @@
                  $value .= '$this->'.$name.'->getValueDB().\'';
                  break;
              default:
-                 $value .= '\'\\\'\'.$this->'.$name.'.\'\\\'';
+                 $value .= '\'\\\'\'.DB::parse($this->'.$name.').\'\\\'';
                  break;
          }
          return $value;
      }
      
      /**
-      * @param unknown_type $directory
+      * Generate base
+      * 
+      * @param string $directory directory
       */
      public function generateBase($directory)
      {
-         // TODO: Auto-generated method stub
-     
+         return false;
      }
  }
+ 

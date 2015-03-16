@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: AbstractYuju_ORM.php 195 2015-03-03 10:42:43Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 abstract class AbstractYuju_ORM
@@ -47,7 +47,7 @@ abstract class AbstractYuju_ORM
     protected $db_data;
     protected $table;
     protected $object_name;
-    protected $_fields;
+    protected $fields;
     
     /**
      * Getter table
@@ -103,7 +103,7 @@ abstract class AbstractYuju_ORM
      */
     public function getFields()
     {
-        return $this->_fields;
+        return $this->fields;
     }
     
     /**
@@ -140,7 +140,7 @@ abstract class AbstractYuju_ORM
         $return .= ' * @package  XXX'."\n";
         $return .= ' * @author   XXX <xxx@xxx.com>'."\n";
         $return .= ' * @license  '."\n";
-        $return .= ' * @version  SVN: $Id$'."\n";
+        $return .= ' * @version  XXX'."\n";
         $return .= ' * @link     XXX'."\n";
         $return .= ' * @since    XXX'."\n";
         $return .= ' */'."\n";
@@ -176,7 +176,7 @@ abstract class AbstractYuju_ORM
     public function generateVars()
     {
         $object='';
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name=> $field) {
             $object .= "    protected $".$name.";\n\n";
         }
         return $object;
@@ -195,7 +195,7 @@ abstract class AbstractYuju_ORM
         $object.= '     */'."\n";
         $object.= '    public function __construct()'."\n";
         $object.= '    {'."\n";
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name=> $field) {
             switch ($field['type']) {
             case 'date':
                 $object .= '        $this->'.$name." = new Date();\n";
@@ -210,19 +210,20 @@ abstract class AbstractYuju_ORM
                 $object .= '        $this->'.$name." = new Date();\n";
                 break;
             case 'year':
-                $object .= '        $this->'.$name." = new Number(Number::INTEGER, true, null, null, 2155, 1901);\n";
+                $object .= '        $this->'.$name.
+                    " = new Number(Number::INTEGER, true, null, null, 2155, 1901);\n";
                 break;
             case 'bigint':
                 $object .= '        $this->'.$name." = new Number();\n";
                 break;
             case 'decimal':
-                $object .= '        $this->'.$name." = new Number(Number::DECIMAL, true, 999999999999999999, 999999999999999999, null, null);\n";
+                $object .= '        $this->'.$name." = new Number(Number::DECIMAL, true);\n";
                 break;
             case 'double':
-                $object .= '        $this->'.$name." = new Number(Number::FLOAT, true, 999999999999999999, 999999999999999999, null, null);\n";
+                $object .= '        $this->'.$name." = new Number(Number::FLOAT, true);\n";
                 break;
             case 'float':
-                $object .= '        $this->'.$name." = new Number(Number::FLOAT, true, 999999999999999999, 999999999999999999, null, null);\n";
+                $object .= '        $this->'.$name." = new Number(Number::FLOAT, true);\n";
                 break;
             case 'int':
                 $object .= '        $this->'.$name." = new Number();\n";
@@ -246,6 +247,35 @@ abstract class AbstractYuju_ORM
             }
         }
         $object .= '    }'."\n\n";
+        
+        $object.='    /**'."\n";
+        $object.= '     * Clone '."\n";
+        $object.= '     *'."\n";
+        $object.= '     */'."\n";
+        $object.= '    public function __clone()'."\n";
+        $object.= '    {'."\n";
+        foreach ($this->fields as $name=> $field) {
+            switch ($field['type']) {
+            case 'date':
+            case 'datetime':
+            case 'time':
+            case 'timestamp':
+            case 'year':
+            case 'bigint':
+            case 'decimal':
+            case 'double':
+            case 'float':
+            case 'int':
+            case 'mediumint':
+            case 'smallint':
+            case 'tinyint':
+            case 'bit':
+                $object .= '        $this->'.$name.' = clone($this->'.$name.');'."\n";
+                break;
+            }
+        }
+        $object .= '    }'."\n\n";
+        
         return $object;
     }
     
@@ -258,7 +288,7 @@ abstract class AbstractYuju_ORM
     {
         $object='';
         //TODO: if name field contains _ is next upper char
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name=> $field) {
             // Getter
             $object.= '    /**'."\n";
             $object.= '     * Getter '.$name."\n";
@@ -289,6 +319,13 @@ abstract class AbstractYuju_ORM
         return $object;
     }
     
+    /**
+     * Determine if has setter function
+     * 
+     * @param string $type filed type
+     * 
+     * @return boolean
+     */
     protected function hasSetterFunction($type)
     {
         $setter_types = array(
@@ -331,6 +368,11 @@ abstract class AbstractYuju_ORM
      */
     abstract public function generateDelete();
     
+    /**
+     * Generate getAll
+     * 
+     * @return string
+     */
     public function generateGetAll()
     {
         $object='    /**'."\n";
@@ -345,7 +387,19 @@ abstract class AbstractYuju_ORM
         return $object;
     }
     
+    /**
+     * Generate search
+     * 
+     * @return string
+     */
     abstract public function generateSearch();
     
+    /**
+     * Generate base
+     * 
+     * @param string $directory directory to generate
+     * 
+     * @return void
+     */
     abstract public function generateBase($directory);
 }

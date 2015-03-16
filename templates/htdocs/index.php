@@ -23,13 +23,37 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: index.php 120 2013-07-29 08:48:14Z carlosmelga $
+ * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 session_start();
 require '../conf/site.php';
 date_default_timezone_set(TIMEZONE);
+
+function handlererrors($num_err, $cadena_err, $archivo_err, $linea_err, $vars) {
+    $type_error = array (
+        E_ERROR              => _('Error'),
+        E_WARNING            => _('Warning'),
+        E_PARSE              => _('Parse error'),
+        E_NOTICE             => _('Notice'),
+        E_CORE_ERROR         => _('Error de Nucleo'),
+        E_CORE_WARNING       => _('Core warning'),
+        E_COMPILE_ERROR      => _('Compile error'),
+        E_COMPILE_WARNING    => _('Compile warning'),
+        E_USER_ERROR         => _('User error'),
+        E_USER_WARNING       => _('Warning error'),
+        E_USER_NOTICE        => _('Notice error'),
+        E_STRICT             => _('Strict error'),
+        E_RECOVERABLE_ERROR  => _('Recoverable error')
+    );
+    $err=print_r($vars, true);
+
+    //mail(MAILADM,'error: '.NOMBREPROYECTO,"codigo error: ".$tipo_error[$num_err]."\nerror: ".$cadena_err."\narchivo: ".$archivo_err."\nlinea: ".$linea_err."\nvar: ".$err);
+}
+if (defined('DEBUG') && !DEBUG) {
+    set_error_handler("handlererrors");
+}
 /**
  * Autoload classes
  *

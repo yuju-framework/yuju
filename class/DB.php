@@ -23,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: DB.php 133 2013-10-09 17:29:13Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -36,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class DB
@@ -61,23 +61,25 @@ class DB
     public static function parse($var, $connection = 1)
     {
         if (!DB::isConnected($connection - 1)) {
-            DB::connection();
+            if (!DB::Connection()) {
+                return false;
+            }
         }
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                if (DB::$_connection[$connection - 1] == null) {
-                    DB::query("SELECT 1");
-                }
-                return DB::$_connection[$connection - 1][1]->real_escape_string($var);
-                break;
-            case 'sqlserver':
-                $var = addslashes($var);
-                return str_replace("'", "''", $var);
-                break;
-            case 'oracle':
-                $var = addslashes($var);
-                return str_replace("'", "''", $var);
-                break;
+        case 'mysql':
+            if (DB::$_connection[$connection - 1] == null) {
+                DB::query("SELECT 1");
+            }
+            return DB::$_connection[$connection - 1][1]->real_escape_string($var);
+            break;
+        case 'sqlserver':
+            $var = addslashes($var);
+            return str_replace("'", "''", $var);
+            break;
+        case 'oracle':
+            $var = addslashes($var);
+            return str_replace("'", "''", $var);
+            break;
         }
     }
 
@@ -113,22 +115,23 @@ class DB
             return false;
         }
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                self::$_connection[$connection - 1][1]->autocommit(false);
-                if (self::$_connection[$connection - 1][1]->error != "") {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                            MAILADM, _('SQL Error begin transaction'), ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            self::$_connection[$connection - 1][1]->autocommit(false);
+            if (self::$_connection[$connection - 1][1]->error != "") {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return true;
-                break;
+                mail(
+                    MAILADM, _('SQL Error begin transaction'), ' -> '.
+                    self::$_connection[$connection - 1][1]->error .
+                    _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                );
+                return false;
+            }
+            return true;
+            break;
         }
     }
 
@@ -143,23 +146,24 @@ class DB
     public static function rollback($connection = 1)
     {
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                self::$_connection[$connection - 1][1]->rollback();
-                self::$_connection[$connection - 1][1]->autocommit(true);
-                if (self::$_connection[$connection - 1][1]->error != '') {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                            MAILADM, _('SQL Error rollback transaction'), ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            self::$_connection[$connection - 1][1]->rollback();
+            self::$_connection[$connection - 1][1]->autocommit(true);
+            if (self::$_connection[$connection - 1][1]->error != '') {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return true;
-                break;
+                mail(
+                    MAILADM, _('SQL Error rollback transaction'), ' -> '.
+                    self::$_connection[$connection - 1][1]->error .
+                    _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                );
+                return false;
+            }
+            return true;
+            break;
         }
     }
 
@@ -174,23 +178,24 @@ class DB
     public static function commit($connection = 1)
     {
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                self::$_connection[$connection - 1][1]->commit();
-                self::$_connection[$connection - 1][1]->autocommit(true);
-                if (self::$_connection[$connection - 1][1]->error != "") {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                            MAILADM, _('SQL Error commit transaction'), ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            self::$_connection[$connection - 1][1]->commit();
+            self::$_connection[$connection - 1][1]->autocommit(true);
+            if (self::$_connection[$connection - 1][1]->error != "") {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return true;
-                break;
+                mail(
+                    MAILADM, _('SQL Error commit transaction'), ' -> '.
+                    self::$_connection[$connection - 1][1]->error .
+                    _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                );
+                return false;
+            }
+            return true;
+            break;
         }
     }
 
@@ -207,9 +212,9 @@ class DB
      * @since version 1.0
      */
     public static function connection(
-    $dbtype = null, $dbhost = null, $dbuser = null, $dbpass = null, $dbdata = null
-    )
-    {
+        $dbtype = null, $dbhost = null, $dbuser = null, 
+        $dbpass = null, $dbdata = null
+    ) {
         if ($dbtype == null || $dbhost == null || $dbuser == null) {
             $dbtype = DBTYPE;
             $dbhost = DBHOST;
@@ -219,38 +224,38 @@ class DB
         }
         $con = null;
         switch ($dbtype) {
-            case 'mysql':
-                $con = @new mysqli($dbhost, $dbuser, $dbpass, $dbdata);
-                if ($con->connect_error) {
-                    return false;
-                }
-                $con->query('SET NAMES \'utf8\'');
-                self::$_connection[] = array('mysql', $con);
+        case 'mysql':
+            $con = @new mysqli($dbhost, $dbuser, $dbpass, $dbdata);
+            if ($con->connect_error) {
+                return false;
+            }
+            $con->query('SET NAMES \'utf8\'');
+            self::$_connection[] = array('mysql', $con);
 
-                break;
-            case 'sqlserver':
-                $con = mssql_connect($dbhost, $dbuser, $dbpass, true);
-                if ($con == null) {
-                    return false;
-                }
-                mssql_select_db($dbdata, $con);
-                self::$_connection[] = array('sqlserver', $con);
-                break;
-            case 'oracle':
-                $tns = "
-			  (DESCRIPTION =
-			  	(ADDRESS_LIST =
-			    	(ADDRESS = (PROTOCOL = TCP)(HOST = " . $dbhost . ")(PORT = 1521))
-			   	)
-			    (CONNECT_DATA =
-			      (SERVER = DEDICATED)
-			      (SERVICE_NAME = " . $dbdata . ")
-			    )
-			  )";
-                $con = oci_connect($dbuser, $dbpass, $tns);
-                //mssql_select_db($dbdata, $con);
-                self::$_connection[] = array('oracle', $con);
-                break;
+            break;
+        case 'sqlserver':
+            $con = mssql_connect($dbhost, $dbuser, $dbpass, true);
+            if ($con == null) {
+                return false;
+            }
+            mssql_select_db($dbdata, $con);
+            self::$_connection[] = array('sqlserver', $con);
+            break;
+        case 'oracle':
+            $tns = "
+		  (DESCRIPTION =
+		  	(ADDRESS_LIST =
+		    	(ADDRESS = (PROTOCOL = TCP)(HOST = " . $dbhost . ")(PORT = 1521))
+		   	)
+		    (CONNECT_DATA =
+		      (SERVER = DEDICATED)
+		      (SERVICE_NAME = " . $dbdata . ")
+		    )
+		  )";
+            $con = oci_connect($dbuser, $dbpass, $tns);
+            //mssql_select_db($dbdata, $con);
+            self::$_connection[] = array('oracle', $con);
+            break;
         }
         return count(self::$_connection);
     }
@@ -272,22 +277,23 @@ class DB
             }
         }
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                self::$_connection[$connection - 1][1]->select_db($dbname);
-                if (self::$_connection[$connection - 1][1]->error != "") {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                            MAILADM, gettext('SQL Error selecting database'), $dbname . ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            gettext(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            self::$_connection[$connection - 1][1]->select_db($dbname);
+            if (self::$_connection[$connection - 1][1]->error != "") {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return true;
-                break;
+                mail(
+                    MAILADM, _('SQL Error selecting database'), $dbname.' -> '. 
+                    self::$_connection[$connection - 1][1]->error .
+                    _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                );
+                return false;
+            }
+            return true;
+            break;
         }
     }
 
@@ -325,49 +331,32 @@ class DB
             }
         }
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                $result = self::$_connection[$connection - 1][1]->query($sql);
-                if (self::$_connection[$connection - 1][1]->error != "") {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                            MAILADM, _('SQL Error '), $sql . ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            $result = self::$_connection[$connection - 1][1]->query($sql);
+            if (self::$_connection[$connection - 1][1]->error != "") {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return new DB_Result('mysql', $result);
-                break;
-            case 'sqlserver':
-                $result = mssql_query($sql, self::$_connection[$connection - 1][1]);
-                if (!$result) {
-                    echo mssql_get_last_message();
-                    return false;
-                }
-                return new DB_Result('sqlserver', $result);
-                break;
-            case 'oracle':
-                $result = oci_parse(self::$_connection[$connection - 1][1], $sql);
-                oci_execute($result);
-
-                //$result = self::$_connection[$connection - 1][1]->query($sql);
-                /* if (self::$_connection[$connection - 1][1]->error != "") {
-                  if (isset($_SESSION["iduser"])) {
-                  $user = $_SESSION["iduser"];
-                  } else {
-                  $user = '';
-                  }
-                  mail(
-                  MAILADM, _('SQL Error '), $sql . ' -> ' . self::$_connection[$connection - 1][1]->error .
-                  _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                  );
-                  return false;
-                  } */
-                return new DB_Result('oracle', $result);
-                break;
+                echo self::$_connection[$connection - 1][1]->error;
+                return false;
+            }
+            return new DB_Result('mysql', $result);
+            break;
+        case 'sqlserver':
+            $result = mssql_query($sql, self::$_connection[$connection - 1][1]);
+            if (!$result) {
+                echo mssql_get_last_message();
+                return false;
+            }
+            return new DB_Result('sqlserver', $result);
+            break;
+        case 'oracle':
+            $result = oci_parse(self::$_connection[$connection - 1][1], $sql);
+            oci_execute($result);
+            return new DB_Result('oracle', $result);
+            break;
         }
     }
 
@@ -382,19 +371,19 @@ class DB
     public static function insertId($connection = 1)
     {
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                return self::$_connection[$connection - 1][1]->insert_id;
-                break;
-            case 'sqlserver':
-                $res = mssql_query(
-                        'SELECT @@IDENTITY as id', self::$_connection[$connection - 1][1]
-                );
-                if ($row = mssql_fetch_object($res)) {
-                    return $row->id;
-                } else {
-                    return false;
-                }
-                break;
+        case 'mysql':
+            return self::$_connection[$connection - 1][1]->insert_id;
+            break;
+        case 'sqlserver':
+            $res = mssql_query(
+                'SELECT @@IDENTITY as id', self::$_connection[$connection - 1][1]
+            );
+            if ($row = mssql_fetch_object($res)) {
+                return $row->id;
+            } else {
+                return false;
+            }
+            break;
         }
     }
 
@@ -416,23 +405,24 @@ class DB
         }
         
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                $sql = 'CREATE DATABASE ' . DB::parse($name) . ';';
-                $result = self::$_connection[$connection - 1][1]->query($sql);
-                if (self::$_connection[$connection - 1][1]->error != "") {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                        MAILADM, _('SQL Error creating schema '), $sql . ' -> ' . self::$_connection[$connection - 1][1]->error .
-                        _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            $sql = 'CREATE DATABASE ' . DB::parse($name) . ';';
+            $result = self::$_connection[$connection - 1][1]->query($sql);
+            if (self::$_connection[$connection - 1][1]->error != "") {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return new DB_Result('mysql', $result);
-                break;
+                mail(
+                    MAILADM, _('SQL Error creating schema'), $sql . ' -> '.
+                    self::$_connection[$connection - 1][1]->error .
+                    _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                );
+                return false;
+            }
+            return new DB_Result('mysql', $result);
+            break;
         }
     }
 
@@ -453,26 +443,25 @@ class DB
             }
         }
         switch (self::$_connection[$connection - 1][0]) {
-            case 'mysql':
-                $sql = 'DROP DATABASE ' . DB::parse($name) . ';';
-                $result = self::$_connection[$connection - 1][1]->query($sql);
-                if (self::$_connection[$connection - 1][1]->error != "") {
-                    if (isset($_SESSION["iduser"])) {
-                        $user = $_SESSION["iduser"];
-                    } else {
-                        $user = '';
-                    }
-                    mail(
-                            MAILADM, _('SQL Error creating schema '), $sql . ' -> ' . self::$_connection[$connection - 1][1]->error .
-                            _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
-                    );
-                    return false;
+        case 'mysql':
+            $sql = 'DROP DATABASE ' . DB::parse($name) . ';';
+            $result = self::$_connection[$connection - 1][1]->query($sql);
+            if (self::$_connection[$connection - 1][1]->error != "") {
+                if (isset($_SESSION["iduser"])) {
+                    $user = $_SESSION["iduser"];
+                } else {
+                    $user = '';
                 }
-                return new DB_Result('mysql', $result);
-                break;
+                mail(
+                    MAILADM, _('SQL Error creating schema '), $sql . ' -> '.
+                    self::$_connection[$connection - 1][1]->error .
+                    _(' user: ') . $user . ' page: ' . $_SERVER['REQUEST_URI']
+                );
+                return false;
+            }
+            return new DB_Result('mysql', $result);
+            break;
         }
     }
 
 }
-
-?>

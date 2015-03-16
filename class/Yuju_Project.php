@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Yuju_Project File
  *
@@ -24,8 +23,8 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  SVN: $Id: Yuju_Project.php 202 2015-03-03 10:46:54Z danifdez $
- * @link     http://sourceforge.net/projects/yuju/
+ * @version  GIT: 
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
@@ -37,7 +36,7 @@
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
  * @version  Release: 1.0
- * @link     http://sourceforge.net/projects/yuju/
+ * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class Yuju_Project
@@ -481,9 +480,9 @@ class Yuju_Project
             $this->dbpass, $this->dbname
         )) {
             if (!DB::connection(
-            $this->dbtype, $this->dbhost, $this->dbuser,
-            $this->dbpass)
-            ) {
+                $this->dbtype, $this->dbhost, $this->dbuser,
+                $this->dbpass
+            )) {
                 return false;
             }
             if (!DB::createSchema($this->dbname)) {
@@ -523,7 +522,7 @@ class Yuju_Project
         }
         $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`modules`,`parent`,`sitemap`) ';
         $sql.='VALUES(\'index\',\'Home\',\'default\',\'html\',';
-        $sql.='\'{"1":[{"html": {"value": "<p>Hello World!</p>"}}]}\',\'\',1)';
+        $sql.='\'{"MOD1":[{"html": {"value": "<p>Hello World!</p>"}}]}\',\'\',1)';
         if (!DB::query($sql)) {
             DB::rollback();
             return false;
@@ -535,7 +534,7 @@ class Yuju_Project
             $sql.='VALUES(\'admin\', \'Admin yuju\', \'default\', \'html\',
                 \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"1":[{"admin-content":{"_empty_":""}}]}\')';
+                \'{"MOD1":[{"admin-content":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
                 DB::rollback();
                 return false;
@@ -544,7 +543,7 @@ class Yuju_Project
             $sql.='VALUES(\'admin-editpage\', \'Admin yuju\', \'admin\', \'html\', 
                 \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"1":[{"admin-editcontent":{"_empty_":""}}]}\')';
+                \'{"MOD1":[{"admin-editcontent":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
                 DB::rollback();
                 return false;
@@ -553,7 +552,7 @@ class Yuju_Project
             $sql.='VALUES(\'admin-editsettings\', \'Admin yuju\', \'admin\', \'html\',
                 \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"1":[{"admin-editsettings":{"_empty_":""}}]}\')';
+                \'{"MOD1":[{"admin-editsettings":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
                 DB::rollback();
                 return false;
@@ -562,7 +561,7 @@ class Yuju_Project
             $sql.='VALUES(\'admin-editsiteconfig\', \'Admin yuju\', \'admin\', \'html\',
                 \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"1":[{"admin-editsiteconfig":{"_empty_":""}}]}\')';
+                \'{"MOD1":[{"admin-editsiteconfig":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
                 DB::rollback();
                 return false;
@@ -571,7 +570,7 @@ class Yuju_Project
             $sql.='VALUES(\'admin-login\', \'Admin yuju\', \'admin\', \'html\',
                 \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"1":[{"admin-login":{"_empty_":""}}]}\')';
+                \'{"MOD1":[{"admin-login":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
                 DB::rollback();
                 return false;
