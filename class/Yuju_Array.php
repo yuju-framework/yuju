@@ -249,7 +249,7 @@ class Yuju_Array implements Iterator
         if ($return->numRows() > 0) {
             if ($num == null || $page == null) {
                 while ($register = $return->fetchObject()) {
-                    $obj = $object;
+                    $obj = clone($object);
                     $obj->load($register);
                     $this->add($obj);
                 }
