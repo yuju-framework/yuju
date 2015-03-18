@@ -33,8 +33,14 @@ if (!isset($params['urlfail'])) {
 } else {
     $urlfail=$params['urlfail'];
 }
+
 if (!User::isLogin()) {
     header('Location:'.$urlfail);
+    exit;
+}
+
+if (isset($params['role']) && !$activeuser->isA($params['role'])) {
+    header('Location:'.DOMAIN);
     exit;
 }
 ?>
