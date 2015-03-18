@@ -128,7 +128,7 @@ class Date
      */
     public function isDateEmpty()
     {
-        if ($this->dateToBD()=='NULL') {
+        if ($this->dateToDB()=='NULL') {
             return true;
         } else {
             return false;
@@ -474,7 +474,7 @@ class Date
      *
      * @return boolean
      */
-    public function isPresent()
+    public function isActually()
     {
         if ($this->_day =="00" && $this->_month =="00" && $this->_year =="0000") {
             return true;
@@ -639,7 +639,7 @@ class Date
     public function showDate($separator='/')
     {
         if ($this->_day !="" && $this->_month !="" && $this->_year !="") {
-            if ($this->isPresent()) {
+            if ($this->isActually()) {
                 return _('Actually');
             } else {
                 return $this->_day.$separator.$this->_month.$separator.$this->_year;
@@ -754,6 +754,18 @@ class Date
             return false;
         }
     }
+    
+    public function isToday()
+    {
+        $date=getdate();
+        if ($date['mday'] == $this->_day
+            && $date['mon'] == $this->_month
+            && $date['year'] == $this->_year
+        ) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Difference between dates
@@ -789,18 +801,18 @@ class Date
             return round($diff/60, 0);
             break;
         case Date::HOURS:
-            return $diff/3600;
+            return round($diff/3600, 0);
             break;
         case Date::DAYS:
-            return $diff/86400;
+            return round($diff/86400, 0);
             break;
         case Date::MONTHS:
             // TODO: make better
-            return $diff/2592000;
+            return round($diff/2592000, 0);
             break;
         case Date::YEARS:
             // TODOS: make better
-            return $diff/31536000;
+            return round($diff/31536000, 0);
         }
     }
     
@@ -813,32 +825,35 @@ class Date
      */
     public function diffToNow($diffin=Date::SECONDS)
     {
+        if ($this->isDateEmpty()) {
+            return false;
+        }
         $time1 = mktime(
-            $this->_hour, $this->_minutes, $this->_seconds,
-            $this->_month, $this->_day, $this->_year
+            (float)$this->_hour, (float)$this->_minutes, (float)$this->_seconds,
+            (float)$this->_month, (float)$this->_day, (float)$this->_year
         );
         $time2 = time();
         $diff= $time1-$time2;
         switch ($diffin) {
         case Date::SECONDS:
-            return $diff;
+            return (int)$diff;
             break;
         case Date::MINUTES:
-            return $diff/60;
+            return (int)round($diff/60, 0);
             break;
         case Date::HOURS:
-            return $diff/3600;
+            return (int)round($diff/3600, 0);
             break;
         case Date::DAYS:
-            return $diff/86400;
+            return (int)round($diff/86400, 0);
             break;
         case Date::MONTHS:
             // TODO: make better
-            return $diff/2592000;
+            return (int)round($diff/2592000, 0);
             break;
         case Date::YEARS:
             // TODOS: make better
-            return $diff/31536000;
+            return (int)round($diff/31536000, 0);
         }
     }
     
