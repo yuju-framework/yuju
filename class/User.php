@@ -343,7 +343,7 @@ class User implements IYuju_Array
         $sql.='VALUES(\'' . DB::Parse($this->user) . '\',';
         $sql.='\'' . sha1(DB::Parse($this->pass)) . '\',';
         $sql.='\'' . DB::Parse($this->name) . '\',';
-        $sql.='\'' . $this->valid->getValueDB() . '\',';
+        $sql.='\'' . $this->valid->getValueToDB() . '\',';
         $sql.='\'' . DB::Parse($this->role) . '\',';
         $sql.='\'' . $this->acl->toDB() . '\')';
         if (DB::Query($sql)) {
@@ -363,7 +363,7 @@ class User implements IYuju_Array
         $sql = 'UPDATE user SET';
         $sql.=' user=\'' . DB::Parse($this->user) . '\',';
         $sql.='name=\'' . DB::Parse($this->name) . '\',';
-        $sql.='valid=\'' . $this->valid->getValueDB() . '\',';
+        $sql.='valid=\'' . $this->valid->getValueToDB() . '\',';
         $sql.='acl=\'' . $this->acl->toDB() . '\' ';
         $sql.=' WHERE id=' . $this->id->getValueToDB();
         if (DB::Query($sql)) {
