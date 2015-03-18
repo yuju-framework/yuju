@@ -45,7 +45,7 @@ class User implements IYuju_Array
     /**
      * Id
      *
-     * @var    number
+     * @var    Number
      * @access protected
      */
     protected $id;
@@ -536,20 +536,24 @@ class User implements IYuju_Array
     /**
      * Check if username exist
      * 
-     * @param string  $name user name
+     * @param string  $user user name
      * @param integer $id   id
      * 
      * @return boolean
      */
-    public static function checkUsernameAvailability($name, $id = 0)
+    public static function checkUsernameAvailability($user, $id = null)
     {
-        $sql = "SELECT count(id) as id FROM user ';
-        $sql.= 'WHERE user='".$name."' AND id!=".DB::parse($id);
+        $where ='';
+        if ($id !== null && is_int($id)) {
+            $where = ' AND id<>'.DB::parse($id);
+        }
+        $sql = 'SELECT count(id) as total FROM user ';
+        $sql.= 'WHERE user=\''.DB::parse($user).'\''. $where;
         $result = DB::query($sql);
-
+        
         $count = $result->fetchObject();
-
-        if ($count->id == 0) {
+        $result->freeResult();
+        if ($count->total == 0) {
             return true;
         }
         return false;
