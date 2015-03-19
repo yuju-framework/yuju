@@ -203,7 +203,9 @@ class Yuju_View
     public function loadGET()
     {
         foreach ($_GET as $name => $value) {
-            $this->get[$name] = $value;
+            if ($name !='p') {
+                $this->get[$name] = $value;
+            }
         }
     }
 
@@ -213,15 +215,11 @@ class Yuju_View
      * @param string $name  name 
      * @param mixed  $value value
      * 
-     * @return boolean
+     * @return void
      */
     public function setGET($name, $value)
     {
-        if (isset($this->get['name'])) {
-            $this->get[$name] = $value;
-        } else {
-            return false;
-        }
+        $this->get[$name] = $value;
     }
 
     /**
