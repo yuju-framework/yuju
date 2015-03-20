@@ -32,6 +32,9 @@ if (isset($params['urlvalid'])) {
 } else {
     $urlvalid=DOMAIN;
 }
+if (isset($_GET['goto']) && !filter_var($_GET['goto'], FILTER_VALIDATE_URL) === false) {
+    $urlvalid=$_GET['goto'];
+}
 
 if ($activeuser->isLogin() || isset($_POST['user'])) {
     if ($activeuser->isLogin()
