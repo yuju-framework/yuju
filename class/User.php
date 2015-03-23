@@ -502,7 +502,7 @@ class User implements IYuju_Array
      * @access public
      * @return boolean
      */
-    public function emailRemeber($email)
+    public static function emailRemeber($email)
     {
         $result = DB::query(
             'SELECT id FROM user WHERE user=\'' . DB::Parse($email) . '\''
@@ -513,11 +513,10 @@ class User implements IYuju_Array
             $user->Load($return->id);
             $pass = Text::getAleatoryText(6);
             $user->UpdatePass($pass);
-            include ROOT . 'include/emailremember.php';
-            $mail->send();
+            include ROOT . 'conf/emailremember.php';
             return $return->id;
         } else {
-            return 0;
+            return false;
         }
     }
 
