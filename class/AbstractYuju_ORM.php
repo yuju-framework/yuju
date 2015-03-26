@@ -47,7 +47,7 @@ abstract class AbstractYuju_ORM
     protected $db_data;
     protected $table;
     protected $object_name;
-    protected $fields;
+    protected $_fields;
     
     /**
      * Getter table
@@ -103,7 +103,7 @@ abstract class AbstractYuju_ORM
      */
     public function getFields()
     {
-        return $this->fields;
+        return $this->_fields;
     }
     
     /**
@@ -176,7 +176,7 @@ abstract class AbstractYuju_ORM
     public function generateVars()
     {
         $object='';
-        foreach ($this->fields as $name=> $field) {
+        foreach ($this->_fields as $name=> $field) {
             $object .= "    protected $".$name.";\n\n";
         }
         return $object;
@@ -195,7 +195,7 @@ abstract class AbstractYuju_ORM
         $object.= '     */'."\n";
         $object.= '    public function __construct()'."\n";
         $object.= '    {'."\n";
-        foreach ($this->fields as $name=> $field) {
+        foreach ($this->_fields as $name=> $field) {
             switch ($field['type']) {
             case 'date':
                 $object .= '        $this->'.$name." = new Date();\n";
@@ -254,7 +254,7 @@ abstract class AbstractYuju_ORM
         $object.= '     */'."\n";
         $object.= '    public function __clone()'."\n";
         $object.= '    {'."\n";
-        foreach ($this->fields as $name=> $field) {
+        foreach ($this->_fields as $name=> $field) {
             switch ($field['type']) {
             case 'date':
             case 'datetime':
@@ -288,7 +288,7 @@ abstract class AbstractYuju_ORM
     {
         $object='';
         //TODO: if name field contains _ is next upper char
-        foreach ($this->fields as $name=> $field) {
+        foreach ($this->_fields as $name=> $field) {
             // Getter
             $object.= '    /**'."\n";
             $object.= '     * Getter '.$name."\n";
