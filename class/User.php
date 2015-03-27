@@ -297,6 +297,16 @@ class User implements IYuju_Array
         $this->valid = new Boolean();
         $this->id = new Number();
     }
+    
+    /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->acl = clone($this->acl);
+        $this->valid = clone($this->valid);
+        $this->id = clone($this->id);
+    }
 
     /**
      * Load user
