@@ -282,6 +282,10 @@ class Number
      */
     public function setValue($var)
     {
+        if ($var == '' || $var === null) {
+            $this->_value = null;
+            return true;
+        }
         if (!is_numeric($var) || $this->_max < $var || $this->_min > $var) {
             return false;
         }
