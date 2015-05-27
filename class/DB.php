@@ -313,7 +313,24 @@ class DB
             return false;
         }
     }
-
+	
+    
+    /**
+     * Affected rows by last SQL
+     * 
+     * @param int $connection connection id
+     * 
+     * @return int
+     */
+    public static function affectedRows($connection = 1)
+    {
+    	switch (self::$_connection[$connection - 1][0]) {
+    		case 'sqlserver':
+    			return mssql_rows_affected(self::$_connection[$connection - 1][1]);
+    			break;
+    	}
+    }
+    
     /**
      * Run SQL Query
      *
