@@ -628,6 +628,22 @@ class Date
             return false;
         }
     }
+    
+    /**
+     * Set present date
+     *
+     * @return void
+     */
+    public function setPresentDate()
+    {
+    	$date=getdate();
+    	$this->_day     = sprintf("%02s",$date['mday']);
+    	$this->_month   = sprintf("%02s",$date['mon']);
+    	$this->_year    = $date['year'];
+    	$this->_hour    = sprintf("%02s",$date['hours']);
+    	$this->_minutes = sprintf("%02s",$date['minutes']);
+    	$this->_seconds = sprintf("%02s",$date['seconds']);
+    }
 
     /**
      * Show date
