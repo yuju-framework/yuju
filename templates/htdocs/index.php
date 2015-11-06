@@ -37,7 +37,7 @@ function handlererrors($num_err, $cadena_err, $archivo_err, $linea_err, $vars) {
         E_WARNING            => _('Warning'),
         E_PARSE              => _('Parse error'),
         E_NOTICE             => _('Notice'),
-        E_CORE_ERROR         => _('Error de Nucleo'),
+        E_CORE_ERROR         => _('Core Error'),
         E_CORE_WARNING       => _('Core warning'),
         E_COMPILE_ERROR      => _('Compile error'),
         E_COMPILE_WARNING    => _('Compile warning'),
