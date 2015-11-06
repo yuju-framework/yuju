@@ -107,6 +107,8 @@ if (trim(fgets(STDIN)) == "y" || trim(fgets(STDIN)) == "") {
     $createadmin = true;
     echo _('Admin section password: ');
     $project->setAdminpass(sha1(trim(fgets(STDIN))));    
+} else {
+    $createadmin = false;
 }
 
 echo _('Application language: [en_US] ');
