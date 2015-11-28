@@ -78,6 +78,28 @@ class DB_Result
         }
         return $obj;
     }
+    
+    /**
+     * Fetch _result by array
+     *
+     * @return object
+     */
+    public function fetchArray()
+    {
+        $obj=null;
+        switch ($this->_dbtype) {
+            case 'mysql':
+                $obj=$this->_result->fetch_array();
+                break;
+            case 'sqlserver':
+                $obj=mssql_fetch_array($this->_result);
+                break;
+            case 'oracle':
+                $obj=oci_fetch_array($this->_result);
+                break;
+        }
+        return $obj;
+    }
 
     /**
      * Num rows
@@ -170,7 +192,7 @@ class DB_Result
             $i=0;
             while ($cliente = $this->fetchObject()) {
                 foreach ($cliente as $name => $field) {
-                    $array[$name][$i]=$cliente->$name;
+                    $array[$i][$name]=$cliente->$name;
                 }
                 $i++;
             }
@@ -179,7 +201,7 @@ class DB_Result
             while ($cliente = $this->fetchObject()) {
                 if (($i>=$num*($page-1)) && $i<(($num*($page-1))+$num)) {
                     foreach ($cliente as $name => $field) {
-                        $array[$name][$i]=$cliente->$name;
+                        $array[$i][$name]=$cliente->$name;
                     }
                 }
                 $i++;
