@@ -247,6 +247,39 @@ class Date
         $this->setYear($year);
         return true;
     }
+    
+    public function setDateFormat($date)
+    {
+        if ($date=='' || $date===null) {
+            $this->setNull();
+            return true;
+        }
+        // Format "YYYY-MM-DDTHH:MM:SS+ZZ:ZZ"
+        $match = "/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})T";
+        $match.= "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})\+([0-9]{1,2}):([0-9]{1,2})/";
+        if (preg_match($match, $date, $regs)) {
+            $this->_seconds=$regs[6];
+            $this->_minutes=$regs[5];
+            $this->_hour=$regs[4];
+            $this->_day=$regs[3];
+            $this->_month=$regs[2];
+            $this->_year=$regs[1];
+            return true;
+        }
+        // Format "YYYY-MM-DDTHH:MM:SS.XXXZ"
+        $match = "/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})T";
+        $match.= "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})\.([0-9]{1,3})Z/";
+        if (preg_match($match, $date, $regs)) {
+            $this->_seconds=$regs[6];
+            $this->_minutes=$regs[5];
+            $this->_hour=$regs[4];
+            $this->_day=$regs[3];
+            $this->_month=$regs[2];
+            $this->_year=$regs[1];
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Set date and time
@@ -303,6 +336,15 @@ class Date
         $this->setMinutes($minutes);
         $this->setSeconds($seconds);
         return true;
+    }
+    
+    public function toISO8601()
+    {
+        if($this->showDate()=='') {
+            return '';
+        }
+        return date('c', mktime((int)$this->_hour,(int)$this->_minutes, 
+                (int)$this->_seconds,(int)$this->_month,(int)$this->_day,(int)$this->_year));
     }
 
     /**
