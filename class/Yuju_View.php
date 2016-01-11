@@ -67,6 +67,7 @@ class Yuju_View
     protected $parent;
     protected $sitemap;
     protected $meta;
+    protected $regex;
 
     /**
      * Getter name
@@ -161,6 +162,11 @@ class Yuju_View
     public function setModules($modules)
     {
         $this->modules = json_decode($modules, true);
+    }
+    
+    public function getRegex()
+    {
+        return $this->regex;
     }
 
     /**
@@ -445,8 +451,13 @@ class Yuju_View
         if ($n == '') {
             $n = 'index';
         }
-        if (Yuju_View::exist($n)) {
-            return str_replace('/', '&', $n);
+        $template = Yuju_View::exist($n);
+        if ($template!==false) {
+            if ($n != $template) {
+                $explode = $n;
+                $this->regex = substr($n, strlen($template));
+            }
+            return str_replace('/', '&', $template);
         } else {
             $this->NotFound();
             return false;
@@ -469,13 +480,16 @@ class Yuju_View
      *
      * @param string $n page
      * 
-     * @return boolean
+     * @return boolean|string
      */
     public static function exist($n)
     {
-        $result = DB::Query('SELECT name from page WHERE name=\'' . DB::Parse($n) . '\'');
+        $explode = explode('/', $n);
+        
+        $result = DB::Query('SELECT name from page WHERE name=\'' . DB::Parse($n) . '\' OR (regex=1 AND name=\''.DB::parse($explode[0]).'\')');
         if ($result->numRows() > 0) {
-            return true;
+            $return  = $result->fetchObject();
+            return $return->name;
         } else {
             return false;
         }
@@ -812,6 +826,54 @@ class Yuju_View
             return false;
         }
     }
+    
+    
+    public function get($regex, &$match)
+    {
+        if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+            return true;
+        }
+        
+        if ($regex != '' && $_SERVER['REQUEST_METHOD'] == 'GET' && preg_match($regex, $this->getRegex(), $match)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function post($regex, &$match)
+    {
+        if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            return true;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && preg_match($regex, $this->getRegex(), $match)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function put($regex, &$match)
+    {
+        if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
+            return true;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'PUT' && preg_match($regex, $this->getRegex(), $match)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function delete($regex, &$match)
+    {
+        if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            return true;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE' && preg_match($regex, $this->getRegex(), $match)) {
+            return true;
+        }
+        return false;
+    }
+    
+    
 
     /**
      * Determine if exist module view
