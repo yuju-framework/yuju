@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
+ * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -62,7 +62,7 @@ class Yuju_View
     protected $jsfiles;
     protected $cssfiles;
     protected $get = array();
-    private $_template;
+    private $template;
     protected $modulesjson;
     protected $parent;
     protected $sitemap;
@@ -81,7 +81,7 @@ class Yuju_View
 
     /**
      * Getter title
-     * 
+     *
      * @return string
      */
     public function getTitle()
@@ -171,10 +171,10 @@ class Yuju_View
 
     /**
      * Get modules to JSON
-     * 
+     *
      * @param string $var    modue name
      * @param string $nummod num module
-     * 
+     *
      * @return string|multitype:
      */
     public function getModulesJson($var = null, $nummod = '0')
@@ -203,7 +203,7 @@ class Yuju_View
 
     /**
      * Load GET values
-     * 
+     *
      * @return void
      */
     public function loadGET()
@@ -218,9 +218,9 @@ class Yuju_View
     /**
      * Setter GET value
      *
-     * @param string $name  name 
+     * @param string $name  name
      * @param mixed  $value value
-     * 
+     *
      * @return void
      */
     public function setGET($name, $value)
@@ -251,7 +251,7 @@ class Yuju_View
      *
      * @param integer $var    var
      * @param integer $nummod num module
-     * 
+     *
      * @return array
      */
     public function getModules($var = null, $nummod = '0')
@@ -284,7 +284,7 @@ class Yuju_View
      * @param string  $module     module
      * @param integer $nummod     module num
      * @param integer $num        num
-     * 
+     *
      * @return void
      */
     public function setModule($namemodule, $module, $nummod, $num = null)
@@ -314,7 +314,7 @@ class Yuju_View
 
     /**
      * Getter parent
-     * 
+     *
      * @return string
      */
     public function getParent()
@@ -324,9 +324,9 @@ class Yuju_View
 
     /**
      * Setter parent
-     * 
+     *
      * @param string $parent name page parent
-     * 
+     *
      * @return void
      */
     public function setParent($parent)
@@ -336,7 +336,7 @@ class Yuju_View
     
     /**
      * Getter sitemap
-     * 
+     *
      * @return integer
      */
     public function getSiteMap()
@@ -346,9 +346,9 @@ class Yuju_View
     
     /**
      * Setter sitemap
-     * 
+     *
      * @param integer $var sitemap
-     * 
+     *
      * @return boolean
      */
     public function setSiteMap($var)
@@ -366,19 +366,19 @@ class Yuju_View
      */
     public function __construct()
     {
-        $this->_template = new Smarty();
+        $this->template = new Smarty();
         $this->cssfile = array();
         $this->jsfile = array();
-        $this->_template->template_dir = ROOT . 'templates/';
-        $this->_template->compile_dir = ROOT . 'compiled/';
-        $this->_template->cache_dir = ROOT . 'cache/';
-        $this->_template->assign('DOMAIN', DOMAIN);
-        $this->_template->assign('ROOT', ROOT);
-        $this->_template->setCaching(false);
+        $this->template->template_dir = ROOT . 'templates/';
+        $this->template->compile_dir = ROOT . 'compiled/';
+        $this->template->cache_dir = ROOT . 'cache/';
+        $this->template->assign('DOMAIN', DOMAIN);
+        $this->template->assign('ROOT', ROOT);
+        $this->template->setCaching(false);
         global $activeuser;
-        $this->_template->assignByRef('activeuser', $activeuser, true);
-        $this->_template->assignByRef('view', $this, true);
-        $this->_template->assignByRef('__meta', $this->meta, true);
+        $this->template->assignByRef('activeuser', $activeuser, true);
+        $this->template->assignByRef('view', $this, true);
+        $this->template->assignByRef('__meta', $this->meta, true);
     }
 
     /**
@@ -387,12 +387,12 @@ class Yuju_View
      * @param string  $tpl_var var name
      * @param mixed   $var     value
      * @param boolean $nocache no cache
-     * 
+     *
      * @return void
      */
     public function assign($tpl_var, $var, $nocache = false)
     {
-        $this->_template->assign($tpl_var, $var, $nocache);
+        $this->template->assign($tpl_var, $var, $nocache);
     }
 
     /**
@@ -401,24 +401,24 @@ class Yuju_View
      * @param string  $tpl_var var name
      * @param mixed   $var     value
      * @param boolean $nocache no cache
-     * 
+     *
      * @return void
      */
     public function assignByRef($tpl_var, $var, $nocache = false)
     {
-        $this->_template->assignByRef($tpl_var, $var, $nocache);
+        $this->template->assignByRef($tpl_var, $var, $nocache);
     }
 
     /**
      * Fetch page
      *
-     * @param string $template template 
-     *  
+     * @param string $template template
+     *
      * @return string
      */
     public function fetch($template)
     {
-        return $this->_template->fetch($template);
+        return $this->template->fetch($template);
     }
 
     /**
@@ -428,14 +428,14 @@ class Yuju_View
      * @param mixed  $cache_id   cache id
      * @param mixed  $compile_id compile id
      * @param object $parent     parent
-     * 
+     *
      * @return void
      */
-    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null
-    ) {
+    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
+    {
         if (Yuju_View::exist(str_replace('&', '/', substr($template, 0, strlen($template) - 4)))) {
             $this->load(str_replace('&', '/', substr($template, 0, strlen($template) - 4)));
-            return $this->_template->display($template, $cache_id, $compile_id, $parent);
+            return $this->template->display($template, $cache_id, $compile_id, $parent);
         }
     }
 
@@ -443,7 +443,7 @@ class Yuju_View
      * Get page
      *
      * @param string $n page name
-     * 
+     *
      * @return mixed
      */
     public function getPage($n)
@@ -454,7 +454,6 @@ class Yuju_View
         $template = Yuju_View::exist($n);
         if ($template!==false) {
             if ($n != $template) {
-                $explode = $n;
                 $this->regex = substr($n, strlen($template));
             }
             return str_replace('/', '&', $template);
@@ -466,27 +465,30 @@ class Yuju_View
 
     /**
      * Show Not found page
-     * 
+     *
      * @return void
      */
     public function notFound()
     {
         header('HTTP/1.1 404 Not Found');
-        $this->_template->display(ROOT . 'schema/not-found.tpl');
+        $this->template->display(ROOT . 'schema/not-found.tpl');
     }
 
     /**
      * Determine if exist a page
      *
      * @param string $n page
-     * 
+     *
      * @return boolean|string
      */
     public static function exist($n)
     {
         $explode = explode('/', $n);
         
-        $result = DB::Query('SELECT name from page WHERE name=\'' . DB::Parse($n) . '\' OR (regex=1 AND name=\''.DB::parse($explode[0]).'\')');
+        $result = DB::Query(
+            'SELECT name from page WHERE name=\'' . DB::Parse($n) . '\'
+            OR (regex=1 AND name=\''.DB::parse($explode[0]).'\')'
+        );
         if ($result->numRows() > 0) {
             $return  = $result->fetchObject();
             return $return->name;
@@ -499,7 +501,7 @@ class Yuju_View
      * Load page
      *
      * @param string $name page name
-     * 
+     *
      * @return void
      */
     public function load($name)
@@ -546,12 +548,13 @@ class Yuju_View
 
     /**
      * Insert page
-     * 
+     *
      * @return void
      */
     public function insert()
     {
-        $sql = 'insert into page (`title`,`name`, `schema`, `type`, `cssfiles`, `jsfiles`, `keyword`, `description`, `modules`, `parent`, `sitemap`) VALUES ';
+        $sql = 'insert into page (`title`,`name`, `schema`, `type`, `cssfiles`, `jsfiles`, `keyword`, `description`, ';
+        $sql.= '`modules`, `parent`, `sitemap`) VALUES ';
         $sql.='(\'' . DB::Parse($this->title) . '\',';
         $sql.='\'' . DB::Parse($this->name) . '\',';
         $sql.='\'' . DB::Parse($this->schema) . '\',';
@@ -570,7 +573,7 @@ class Yuju_View
     /**
      * Get all pages
      *
-     * @return array 
+     * @return array
      */
     public static function getAll()
     {
@@ -586,10 +589,10 @@ class Yuju_View
     
     /**
      * Set OG meta
-     * 
+     *
      * @param string $name  name
      * @param value  $value value
-     * 
+     *
      * @return void
      */
     public function setOG($name, $value)
@@ -601,7 +604,7 @@ class Yuju_View
      * Build page
      *
      * @param string $type build type
-     * 
+     *
      * @return string
      */
     public function build($type = 'view')
@@ -649,7 +652,6 @@ class Yuju_View
                             if (is_array($var)) {
                                 foreach ($var as $key => $value) {
                                     if (is_array($value)) {
-    
                                         $json = json_encode($value);
                                         $value = str_replace("{", "{ ", $json);
                                         $value = str_replace("}", " }", $value);
@@ -664,12 +666,12 @@ class Yuju_View
                     } else {
                         if ($this->existModuleView($names)) {
                             if (is_array($var)) {
-                                $tmp = '{include file="' . $this->existModuleView($names) . '"';                        
+                                $tmp = '{include file="' . $this->existModuleView($names) . '"';
                                 foreach ($var as $namevar => $valuevar) {
                                     if ($namevar != '') {
                                         if ($namevar == 'nocache') {
                                             $tmp.=' nocache';
-                                        } else if (is_array($valuevar)) {
+                                        } elseif (is_array($valuevar)) {
                                             $json = json_encode($valuevar);
                                             $value = str_replace("{", "{ ", $json);
                                             $value = str_replace("}", " }", $value);
@@ -691,20 +693,17 @@ class Yuju_View
                                 if ($namevar != '') {
                                     if ($namevar == 'nocache') {
                                         $htmp.=' nocache';
-                                    } else if (is_array($valuevar)) {
+                                    } elseif (is_array($valuevar)) {
                                         $json = json_encode($valuevar);
                                         $value = str_replace("{", "{ ", $json);
                                         $value = str_replace("}", " }", $value);
                                         $htmp.=' ' . $namevar . '="' . str_replace("\"", "\\\"", $value) . '"';
                                     } else {
-                                        $htmp.=' ' . $namevar . '="' .
-                                                        str_replace("\"", "\\\"", $valuevar) . '"';
+                                        $htmp.=' ' . $namevar . '="'.str_replace("\"", "\\\"", $valuevar) . '"';
                                     }
                                 }
                             }
                             $hload.='{loadmodule modname="' . $names . '"' . $htmp . '}';
-                        } else {
-                            
                         }
                     } else {
                         if ($this->existModuleController($names)) {
@@ -712,7 +711,7 @@ class Yuju_View
                                 if ($namevar != '') {
                                     if ($namevar == 'nocache') {
                                         $htmp.=' nocache';
-                                    } else if (is_array($valuevar)) {
+                                    } elseif (is_array($valuevar)) {
                                         $json = json_encode($valuevar);
                                         $value = str_replace("{", "{ ", $json);
                                         $value = str_replace("}", " }", $value);
@@ -747,7 +746,7 @@ class Yuju_View
                 $header .= '<head>';
                 $header .= '<meta charset="utf-8">';
                 $header .= '<meta http-equiv="X-UA-Compatible" content="IE=edge">';
-                $header .= '<meta name="viewport" content="width=device-width, initial-scale=1">'; 
+                $header .= '<meta name="viewport" content="width=device-width, initial-scale=1">';
                 $header .= '<link rel="canonical" href="{$__canonical|default:\'' . $domain . '\'}"  />';
                 $header .= '<link href=' . DOMAIN . 'images/favicon.ico rel="shortcut icon" />';
                 $header .= '<meta name="generator" content="Yuju Framework" />';
@@ -794,7 +793,7 @@ class Yuju_View
      * Make template page
      *
      * @param string $name page name
-     * 
+     *
      * @return boolean
      */
     public function makeTemplate($name)
@@ -816,9 +815,7 @@ class Yuju_View
             $template = $this->Build();
 
             // TODO: first delete file if exist
-            $f = @fopen(
-                ROOT . "templates/" . str_replace('/', '&', $this->name) . '.tpl', 'w'
-            );
+            $f = @fopen(ROOT . "templates/" . str_replace('/', '&', $this->name) . '.tpl', 'w');
             if (@fwrite($f, $template) === false) {
                 return false;
             }
@@ -879,7 +876,7 @@ class Yuju_View
      * Determine if exist module view
      *
      * @param string $name module name
-     * 
+     *
      * @return string|boolean
      */
     protected function existModuleView($name)
@@ -926,7 +923,7 @@ class Yuju_View
     }
     
     /**
-     * Determine if exist admin controller 
+     * Determine if exist admin controller
      *
      * @param string $name module name
      *
@@ -942,10 +939,10 @@ class Yuju_View
     }
 
     /**
-     * String format to URL 
+     * String format to URL
      *
      * @param string $s URL
-     * 
+     *
      * @return string
      */
     public static function tourl($s)
@@ -969,7 +966,7 @@ class Yuju_View
 
     /**
      * Compile all pages
-     * 
+     *
      * @return boolean
      */
     public static function compileAll()
@@ -982,15 +979,16 @@ class Yuju_View
     
     /**
      * Generate Site Map
-     * 
+     *
      * @return string
      */
     public static function generateSiteMap()
     {
         $sitemap='<?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
+   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
         $result = DB::query('SELECT name from page WHERE sitemap=1');
         while ($obj = $result->fetchObject()) {
             $sitemap.='<url><loc>'.DOMAIN.$obj->name.'</loc></url>';
@@ -1002,9 +1000,9 @@ class Yuju_View
     
     /**
      * Get number modules by schema
-     * 
+     *
      * @param string $schema schema name
-     * 
+     *
      * @return integer
      */
     public static function getNumModulesBySchema($schema)
@@ -1014,9 +1012,7 @@ class Yuju_View
         if ($file->getSize()==0) {
             return 0;
         }
-        preg_match_all(
-            "/__MOD(?P<digit>\d+)/", $file->getContent(), $output_array
-        );
+        preg_match_all("/__MOD(?P<digit>\d+)/", $file->getContent(), $output_array);
         
         return count($output_array[0]);
     }
