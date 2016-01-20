@@ -1,29 +1,11 @@
 <?php
 /**
- * BD_Resultado File
- *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * DB_Result File
  *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,67 +17,66 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 class DB_Result
 {
 
-    private $_dbtype;
-    private $_result;
+    private $dbtype;
+    private $result;
 
     /**
      * Constructor
      *
-     * @param string $_dbtype database type
-     * @param string $_result _result
+     * @param string $dbtype database type
+     * @param string $result result
      */
-    public function __construct($_dbtype, $_result)
+    public function __construct($dbtype, $result)
     {
-        $this->_dbtype=$_dbtype;
-        $this->_result=$_result;
+        $this->dbtype=$dbtype;
+        $this->result=$result;
     }
 
     /**
-     * Fetch _result by object
+     * Fetch result by object
      *
      * @return object
      */
     public function fetchObject()
     {
         $obj=null;
-        switch ($this->_dbtype) {
-        case 'mysql':
-            $obj=$this->_result->fetch_object();
-            break;
-        case 'sqlserver':
-            $obj=mssql_fetch_object($this->_result);
-            break;
-        case 'oracle':
-            $obj=oci_fetch_object($this->_result);
-            break;
+        switch ($this->dbtype) {
+            case 'mysql':
+                $obj=$this->result->fetch_object();
+                break;
+            case 'sqlserver':
+                $obj=mssql_fetch_object($this->result);
+                break;
+            case 'oracle':
+                $obj=oci_fetch_object($this->result);
+                break;
         }
         return $obj;
     }
-    
+
     /**
-     * Fetch _result by array
+     * Fetch result by array
      *
      * @return object
      */
     public function fetchArray()
     {
         $obj=null;
-        switch ($this->_dbtype) {
+        switch ($this->dbtype) {
             case 'mysql':
-                $obj=$this->_result->fetch_array();
+                $obj=$this->result->fetch_array();
                 break;
             case 'sqlserver':
-                $obj=mssql_fetch_array($this->_result);
+                $obj=mssql_fetch_array($this->result);
                 break;
             case 'oracle':
-                $obj=oci_fetch_array($this->_result);
+                $obj=oci_fetch_array($this->result);
                 break;
         }
         return $obj;
@@ -108,84 +89,84 @@ class DB_Result
      */
     public function numRows()
     {
-        switch ($this->_dbtype) {
-        case 'mysql':
-            return $this->_result->num_rows;
-            break;
-        case 'sqlserver':
-            return mssql_num_rows($this->_result);
-            break;
-        case 'oracle':
-            $rows=oci_fetch_assoc($this->_result);
-            return count($rows);
-            break;
+        switch ($this->dbtype) {
+            case 'mysql':
+                return $this->result->num_rows;
+                break;
+            case 'sqlserver':
+                return mssql_num_rows($this->result);
+                break;
+            case 'oracle':
+                $rows=oci_fetch_assoc($this->result);
+                return count($rows);
+                break;
         }
     }
 
     /**
      * Get last Insert Id
-     * 
+     *
      * @return integer
      */
     public function insertId()
     {
-        switch ($this->_dbtype) {
-        case 'mysql':
-            return $this->_result->insert_id;
-            break;
-        case 'sqlserver':
-            $res=mssql_query('SELECT @@IDENTITY as id', $this->_result);
-            if ($row=mssql_fetch_object($res)) {
-                return $row->id;
-            } else {
-                return false;
-            }
-            break;
+        switch ($this->dbtype) {
+            case 'mysql':
+                return $this->result->insert_id;
+                break;
+            case 'sqlserver':
+                $res=mssql_query('SELECT @@IDENTITY as id', $this->result);
+                if ($row=mssql_fetch_object($res)) {
+                    return $row->id;
+                } else {
+                    return false;
+                }
+                break;
         }
     }
-    
+
     /**
      * Free result
-     * 
+     *
      * @return boolean
      */
     public function freeResult()
     {
-        switch ($this->_dbtype) {
-        case 'sqlserver':
-            return mssql_free_result($this->_result);
-            break;
+        switch ($this->dbtype) {
+            case 'sqlserver':
+                return mssql_freeresult($this->result);
+                break;
         }
     }
-    
+
     /**
      * Move internal result pointer
-     * 
+     *
      * @param integer $num num row
-     * 
+     *
      * @return boolean
      */
     public function seek($num)
     {
-        switch ($this->_dbtype) {
-        case 'mysql':
-            return $this->_result->data_seek($num);
-            break;
-        case 'sqlserver':
-            return mssql_data_seek($this->_result, $num);
-            break;
+        switch ($this->dbtype) {
+            case 'mysql':
+                return $this->result->data_seek($num);
+                break;
+            case 'sqlserver':
+                return mssql_data_seek($this->result, $num);
+                break;
         }
     }
-    
+
     /**
      * Database result to array
-     * 
+     *
      * @param string $num  num rows
      * @param string $page num page
-     * 
+     *
      * @return array
      */
-    public function toArray($num=null, $page=null)
+    public function toArray($num = null, $page = null)
     {
         $array = array();
         if ($num==null || $page==null) {

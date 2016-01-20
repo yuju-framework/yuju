@@ -2,28 +2,10 @@
 /**
  * File Boolean class
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -47,7 +28,7 @@ class Boolean
      * @var    int
      * @access protected
      */
-    private $_value;
+    private $value;
 
     /**
      * Constructor
@@ -55,14 +36,14 @@ class Boolean
      */
     public function __construct()
     {
-        $this->_value= 0;
+        $this->value= 0;
     }
 
     /**
      * Determine if is boolean
      *
      * @param integer $val value
-     * 
+     *
      * @return boolean
      */
     protected function isBoolean($val)
@@ -82,8 +63,8 @@ class Boolean
      */
     public function getValue()
     {
-        if ($this->isBoolean($this->_value)) {
-            return $this->_value;
+        if ($this->isBoolean($this->value)) {
+            return $this->value;
         }
     }
 
@@ -94,28 +75,37 @@ class Boolean
      */
     public function getValueToDB()
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
      * Setter value
      *
      * @param integer $val value
-     * 
+     *
      * @return boolean
      */
     public function setValue($val)
     {
         if ($this->isBoolean($val)) {
-            $this->_value=intval($val);
+            $this->value=intval($val);
             return true;
         } else {
             if ($val==null || $val=='') {
-                $this->_value='NULL';
+                $this->value='NULL';
                 return true;
             }
         }
         return false;
+    }
+
+    public function getBoolean()
+    {
+        if ($this->value == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -125,9 +115,9 @@ class Boolean
      */
     public function getNameValue()
     {
-        if ($this->_value == 1) {
+        if ($this->value == 1) {
             return _('Yes');
-        } elseif ($this->_value == 0) {
+        } elseif ($this->value == 0) {
             return _('No');
         }
     }

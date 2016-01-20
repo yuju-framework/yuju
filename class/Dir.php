@@ -2,28 +2,10 @@
 /**
  * Directory File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -76,21 +57,21 @@ class Dir
 
     /**
      * Constructor
-     * 
+     *
      * @param string $path path
-     * 
+     *
      * @since version 1.0
      */
-    public function __construct($path=null)
+    public function __construct($path = null)
     {
-        
+
     }
 
     /**
      * Determine if is valid directory
-     * 
+     *
      * @param string $path path
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -118,25 +99,25 @@ class Dir
 
     /**
      * Make directory
-     * 
+     *
      * @param string  $directory directory
      * @param boolean $recursive make directory recursively
      * @param integer $mode      mode permission
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
-    public static function mkdir($directory, $recursive=false, $mode=0777)
+    public static function mkdir($directory, $recursive = false, $mode = 0777)
     {
         return mkdir($directory, $mode, $recursive);
     }
 
     /**
      * Copy directory recursive to destination directory
-     * 
+     *
      * @param string $source source directory
      * @param string $dest   destination directory
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -154,14 +135,14 @@ class Dir
 
     /**
      * Change permission directory
-     * 
+     *
      * @param string  $directory directory
      * @param integer $mode      permission mode
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
-    public static function chmod($directory, $mode=0644)
+    public static function chmod($directory, $mode = 0644)
     {
         if (!Dir::exist($directory)) {
             return false;
@@ -171,9 +152,9 @@ class Dir
 
     /**
      * Delete directory
-     * 
+     *
      * @param string $directory directory
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -184,9 +165,9 @@ class Dir
 
     /**
      * Clean directory
-     * 
+     *
      * @param string $directory directory
-     * 
+     *
      * @return void
      * @since version 1.0
      */
@@ -202,10 +183,10 @@ class Dir
 
     /**
      * List files on the directory
-     * 
+     *
      * @param string  $directory directory name
      * @param boolean $deep      deep list
-     * 
+     *
      * @return array
      */
     public static function listFiles($directory, $deep = false)
@@ -230,20 +211,20 @@ class Dir
         }
         return $arrayFiles;
     }
-    
+
     /**
      * List directories
-     * 
+     *
      * @param string  $directory directory
      * @param boolean $deep      deep list
-     * 
+     *
      * @return array
      */
     public function listDirectories($directory, $deep = false)
     {
-        $files=scandir($directory); // get all file names
+        $files=scandir($directory);
         $arrayFiles=array();
-        foreach ($files as $file) { // iterate files
+        foreach ($files as $file) {
             if (is_dir($directory."/".$file) && $file!='.' && $file!='..') {
                 $arrayFiles[]=$directory."/".$file;
                 if ($deep) {

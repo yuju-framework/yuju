@@ -2,28 +2,10 @@
 /**
  * Number File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -48,65 +29,65 @@ class Number
 
     /**
      * Value
-     * 
+     *
      * @var mixed
      */
     private $_value;
 
     /**
      * Number type
-     * 
+     *
      * @var integer
      */
     private $_type;
 
     /**
      * Unsigned
-     * 
+     *
      * @var boolean
      */
     private $_unsigned;
 
     /**
      * Number integer
-     * 
+     *
      * @var integer
      */
     private $_integer;
 
     /**
      * Number decimal
-     * 
+     *
      * @var integer
      */
     private $_decimal;
 
     /**
      * Maximum
-     * 
+     *
      * @var mixed
      */
     private $_max;
 
     /**
      * Minimum value
-     * 
+     *
      * @var mixed
      */
     private $_min;
 
     /**
      * Setter Type
-     * 
+     *
      * @param integer $type number type
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
     private function _setType($type)
     {
-        if ($type == Number::INTEGER 
-            || $type == Number::DECIMAL 
+        if ($type == Number::INTEGER
+            || $type == Number::DECIMAL
             || $type == Number::FLOAT
         ) {
             $this->_type = $type;
@@ -118,9 +99,9 @@ class Number
 
     /**
      * Setter Unsigned
-     * 
+     *
      * @param boolean $unsigned unsigned
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -136,9 +117,9 @@ class Number
 
     /**
      * Setter Integer
-     * 
+     *
      * @param integer $integer integer
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -154,9 +135,9 @@ class Number
 
     /**
      * Setter decimal
-     * 
+     *
      * @param integer $decimal decimal
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -172,17 +153,17 @@ class Number
 
     /**
      * Setter Max value
-     * 
+     *
      * @param number $max max value
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
     private function _setMax($max)
     {
         $this->_max = PHP_INT_MAX;
-        if ($this->_type == Number::INTEGER 
-            || $this->_type == Number::DECIMAL 
+        if ($this->_type == Number::INTEGER
+            || $this->_type == Number::DECIMAL
             || $this->_type == Number::FLOAT
         ) {
             if (is_int($max)) {
@@ -204,8 +185,8 @@ class Number
     private function _setMin($min)
     {
         $this->_min = -PHP_INT_MAX;
-        if ($this->_type == Number::INTEGER 
-            || $this->_type == Number::DECIMAL 
+        if ($this->_type == Number::INTEGER
+            || $this->_type == Number::DECIMAL
             || $this->_type == Number::FLOAT
         ) {
             if (is_int($min)) {
@@ -222,7 +203,7 @@ class Number
 
     /**
      * Constructor
-     * 
+     *
      * @param integer $type     type
      * @param boolean $unsigned unsigned
      * @param integer $integer  number integer part
@@ -231,9 +212,12 @@ class Number
      * @param mixed   $min      min number
      */
     public function __construct(
-        $type = Number::INTEGER, $unsigned = false, 
-        $integer = null, $decimal = null, 
-        $max = null, $min = null
+        $type = Number::INTEGER,
+        $unsigned = false,
+        $integer = null,
+        $decimal = null,
+        $max = null,
+        $min = null
     ) {
         $this->_setType($type);
         $this->_setUnsigned($unsigned);
@@ -261,7 +245,7 @@ class Number
 
     /**
      * Getter value to database format
-     * 
+     *
      * @return integer|string
      */
     public function getValueToDB()
@@ -277,7 +261,7 @@ class Number
      * Setter value
      *
      * @param unknown_type $var value
-     * 
+     *
      * @return boolean
      */
     public function setValue($var)
@@ -295,16 +279,16 @@ class Number
                 return false;
             }
         } elseif ($this->_type == Number::DECIMAL) {
-            if (Number::countNumbers($var) > $this->_integer 
+            if (Number::countNumbers($var) > $this->_integer
                 || Number::countDecimals($var) > $this->_decimal
             ) {
                 return false;
             }
-            $maxDecimals=Number::countDecimals($this->_decimal);
-            $var=number_format($var, $maxDecimals, '.', '');                 
+            $maxDecimals=$this->_decimal;
+            $var=number_format($var, $maxDecimals, '.', '');
         } elseif ($this->_type == Number::FLOAT) {
-            $maxDecimals=Number::countDecimals($this->_decimal);
-            $var=number_format($var, $maxDecimals, '.', '');                 
+            $maxDecimals=$this->_decimal;
+            $var=number_format($var, $maxDecimals, '.', '');
         }
         $this->_value = $var;
         return true;
@@ -326,9 +310,9 @@ class Number
 
     /**
      * Get number of decimals
-     * 
+     *
      * @param number $var number
-     * 
+     *
      * @return number|boolean
      */
     public static function countDecimals($var)
@@ -338,7 +322,7 @@ class Number
         } elseif (!is_numeric($var)) {
             return false;
         }
-        
+
         $ex = explode(".", $var);
         if (count($ex)==1) {
             return 0;
@@ -349,9 +333,9 @@ class Number
 
     /**
      * Get integer of number
-     * 
+     *
      * @param number $var number
-     * 
+     *
      * @return boolean|number
      */
     public static function countNumbers($var)
@@ -363,5 +347,4 @@ class Number
         $ex[0] = str_replace('-', '', $ex[0]);
         return strlen($ex[0]);
     }
-
 }

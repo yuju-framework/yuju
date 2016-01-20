@@ -2,28 +2,10 @@
 /**
  * Log File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -56,42 +37,42 @@ class Log
      * @access private
      */
     private $_message;
-    
+
     /**
      * User Id
-     * 
+     *
      * @var number
      */
     private $_iduser;
-    
+
     /**
      * User
      *
      * @var string
      */
     private $_user;
-    
+
     /**
      * URI
-     * 
+     *
      * @var string
      */
     private $_uri;
-    
+
     /**
      * IP
-     * 
+     *
      * @var string
      */
     private $_ip;
 
     /**
      * Table name
-     * 
+     *
      * @var string
      */
     protected static $dbname='log';
-    
+
     /**
      * Constructor
      *
@@ -106,7 +87,7 @@ class Log
      * Add log
      *
      * @param string $message message
-     * 
+     *
      * @return boolean
      */
     public static function addLog($message)
@@ -127,7 +108,7 @@ class Log
         $sql.=' VALUES(NOW(),\''.DB::parse($message).'\',';
         $sql.='\''.DB::parse($ip).'\',\''.DB::parse($uri).'\',';
         $sql.=$iduser.')';
-        
+
         if (DB::query($sql)) {
             return true;
         } else {
@@ -164,7 +145,7 @@ class Log
     {
         return $this->_date;
     }
-    
+
     /**
      * Getter IP
      *
@@ -174,7 +155,7 @@ class Log
     {
         return $this->_ip;
     }
-    
+
     /**
      * Getter URI
      *
@@ -189,7 +170,7 @@ class Log
      * Setter message
      *
      * @param string $val message
-     * 
+     *
      * @return void
      */
     public function setMessage($val)
@@ -201,7 +182,7 @@ class Log
      * Setter user id
      *
      * @param integer $val id
-     * 
+     *
      * @return void
      */
     public function setIdUser($val)
@@ -210,7 +191,7 @@ class Log
             $this->_iduser=$val;
         }
     }
-    
+
     /**
      * Getter user
      *
@@ -228,10 +209,10 @@ class Log
      * @param integer $enddate  init date
      * @param integer $num      number records
      * @param integer $page     page number
-     * 
+     *
      * @return array
      */
-    public function getLog($initdate=null, $enddate=null, $num=null, $page=null)
+    public function getLog($initdate = null, $enddate = null, $num = null, $page = null)
     {
         $paged="";
         $where="";

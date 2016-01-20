@@ -2,28 +2,10 @@
 /**
  * File File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -44,35 +25,35 @@ class File implements IYuju_Array
 
     /**
      * Document name
-     * 
+     *
      * @var string
      */
     protected $name;
 
     /**
      * Place
-     * 
+     *
      * @var unknown_type
      */
     protected $place;
 
     /**
      * Document type
-     * 
+     *
      * @var string
      */
     protected $type;
 
     /**
      * Document size
-     * 
+     *
      * @var integer
      */
     protected $size;
 
     /**
      * Document content
-     * 
+     *
      * @var string
      */
     protected $content;
@@ -86,9 +67,9 @@ class File implements IYuju_Array
 
     /**
      * Setter name
-     * 
+     *
      * @param string $value name
-     * 
+     *
      * @return void
      */
     public function setName($value)
@@ -98,9 +79,9 @@ class File implements IYuju_Array
 
     /**
      * Setter place
-     * 
+     *
      * @param string $value place
-     * 
+     *
      * @return boolean
      */
     public function setPlace($value)
@@ -111,9 +92,9 @@ class File implements IYuju_Array
 
     /**
      * Setter type
-     * 
+     *
      * @param string $value type
-     * 
+     *
      * @return void
      */
     public function setType($value)
@@ -123,9 +104,9 @@ class File implements IYuju_Array
 
     /**
      * Setter size
-     * 
+     *
      * @param integer $value size
-     * 
+     *
      * @return void
      */
     public function setSize($value)
@@ -135,9 +116,9 @@ class File implements IYuju_Array
 
     /**
      * Setter content
-     * 
+     *
      * @param string $value content
-     * 
+     *
      * @return void
      */
     public function setContent($value)
@@ -147,7 +128,7 @@ class File implements IYuju_Array
 
     /**
      * Getter name
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -157,7 +138,7 @@ class File implements IYuju_Array
 
     /**
      * Getter document place
-     * 
+     *
      * @return string
      */
     public function getPlace()
@@ -167,7 +148,7 @@ class File implements IYuju_Array
 
     /**
      * Getter type
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -187,7 +168,7 @@ class File implements IYuju_Array
 
     /**
      * Get name file without extension
-     *  
+     *
      * @return string
      */
     public function getNameNoExtension()
@@ -198,7 +179,7 @@ class File implements IYuju_Array
 
     /**
      * Getter size
-     * 
+     *
      * @return integer
      */
     public function getSize()
@@ -208,7 +189,7 @@ class File implements IYuju_Array
 
     /**
      * Get content
-     * 
+     *
      * @return string
      */
     public function getContent()
@@ -225,27 +206,27 @@ class File implements IYuju_Array
      *
      * @param integer $file id
      * @param boolean $full load content document
-     * 
+     *
      * @return boolean
      * @see File::open()
      * @since version 1.0
      */
-    public function load($file, $full=false)
+    public function load($file, $full = false)
     {
         return $this->open($file, $full);
     }
 
     /**
      * Open file
-     * 
+     *
      * @param string  $file file path
      * @param boolean $full full content on object
      * @param string  $mode open mode
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
-    public function open($file, $full=false, $mode='r')
+    public function open($file, $full = false, $mode = 'r')
     {
         if (!File::exist($file)) {
             return false;
@@ -264,12 +245,12 @@ class File implements IYuju_Array
         }
         return true;
     }
-    
+
     /**
      * Create file
-     * 
+     *
      * @param string $file file name
-     * 
+     *
      * @return boolean
      */
     public function create($file)
@@ -291,9 +272,9 @@ class File implements IYuju_Array
 
     /**
      * Upload document
-     * 
+     *
      * @param mixed $file document
-     * 
+     *
      * @return boolean
      */
     public function upload($file)
@@ -313,9 +294,9 @@ class File implements IYuju_Array
 
     /**
      * Determine document exist
-     * 
+     *
      * @param mixed $id document id or path
-     * 
+     *
      * @return boolean
      */
     public static function exist($id)
@@ -328,7 +309,7 @@ class File implements IYuju_Array
 
     /**
      * Save document
-     * 
+     *
      * @return boolean
      */
     public function save()
@@ -342,7 +323,7 @@ class File implements IYuju_Array
 
     /**
      * Insert file
-     * 
+     *
      * @return boolean
      */
     public function insert()
@@ -354,7 +335,7 @@ class File implements IYuju_Array
 
     /**
      * Update document
-     * 
+     *
      * @return boolean|integer
      */
     public function update()
@@ -366,7 +347,7 @@ class File implements IYuju_Array
 
     /**
      * Delete document
-     * 
+     *
      * @return boolean
      */
     public function delete()
@@ -396,7 +377,7 @@ class File implements IYuju_Array
      * Move document
      *
      * @param string $newlocation new location
-     * 
+     *
      * @return boolean
      */
     public function move($newlocation)
@@ -415,7 +396,7 @@ class File implements IYuju_Array
 
     /**
      * Determine if is image
-     * 
+     *
      * @return boolean
      */
     public function isImage()
@@ -433,7 +414,7 @@ class File implements IYuju_Array
 
     /**
      * Determine if is document
-     * 
+     *
      * @return boolean
      */
     public function isDocument()
@@ -449,7 +430,7 @@ class File implements IYuju_Array
 
     /**
      * Show document
-     * 
+     *
      * @return void
      */
     public function show()
@@ -461,7 +442,7 @@ class File implements IYuju_Array
 
     /**
      * Close file
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -481,7 +462,7 @@ class File implements IYuju_Array
 
     /**
      * End-of-file
-     * 
+     *
      * @return boolean
      */
     public function eof()
@@ -491,7 +472,7 @@ class File implements IYuju_Array
 
     /**
      * Gets line from current pointer
-     * 
+     *
      * @return string
      * @since version 1.0
      */
@@ -499,5 +480,4 @@ class File implements IYuju_Array
     {
         return fgets($this->_resource);
     }
-
 }

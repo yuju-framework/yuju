@@ -2,42 +2,16 @@
 /**
  * Yuju_Project File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
- * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 /**
  * Class Yuju_Project
- *
- * @category Core
- * @package  YujuFramework
- * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
- * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
- * @link     https://github.com/yuju-framework/yuju
- * @since    version 1.0
  */
 class Yuju_Project
 {
@@ -304,15 +278,15 @@ class Yuju_Project
     {
         $return=false;
         switch ($dbtype) {
-        case 'mysql':
-        case 'sqlserver':
-        case 'oracle':
-            $this->dbtype=$dbtype;
-            $return=true;
-            break;
-        default:
-            $return=false;
-            break;
+            case 'mysql':
+            case 'sqlserver':
+            case 'oracle':
+                $this->dbtype=$dbtype;
+                $return=true;
+                break;
+            default:
+                $return=false;
+                break;
         }
         return $return;
     }
@@ -394,7 +368,7 @@ class Yuju_Project
 
     /**
      * Getter admin pass
-     * 
+     *
      * @return string
      */
     public function getAdminpass()
@@ -404,9 +378,9 @@ class Yuju_Project
 
     /**
      * Setter admin pass
-     * 
+     *
      * @param string $adminpass admin pass
-     * 
+     *
      * @return void
      */
     public function setAdminpass($adminpass)
@@ -416,7 +390,7 @@ class Yuju_Project
 
     /**
      * Getter language
-     * 
+     *
      * @return string
      */
     public function getLanguage()
@@ -426,9 +400,9 @@ class Yuju_Project
 
     /**
      * Setter language
-     * 
+     *
      * @param string $language language
-     * 
+     *
      * @return void
      */
     public function setLanguage($language)
@@ -468,21 +442,15 @@ class Yuju_Project
     /**
      * Create project database
      *
-     * @param boolean $adminSect create database with admin secction 
-     * 
+     * @param boolean $adminSect create database with admin secction
+     *
      * @return boolean
      * @since version 1.0
      */
     public function createDatabase($adminSect)
     {
-        if (!DB::connection(
-            $this->dbtype, $this->dbhost, $this->dbuser,
-            $this->dbpass, $this->dbname
-        )) {
-            if (!DB::connection(
-                $this->dbtype, $this->dbhost, $this->dbuser,
-                $this->dbpass
-            )) {
+        if (!DB::connection($this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, $this->dbname)) {
+            if (!DB::connection($this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass)) {
                 return false;
             }
             if (!DB::createSchema($this->dbname)) {
@@ -492,9 +460,7 @@ class Yuju_Project
                 return false;
             }
         } else {
-            if (!DB::connection(
-                $this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, ''
-            )) {
+            if (!DB::connection($this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, '')) {
                 return false;
             }
             if (!DB::selectDB($this->dbname)) {
@@ -532,7 +498,8 @@ class Yuju_Project
         if ($adminSect) {
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`, `cssfiles`, `jsfiles`, `modules`) ';
             $sql.='VALUES(\'admin\', \'Admin yuju\', \'default\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
+                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
+                \"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"MOD1":[{"admin-content":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
@@ -540,8 +507,9 @@ class Yuju_Project
                 return false;
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
-            $sql.='VALUES(\'admin-editpage\', \'Admin yuju\', \'admin\', \'html\', 
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
+            $sql.='VALUES(\'admin-editpage\', \'Admin yuju\', \'admin\', \'html\',
+                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
+                \"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"MOD1":[{"admin-editcontent":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
@@ -550,7 +518,8 @@ class Yuju_Project
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
             $sql.='VALUES(\'admin-editsettings\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
+                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
+                \"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"MOD1":[{"admin-editsettings":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
@@ -559,7 +528,8 @@ class Yuju_Project
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
             $sql.='VALUES(\'admin-editsiteconfig\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
+                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
+                \"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"MOD1":[{"admin-editsiteconfig":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
@@ -568,7 +538,8 @@ class Yuju_Project
             }
             $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
             $sql.='VALUES(\'admin-login\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",\"{$DOMAIN}css/font-awesome.min.css\"]\',
+                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
+                \"{$DOMAIN}css/font-awesome.min.css\"]\',
                 \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
                 \'{"MOD1":[{"admin-login":{"_empty_":""}}]}\')';
             if (!DB::query($sql)) {
@@ -582,7 +553,7 @@ class Yuju_Project
 
     /**
      * Set project config
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -618,9 +589,10 @@ class Yuju_Project
                 'ADMINPASS'=>&$this->adminpass,
                 'LANGUAGE'=>&$this->language
             );
-            foreach ($vars as $key=> $value) {
+            foreach ($vars as $key => $value) {
                 $newline=preg_replace(
-                    '/^define\(\''.$key.'\', \'(.*)\'\);/', 'define(\''.$key.'\', \''.$value.'\');',
+                    '/^define\(\''.$key.'\', \'(.*)\'\);/',
+                    'define(\''.$key.'\', \''.$value.'\');',
                     $line
                 );
                 if ($newline != $line) {
@@ -658,11 +630,8 @@ class Yuju_Project
                 'API'=>&$this->api,
                 'PROJECT'=>&$this->root,
             );
-            foreach ($vars as $key=> $value) {
-                $newline = preg_replace(
-                    '/^'.$key.'=(.*)/', $key.'="'.$value.'"', 
-                    $line
-                );
+            foreach ($vars as $key => $value) {
+                $newline = preg_replace('/^'.$key.'=(.*)/', $key.'="'.$value.'"', $line);
                 if ($newline != $line) {
                     $newfile.=$newline;
                     $new=true;
@@ -685,7 +654,7 @@ class Yuju_Project
 
     /**
      * Compile all pages
-     * 
+     *
      * @return boolean
      * @since version 1.0
      */
@@ -694,13 +663,13 @@ class Yuju_Project
         include_once $this->root.'conf/site.php';
         return Yuju_View::compileAll();
     }
-    
+
     /**
      * Get modules
-     * 
+     *
      * @param string $root root directory
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public static function getAllModules($root)
     {
@@ -721,12 +690,12 @@ class Yuju_Project
         }
         return $modules;
     }
-    
+
     /**
      * Get public modules
-     * 
+     *
      * @param string $root root directory
-     * 
+     *
      * @return array
      */
     public static function getAllPublicModules($root)

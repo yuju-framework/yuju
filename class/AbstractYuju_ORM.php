@@ -2,28 +2,11 @@
 /**
  * AbstractYuju_ORM File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
+ * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -47,8 +30,8 @@ abstract class AbstractYuju_ORM
     protected $db_data;
     protected $table;
     protected $object_name;
-    protected $_fields;
-    
+    protected $fields;
+
     /**
      * Getter table
      *
@@ -58,7 +41,7 @@ abstract class AbstractYuju_ORM
     {
         return $this->table;
     }
-    
+
     /**
      * Connect to database
      *
@@ -70,12 +53,12 @@ abstract class AbstractYuju_ORM
      * @return boolean
      */
     abstract public function connect($db_host, $db_user, $db_pass, $db_data);
-    
+
     /**
      * Setter Object Name
-     * 
+     *
      * @param string $var object name
-     * 
+     *
      * @return boolean
      */
     public function setObjectName($var)
@@ -83,7 +66,7 @@ abstract class AbstractYuju_ORM
         $this->object_name = $var;
         return true;
     }
-    
+
     /**
      * Getter Object Name
      *
@@ -95,17 +78,17 @@ abstract class AbstractYuju_ORM
     {
         return $this->object_name;
     }
-    
+
     /**
      * Getter Fields
-     * 
+     *
      * @return array
      */
     public function getFields()
     {
-        return $this->_fields;
+        return $this->fields;
     }
-    
+
     /**
      * Load table
      *
@@ -114,7 +97,7 @@ abstract class AbstractYuju_ORM
      * @return void
      */
     abstract public function load($table);
-    
+
     /**
      * Generate object
      *
@@ -122,8 +105,8 @@ abstract class AbstractYuju_ORM
      *
      * @return string
      */
-    abstract public function generateObject($object_name='');
-    
+    abstract public function generateObject($object_name = '');
+
     /**
      * Generate file doc
      *
@@ -134,19 +117,16 @@ abstract class AbstractYuju_ORM
         $return='/**'."\n";
         $return .= ' * '.$this->object_name.' File'."\n";
         $return .= ' *'."\n";
-        $return .= ' * PHP version 5'."\n";
-        $return .= ' *'."\n";
         $return .= ' * @category XXX'."\n";
         $return .= ' * @package  XXX'."\n";
         $return .= ' * @author   XXX <xxx@xxx.com>'."\n";
         $return .= ' * @license  '."\n";
-        $return .= ' * @version  XXX'."\n";
         $return .= ' * @link     XXX'."\n";
         $return .= ' * @since    XXX'."\n";
         $return .= ' */'."\n";
         return $return;
     }
-    
+
     /**
      * Generate class doc
      *
@@ -161,13 +141,12 @@ abstract class AbstractYuju_ORM
         $return .= ' * @package  XXX'."\n";
         $return .= ' * @author   XXX <xxx@xxx.com>'."\n";
         $return .= ' * @license  '."\n";
-        $return .= ' * @version  Release: XXX'."\n";
         $return .= ' * @link     XXX'."\n";
         $return .= ' * @since    XXX'."\n";
         $return .= ' */'."\n";
         return $return;
     }
-    
+
     /**
      * Generate vars
      *
@@ -176,12 +155,12 @@ abstract class AbstractYuju_ORM
     public function generateVars()
     {
         $object='';
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name => $field) {
             $object .= "    protected $".$name.";\n\n";
         }
         return $object;
     }
-    
+
     /**
      * Generate constructor
      *
@@ -190,95 +169,103 @@ abstract class AbstractYuju_ORM
     public function generateConstructor()
     {
         $object='    /**'."\n";
-        $object.= '     * Constructor '."\n";
+        $object.= '     * Constructor'."\n";
         $object.= '     *'."\n";
         $object.= '     */'."\n";
         $object.= '    public function __construct()'."\n";
         $object.= '    {'."\n";
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name => $field) {
             switch ($field['type']) {
-            case 'date':
-                $object .= '        $this->'.$name." = new Date();\n";
-                break;
-            case 'datetime':
-                $object .= '        $this->'.$name." = new Date();\n";
-                break;
-            case 'time':
-                $object .= '        $this->'.$name." = new Date();\n";
-                break;
-            case 'timestamp':
-                $object .= '        $this->'.$name." = new Date();\n";
-                break;
-            case 'year':
-                $object .= '        $this->'.$name.
-                    " = new Number(Number::INTEGER, true, null, null, 2155, 1901);\n";
-                break;
-            case 'bigint':
-                $object .= '        $this->'.$name." = new Number();\n";
-                break;
-            case 'decimal':
-                $object .= '        $this->'.$name." = new Number(Number::DECIMAL, true);\n";
-                break;
-            case 'double':
-                $object .= '        $this->'.$name." = new Number(Number::FLOAT, true);\n";
-                break;
-            case 'float':
-                $object .= '        $this->'.$name." = new Number(Number::FLOAT, true);\n";
-                break;
-            case 'int':
-                $object .= '        $this->'.$name." = new Number();\n";
-                break;
-            case 'mediumint':
-                $object .= '        $this->'.$name." = new Number();\n";
-                break;
-            case 'smallint':
-                $object .= '        $this->'.$name." = new Number();\n";
-                break;
-            case 'tinyint':
-                if ($field['number'] == 1) {
-                    $object .= '        $this->'.$name." = new Boolean();\n";
-                } else {
+                case 'date':
+                    $object .= '        $this->'.$name." = new Date();\n";
+                    break;
+                case 'datetime':
+                    $object .= '        $this->'.$name." = new Date();\n";
+                    break;
+                case 'time':
+                    $object .= '        $this->'.$name." = new Date();\n";
+                    break;
+                case 'timestamp':
+                    $object .= '        $this->'.$name." = new Date();\n";
+                    break;
+                case 'year':
+                    $object .= '        $this->'.$name.
+                        " = new Number(Number::INTEGER, true, null, null, 2155, 1901);\n";
+                    break;
+                case 'bigint':
                     $object .= '        $this->'.$name." = new Number();\n";
-                }
-                break;
-            case 'bit':
-                $object .= '        $this->'.$name." = new Boolean();\n";
-                break;
+                    break;
+                case 'decimal':
+                    $object .= '        $this->'.$name." = new Number(Number::DECIMAL, true);\n";
+                    break;
+                case 'double':
+                    $object .= '        $this->'.$name." = new Number(Number::FLOAT, true);\n";
+                    break;
+                case 'float':
+                    $object .= '        $this->'.$name." = new Number(Number::FLOAT, true);\n";
+                    break;
+                case 'int':
+                    $object .= '        $this->'.$name." = new Number();\n";
+                    break;
+                case 'mediumint':
+                    $object .= '        $this->'.$name." = new Number();\n";
+                    break;
+                case 'smallint':
+                    $object .= '        $this->'.$name." = new Number();\n";
+                    break;
+                case 'tinyint':
+                    if ($field['number'] == 1) {
+                        $object .= '        $this->'.$name." = new Boolean();\n";
+                    } else {
+                        $object .= '        $this->'.$name." = new Number();\n";
+                    }
+                    break;
+                case 'bit':
+                    $object .= '        $this->'.$name." = new Boolean();\n";
+                    break;
             }
         }
         $object .= '    }'."\n\n";
-        
+
         $object.='    /**'."\n";
-        $object.= '     * Clone '."\n";
+        $object.= '     * Clone'."\n";
         $object.= '     *'."\n";
         $object.= '     */'."\n";
         $object.= '    public function __clone()'."\n";
         $object.= '    {'."\n";
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name => $field) {
             switch ($field['type']) {
-            case 'date':
-            case 'datetime':
-            case 'time':
-            case 'timestamp':
-            case 'year':
-            case 'bigint':
-            case 'decimal':
-            case 'double':
-            case 'float':
-            case 'int':
-            case 'mediumint':
-            case 'smallint':
-            case 'tinyint':
-            case 'bit':
-                $object .= '        $this->'.$name.' = clone($this->'.$name.');'."\n";
-                break;
+                case 'date':
+                case 'datetime':
+                case 'time':
+                case 'timestamp':
+                case 'year':
+                case 'bigint':
+                case 'decimal':
+                case 'double':
+                case 'float':
+                case 'int':
+                case 'mediumint':
+                case 'smallint':
+                case 'tinyint':
+                case 'bit':
+                    $object .= '        $this->'.$name.' = clone($this->'.$name.');'."\n";
+                    break;
             }
         }
         $object .= '    }'."\n\n";
-        
+
         return $object;
     }
     
+    protected function getCamelCase($name)
+    {
+        $name_camel = ucwords($name, '_');
+        $name_camel = str_replace('_', '', $name_camel);
+        return $name_camel;
+    }
+    
+
     /**
      * Generate Getter and Setter
      *
@@ -288,19 +275,23 @@ abstract class AbstractYuju_ORM
     {
         $object='';
         //TODO: if name field contains _ is next upper char
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->fields as $name => $field) {
             // Getter
             $object.= '    /**'."\n";
             $object.= '     * Getter '.$name."\n";
             $object.= '     *'."\n";
             $object.= '     * @return '.$field['type']."\n";
             $object.= '     */'."\n";
-            $object .= "    public function get".ucwords($name)."()\n";
+            $object .= "    public function get".$this->getCamelCase($name)."()\n";
             $object .= "    {\n";
             $object .= '        return $this->'.$name.";\n";
             $object .= "    }\n\n";
             // Setter
-            if ($field['type'] == 'varchar' || $field['type'] == 'char' || $field['type'] == 'longtext' || $field['type'] == 'mediumtext' || $field['type'] == 'text' || $field['type'] == 'tinytext' || $field['type'] == 'enum' || $field['type'] == 'set' || $field['type'] == 'blob' || $field['type'] == 'longblob' || $field['type'] == 'mediumblob' || $field['type'] == 'tinyblob' || $field['type'] == 'varbinary' || $field['type'] == 'binary'
+            if ($field['type'] == 'varchar' || $field['type'] == 'char' || $field['type'] == 'longtext'
+                || $field['type'] == 'mediumtext' || $field['type'] == 'text' || $field['type'] == 'tinytext'
+                || $field['type'] == 'enum' || $field['type'] == 'set' || $field['type'] == 'blob'
+                || $field['type'] == 'longblob' || $field['type'] == 'mediumblob' || $field['type'] == 'tinyblob'
+                || $field['type'] == 'varbinary' || $field['type'] == 'binary'
             ) {
                 $object.= '    /**'."\n";
                 $object.= '     * Setter '.$name."\n";
@@ -309,7 +300,7 @@ abstract class AbstractYuju_ORM
                 $object.= '     *'."\n";
                 $object.= '     * @return boolean'."\n";
                 $object.= '     */'."\n";
-                $object .= "    public function set".ucwords($name)."(\$var)\n";
+                $object .= "    public function set".$this->getCamelCase($name)."(\$var)\n";
                 $object .= "    {\n";
                 $object .= '        $this->'.$name." = \$var;\n";
                 $object .= '        return true;'."\n";
@@ -318,12 +309,12 @@ abstract class AbstractYuju_ORM
         }
         return $object;
     }
-    
+
     /**
      * Determine if has setter function
-     * 
+     *
      * @param string $type filed type
-     * 
+     *
      * @return boolean
      */
     protected function hasSetterFunction($type)
@@ -339,38 +330,38 @@ abstract class AbstractYuju_ORM
             return false;
         }
     }
-    
+
     /**
      * Generate Load
      *
      * @return string
      */
     abstract public function generateLoad();
-    
+
     /**
      * Generate inserts
      *
      * @return string
      */
     abstract public function generateInsert();
-    
+
     /**
      * Generate update function
      *
      * @return string
      */
     abstract public function generateUpdate();
-    
+
     /**
      * Generate delete function
      *
      * @return string
      */
     abstract public function generateDelete();
-    
+
     /**
      * Generate getAll
-     * 
+     *
      * @return string
      */
     public function generateGetAll()
@@ -386,19 +377,19 @@ abstract class AbstractYuju_ORM
         $object .= '    }'."\n\n";
         return $object;
     }
-    
+
     /**
      * Generate search
-     * 
+     *
      * @return string
      */
     abstract public function generateSearch();
-    
+
     /**
      * Generate base
-     * 
+     *
      * @param string $directory directory to generate
-     * 
+     *
      * @return void
      */
     abstract public function generateBase($directory);

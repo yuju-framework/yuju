@@ -1,30 +1,11 @@
 <?php
-
 /**
  * Number Test File
- *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category Test
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -36,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -47,7 +27,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
 
     /**
      * Set Up
-     * 
+     *
      * @return void
      */
     protected function setUp()
@@ -57,7 +37,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test Construct
-     * 
+     *
      * @return void
      */
     public function testIntegerSetValue()
@@ -71,7 +51,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test Construct
-     * 
+     *
      * @return void
      */
     public function testDecimalSetValue()
@@ -94,7 +74,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test integer set values invalid
-     * 
+     *
      * @return void
      */
     public function testIntegerSetValueInvalid()
@@ -108,7 +88,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test integer set values invalid
-     * 
+     *
      * @return void
      */
     /* public function testFloatSetValueInvalid()
@@ -142,7 +122,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    
+
     public function testDecimalSetValueUnsigned()
     {
         $this->_number = new Number(Number::DECIMAL, true, 3, 3);
@@ -156,7 +136,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_number->setValue(pi()));
         $this->assertFalse($this->_number->setValue('hello'));
     }
-    
+
     public function testFloatSetValueUnsigned()
     {
         $this->_number = new Number(Number::FLOAT, true);
@@ -311,7 +291,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_number->setValue(-236.258));
         $this->assertFalse($this->_number->setValue(pi()));
         $this->assertFalse($this->_number->setValue('hello'));
-        
+
         $this->_number = new Number(Number::FLOAT, true, 23, 26, 100, 50);
         $this->assertTrue($this->_number->setValue(80.0));
         $this->assertFalse($this->_number->setValue(200.0));
@@ -344,7 +324,7 @@ class NumberTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_number->setValue(-236.258));
         $this->assertFalse($this->_number->setValue(pi()));
         $this->assertFalse($this->_number->setValue('hello'));
-        
+
         $this->_number = new Number(Number::FLOAT, true, 23, 26, 100, 50);
         $this->assertFalse($this->_number->setValue(-230));
         $this->assertTrue($this->_number->setValue(80.0));
@@ -355,5 +335,4 @@ class NumberTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_number->setValue(pi()));
         $this->assertFalse($this->_number->setValue('hello'));
     }
-
 }

@@ -2,56 +2,19 @@
 /**
  * Yuju_View File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-if (defined('API')) {
-    include_once API . 'lib/Smarty/Smarty.class.php';
-} else {
-    include_once ROOT . 'lib/Smarty/Smarty.class.php';
-}
 
 /**
  * Class Yuju_View
- *
- * @category Core
- * @package  YujuFramework
- * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
- * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
- * @link     https://github.com/yuju-framework/yuju
- * @since    version 1.0
  */
 class Yuju_View
 {
-
-    /**
-     * Name
-     *
-     * @var string
-     */
     protected $name;
     protected $title;
     protected $schema;
@@ -163,7 +126,7 @@ class Yuju_View
     {
         $this->modules = json_decode($modules, true);
     }
-    
+
     public function getRegex()
     {
         return $this->regex;
@@ -300,11 +263,11 @@ class Yuju_View
                     if ($c == $num) {
                         $newarray[$numkey][][$namemodule] = $module;
                     } else {
-                        
+
                         $newarray[$numkey][$name] = $val;
-                        
+
                     }
-                    
+
                     $c++;
                 }
             }
@@ -333,7 +296,7 @@ class Yuju_View
     {
         $this->parent = $parent;
     }
-    
+
     /**
      * Getter sitemap
      *
@@ -343,7 +306,7 @@ class Yuju_View
     {
         return $this->sitemap;
     }
-    
+
     /**
      * Setter sitemap
      *
@@ -366,6 +329,11 @@ class Yuju_View
      */
     public function __construct()
     {
+        if (defined('API')) {
+            include_once API . 'lib/Smarty/Smarty.class.php';
+        } else {
+            include_once ROOT . 'lib/Smarty/Smarty.class.php';
+        }
         $this->template = new Smarty();
         $this->cssfile = array();
         $this->jsfile = array();
@@ -484,7 +452,7 @@ class Yuju_View
     public static function exist($n)
     {
         $explode = explode('/', $n);
-        
+
         $result = DB::Query(
             'SELECT name from page WHERE name=\'' . DB::Parse($n) . '\'
             OR (regex=1 AND name=\''.DB::parse($explode[0]).'\')'
@@ -586,7 +554,7 @@ class Yuju_View
         }
         return $all;
     }
-    
+
     /**
      * Set OG meta
      *
@@ -612,7 +580,7 @@ class Yuju_View
         // Load modules PHP
         $hload = '';
         $mods['__MOD0'] = '';
-        
+
         $idmod = 0;
         // Load modules
         foreach ($this->modules as $nummod => $mod) {
@@ -631,7 +599,7 @@ class Yuju_View
                 foreach ($vars as $names => $var) {
                     if ($type == 'edit') {
                         if ($this->existAdminModuleView($names)) {
-                            
+
                             $tmp = '{include file="' . $this->existAdminModuleView($names) . '"';
                             foreach ($var as $key => $value) {
                                 if (is_array($value)) {
@@ -639,10 +607,10 @@ class Yuju_View
                                     $value = str_replace("{", "{ ", $json);
                                     $value = str_replace("}", " }", $value);
                                     $tmp.=' ' . $key . '="' . str_replace("\"", "\\\"", $value) . '"';
-                                    
+
                                 } else {
                                     $tmp.=' ' . $key . '="' . str_replace("\"", "\\\"", $value) . '"';
-                                    
+
                                 }
                             }
                             $tmp.=' idmod="' . $idmod . '"';
@@ -737,7 +705,7 @@ class Yuju_View
             $domain = DOMAIN . $this->name;
         }
         if ($this->type == 'html') {
-            
+
             if ($type == 'edit') {
                 $header ='';
             } else {
@@ -823,20 +791,20 @@ class Yuju_View
             return false;
         }
     }
-    
-    
+
+
     public function get($regex, &$match)
     {
         if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             return true;
         }
-        
+
         if ($regex != '' && $_SERVER['REQUEST_METHOD'] == 'GET' && preg_match($regex, $this->getRegex(), $match)) {
             return true;
         }
         return false;
     }
-    
+
     public function post($regex, &$match)
     {
         if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -847,7 +815,7 @@ class Yuju_View
         }
         return false;
     }
-    
+
     public function put($regex, &$match)
     {
         if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
@@ -858,7 +826,7 @@ class Yuju_View
         }
         return false;
     }
-    
+
     public function delete($regex, &$match)
     {
         if ($regex == '' && $this->getRegex()=='' && $_SERVER['REQUEST_METHOD'] == 'DELETE') {
@@ -869,8 +837,8 @@ class Yuju_View
         }
         return false;
     }
-    
-    
+
+
 
     /**
      * Determine if exist module view
@@ -899,7 +867,7 @@ class Yuju_View
     {
         if (is_file(ROOT . 'modules/' . $name . '/view/main-admin.tpl')) {
             return ROOT . 'modules/' . $name . '/view/main-admin.tpl';
-            
+
         } elseif (is_file(API . 'modules/' . $name . '/view/main-admin.tpl')) {
             return API . 'modules/' . $name . '/view/main-admin.tpl';
 
@@ -921,7 +889,7 @@ class Yuju_View
             return API . 'modules/' . $name . '/controller/main.php';
         }
     }
-    
+
     /**
      * Determine if exist admin controller
      *
@@ -957,7 +925,7 @@ class Yuju_View
         $s = preg_replace("[ñ]", "n", $s);
         $s = preg_replace("[ç]", "c", $s);
         $s = preg_replace("[']", "-", $s);
-        
+
         $s = preg_replace('([^A-Za-z0-9[:space:]-])', '', $s);
         $s = str_replace(" ", '-', $s);
 
@@ -976,7 +944,7 @@ class Yuju_View
         return true;
     }
 
-    
+
     /**
      * Generate Site Map
      *
@@ -994,10 +962,10 @@ class Yuju_View
             $sitemap.='<url><loc>'.DOMAIN.$obj->name.'</loc></url>';
         }
         $sitemap.='</urlset>';
-        
+
         return $sitemap;
     }
-    
+
     /**
      * Get number modules by schema
      *
@@ -1013,7 +981,7 @@ class Yuju_View
             return 0;
         }
         preg_match_all("/__MOD(?P<digit>\d+)/", $file->getContent(), $output_array);
-        
+
         return count($output_array[0]);
     }
 }

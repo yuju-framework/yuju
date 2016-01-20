@@ -2,28 +2,10 @@
 /**
  * Date Object
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -47,14 +28,14 @@ class Date
     const DAYS=3;
     const MONTH=4;
     const YEARS=5;
-    
+
     /**
      * Day
      *
      * @var    int
      * @access private
      */
-    private $_day;
+    private $day;
 
     /**
      * Month
@@ -62,7 +43,7 @@ class Date
      * @var    int
      * @access private
      */
-    private $_month;
+    private $month;
 
     /**
      * Year
@@ -70,7 +51,7 @@ class Date
      * @var    int
      * @access private
      */
-    private $_year;
+    private $year;
 
     /**
      * Hour
@@ -78,7 +59,7 @@ class Date
      * @var    int
      * @access private
      */
-    private $_hour;
+    private $hour;
 
     /**
      * Minutes
@@ -86,7 +67,7 @@ class Date
      * @var    int
      * @access private
      */
-    private $_minutes;
+    private $minutes;
 
     /**
      * Seconds
@@ -94,17 +75,17 @@ class Date
      * @var    int
      * @access private
      */
-    private $_seconds;
+    private $seconds;
 
     /**
      * Constructor
-     * 
+     *
      */
     public function __construct()
     {
         $this->setNull();
     }
-    
+
     /**
      * Date to Data Base format YYYYMMDD
      *
@@ -113,9 +94,9 @@ class Date
      */
     public function dateToDB()
     {
-        if ($this->_day !="" && $this->_month !="" && $this->_year !="") {
-            return "'".$this->_year.sprintf("%02s", $this->_month).
-                sprintf("%02s", $this->_day)."'";
+        if ($this->day !="" && $this->month !="" && $this->year !="") {
+            return "'".$this->year.sprintf("%02s", $this->month).
+                sprintf("%02s", $this->day)."'";
         } else {
             return 'NULL';
         }
@@ -142,19 +123,19 @@ class Date
      */
     public function dateTimeToDB()
     {
-        if ($this->_day !=="" && $this->_month !==""
-            && $this->_year !=="" && $this->_hour !==""
-            && $this->_minutes !=="" && $this->_seconds !==""
+        if ($this->day !=="" && $this->month !==""
+            && $this->year !=="" && $this->hour !==""
+            && $this->minutes !=="" && $this->seconds !==""
         ) {
-            return "'".$this->_year.sprintf("%02s", $this->_month).
-                sprintf("%02s", $this->_day).sprintf("%02s", $this->_hour).
-                sprintf("%02s", $this->_minutes).
-                sprintf("%02s", $this->_seconds)."'";
+            return "'".$this->year.sprintf("%02s", $this->month).
+                sprintf("%02s", $this->day).sprintf("%02s", $this->hour).
+                sprintf("%02s", $this->minutes).
+                sprintf("%02s", $this->seconds)."'";
         } else {
             return "NULL";
         }
     }
-    
+
     /**
      * Time to database format
      *
@@ -162,13 +143,13 @@ class Date
      */
     public function timeToDB()
     {
-        if ($this->_hour !== ""
-            && $this->_minutes !== ""
-            && $this->_seconds !== ""
-        ) { 
-            return "'".sprintf("%02s", $this->_hour).
-                sprintf("%02s", $this->_minutes).
-                sprintf("%02s", $this->_seconds)."'";
+        if ($this->hour !== ""
+            && $this->minutes !== ""
+            && $this->seconds !== ""
+        ) {
+            return "'".sprintf("%02s", $this->hour).
+                sprintf("%02s", $this->minutes).
+                sprintf("%02s", $this->seconds)."'";
         } else {
             return "NULL";
         }
@@ -176,7 +157,7 @@ class Date
 
     /**
      * Determine if empty date and time
-     * 
+     *
      * @return boolean
      */
     public function isDateTimeEmpty()
@@ -200,37 +181,37 @@ class Date
             return false;
         }
     }
-    
+
     /**
      * Set null values
-     * 
+     *
      * @return void
      */
     public function setNull()
     {
-        $this->_day     = '';
-        $this->_month   = '';
-        $this->_year    = '';
-        $this->_hour    = '';
-        $this->_minutes = '';
-        $this->_seconds = '';
+        $this->day     = '';
+        $this->month   = '';
+        $this->year    = '';
+        $this->hour    = '';
+        $this->minutes = '';
+        $this->seconds = '';
     }
 
     /**
      * Set date
-     * 
+     *
      * @param integer $day   day
      * @param integer $month month
      * @param integer $year  year
-     * 
+     *
      * @return boolean
      */
     public function setDate($day, $month, $year)
     {
         if ($day=='00' && $month=='00' && $year=='0000') {
-            $this->_day='00';
-            $this->_month='00';
-            $this->_year='0000';
+            $this->day='00';
+            $this->month='00';
+            $this->year='0000';
             return true;
         }
         if (!is_numeric($day) || $day==""
@@ -247,7 +228,7 @@ class Date
         $this->setYear($year);
         return true;
     }
-    
+
     public function setDateFormat($date)
     {
         if ($date=='' || $date===null) {
@@ -258,24 +239,24 @@ class Date
         $match = "/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})T";
         $match.= "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})\+([0-9]{1,2}):([0-9]{1,2})/";
         if (preg_match($match, $date, $regs)) {
-            $this->_seconds=$regs[6];
-            $this->_minutes=$regs[5];
-            $this->_hour=$regs[4];
-            $this->_day=$regs[3];
-            $this->_month=$regs[2];
-            $this->_year=$regs[1];
+            $this->seconds=$regs[6];
+            $this->minutes=$regs[5];
+            $this->hour=$regs[4];
+            $this->day=$regs[3];
+            $this->month=$regs[2];
+            $this->year=$regs[1];
             return true;
         }
         // Format "YYYY-MM-DDTHH:MM:SS.XXXZ"
         $match = "/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})T";
         $match.= "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})\.([0-9]{1,3})Z/";
         if (preg_match($match, $date, $regs)) {
-            $this->_seconds=$regs[6];
-            $this->_minutes=$regs[5];
-            $this->_hour=$regs[4];
-            $this->_day=$regs[3];
-            $this->_month=$regs[2];
-            $this->_year=$regs[1];
+            $this->seconds=$regs[6];
+            $this->minutes=$regs[5];
+            $this->hour=$regs[4];
+            $this->day=$regs[3];
+            $this->month=$regs[2];
+            $this->year=$regs[1];
             return true;
         }
         return false;
@@ -283,30 +264,30 @@ class Date
 
     /**
      * Set date and time
-     * 
+     *
      * @param integer $day     day
      * @param integer $month   month
      * @param integer $year    year
      * @param integer $hour    hour
      * @param integer $minutes minutes
      * @param integer $seconds seconds
-     * 
+     *
      * @return boolean
      */
     public function setDateTime($day, $month, $year, $hour, $minutes, $seconds)
     {
         if ($day=='00' && $month=='00' && $year=='0000') {
-            $this->_day='00';
-            $this->_month='00';
-            $this->_year='0000';
-            $this->_hour='00';
-            $this->_minutes='00';
-            $this->_seconds='00';
+            $this->day='00';
+            $this->month='00';
+            $this->year='0000';
+            $this->hour='00';
+            $this->minutes='00';
+            $this->seconds='00';
             return true;
         }
-        if (checkdate($month, $day, $year) 
-            && (($hour==0 || $hour==00) 
-            || ($minutes==0 || $minutes==00) 
+        if (checkdate($month, $day, $year)
+            && (($hour==0 || $hour==00)
+            || ($minutes==0 || $minutes==00)
             || ($seconds==0 || $seconds==00))
         ) {
             $this->setDay($day);
@@ -319,8 +300,8 @@ class Date
         }
         if (!is_numeric($day) || $day==""
             || !is_numeric($month) || $month==""
-            || $year=="" || !is_numeric($year) 
-            || !is_numeric($hour) || $hour=="" 
+            || $year=="" || !is_numeric($year)
+            || !is_numeric($hour) || $hour==""
             || !is_numeric($minutes) || $minutes==""
             || !is_numeric($seconds) || $seconds==""
         ) {
@@ -337,30 +318,39 @@ class Date
         $this->setSeconds($seconds);
         return true;
     }
-    
+
     public function toISO8601()
     {
-        if($this->showDate()=='') {
+        if ($this->showDate()=='') {
             return '';
         }
-        return date('c', mktime((int)$this->_hour,(int)$this->_minutes, 
-                (int)$this->_seconds,(int)$this->_month,(int)$this->_day,(int)$this->_year));
+        return date(
+            'c',
+            mktime(
+                (int)$this->hour,
+                (int)$this->minutes,
+                (int)$this->seconds,
+                (int)$this->month,
+                (int)$this->day,
+                (int)$this->year
+            )
+        );
     }
 
     /**
      * Get ages
      *
      * @param sring $var date
-     * 
+     *
      * @return integer
      */
-    public function getAge($var='')
+    public function getAge($var = '')
     {
         if ($var=='') {
             // We estimate the date to the object
-            $year=$this->_year;
-            $month=$this->_month;
-            $year=$this->_day;
+            $year=$this->year;
+            $month=$this->month;
+            $year=$this->day;
         } else {
             // We estimate the parameters entered date
             // Format: DD-MM-AAAA
@@ -369,7 +359,7 @@ class Date
             $month=substr($var, 3, 2);
             $day=substr($var, 0, 2);
         }
-        if ( ($month < date("m")) || (($day <= date("d")) && ($month==date("m"))) ) {
+        if (($month < date("m")) || (($day <= date("d")) && ($month==date("m")))) {
             // If the last birthday already this year
             $age = date("Y") - $year;
         } else {
@@ -386,7 +376,7 @@ class Date
      */
     public function getMonth()
     {
-        return sprintf("%02s", $this->_month);
+        return sprintf("%02s", $this->month);
     }
 
     /**
@@ -396,7 +386,7 @@ class Date
      */
     public function getYear()
     {
-        return $this->_year;
+        return $this->year;
     }
 
     /**
@@ -406,79 +396,79 @@ class Date
      */
     public function getDay()
     {
-        return sprintf("%02s", $this->_day);
+        return sprintf("%02s", $this->day);
     }
 
     /**
      * Setter month
      *
      * @param integer $val month
-     * 
+     *
      * @return void
      */
     public function setMonth($val)
     {
-        $this->_month=$val;
+        $this->month=$val;
     }
 
     /**
      * Setter year
      *
      * @param integer $val year
-     * 
+     *
      * @return void
      */
     public function setYear($val)
     {
-        $this->_year=$val;
+        $this->year=$val;
     }
 
     /**
      * Setter day
      *
      * @param integer $val day
-     * 
+     *
      * @return void
      */
     public function setDay($val)
     {
-        $this->_day=$val;
+        $this->day=$val;
     }
 
     /**
      * Setter hour
      *
      * @param integer $val hour
-     * 
+     *
      * @return void
      */
     public function setHour($val)
     {
-        $this->_hour=$val;
+        $this->hour=$val;
     }
 
     /**
      * Setter minutes
      *
      * @param integer $val minutes
-     * 
+     *
      * @return void
      */
     public function setMinutes($val)
     {
-        $this->_minutes=$val;
+        $this->minutes=$val;
     }
 
     /**
      * Setter seconds
      *
      * @param integer $val seconds
-     * 
+     *
      * @return void
      */
     public function setSeconds($val)
     {
-        $this->_seconds=$val;
+        $this->seconds=$val;
     }
 
     /**
@@ -488,7 +478,7 @@ class Date
      */
     public function getHour()
     {
-        return sprintf("%02s", $this->_hour);
+        return sprintf("%02s", $this->hour);
     }
 
     /**
@@ -498,7 +488,7 @@ class Date
      */
     public function getMinutes()
     {
-        return sprintf("%02s", $this->_minutes);
+        return sprintf("%02s", $this->minutes);
     }
 
     /**
@@ -508,7 +498,7 @@ class Date
      */
     public function getSeconds()
     {
-        return $this->_seconds;
+        return $this->seconds;
     }
 
     /**
@@ -518,18 +508,18 @@ class Date
      */
     public function isActually()
     {
-        if ($this->_day =="00" && $this->_month =="00" && $this->_year =="0000") {
+        if ($this->day =="00" && $this->month =="00" && $this->year =="0000") {
             return true;
         } else {
             return false;
         }
     }
-    
+
     /**
      * Set date and time from database format
      *
      * @param string $date date
-     * 
+     *
      * @return boolean
      */
     public function setDateTimeFromDB($date)
@@ -540,9 +530,9 @@ class Date
         $match = "/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})";
         $match.= " ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/";
         if (preg_match($match, $date, $regs)) {
-            $this->_seconds=$regs[6];
-            $this->_minutes=$regs[5];
-            $this->_hour=$regs[4];
+            $this->seconds=$regs[6];
+            $this->minutes=$regs[5];
+            $this->hour=$regs[4];
             $this->setDay($regs[3]);
             $this->setMonth($regs[2]);
             $this->setYear($regs[1]);
@@ -552,12 +542,12 @@ class Date
         }
     }
 
-    
+
     /**
      * Set date from database format
      *
      * @param string $date date
-     * 
+     *
      * @return boolean
      */
     public function setDateFromDB($date)
@@ -565,7 +555,7 @@ class Date
         if ($date=='') {
             return true;
         }
-        
+
         $data_format1 = "/([0-9]{4})[-|\/]([0-9]{1,2})[-|\/]([0-9]{1,2})/";
         $data_format2 = "/([0-9]{1,2})[-|\/]([0-9]{1,2})[-|\/]([0-9]{4})/";
         if (preg_match($data_format1, $date, $regs)) {
@@ -582,49 +572,49 @@ class Date
                 $this->setYear($regs[3]);
                 return true;
             }
-        } 
+        }
         return false;
     }
 
     /**
      * Set actual date
-     * 
+     *
      * @return void
      */
     public function setNow()
     {
         $date=getdate();
-        $this->_day     = $date['mday'];
-        $this->_month   = $date['mon'];
-        $this->_year    = $date['year'];
-        $this->_hour    = $date['hours'];
-        $this->_minutes = $date['minutes'];
-        $this->_seconds = $date['seconds'];
+        $this->day     = $date['mday'];
+        $this->month   = $date['mon'];
+        $this->year    = $date['year'];
+        $this->hour    = $date['hours'];
+        $this->minutes = $date['minutes'];
+        $this->seconds = $date['seconds'];
     }
 
     /**
      * Get present date and time by name
-     * 
+     *
      * @todo return english format
-     * 
+     *
      * @return string
      */
     public function getPresentDateTimeByName()
     {
         $date=getdate();
-        $this->_day     = $date['mday'];
-        $this->_month   = $date['mon'];
-        $this->_year    = $date['year'];
-        $this->_hour    = $date['hours'];
-        $this->_minutes = $date['minutes'];
-        $this->_seconds = $date['seconds'];
-        return $this->_day." de ".Date::getMonthName($this->_month)." de ".
-            $this->_year." ".
-            sprintf("%02s", $this->_hour).":".
-            sprintf("%02s", $this->_minutes).":".
-            sprintf("%02s", $this->_seconds);
+        $this->day     = $date['mday'];
+        $this->month   = $date['mon'];
+        $this->year    = $date['year'];
+        $this->hour    = $date['hours'];
+        $this->minutes = $date['minutes'];
+        $this->seconds = $date['seconds'];
+        return $this->day." de ".Date::getMonthName($this->month)." de ".
+            $this->year." ".
+            sprintf("%02s", $this->hour).":".
+            sprintf("%02s", $this->minutes).":".
+            sprintf("%02s", $this->seconds);
     }
-    
+
     /**
      * Get present date and time to database format
      *
@@ -636,7 +626,7 @@ class Date
         return $date['year'].
             sprintf("%02s", $date['mon']).$date['mon'].$date['mday'];
     }
-    
+
     /**
      * Get present date
      *
@@ -648,12 +638,12 @@ class Date
         return str_pad($date['mday'], 2, '0', STR_PAD_LEFT).
             '/'.str_pad($date['mon'], 2, '0', STR_PAD_LEFT).'/'.$date['year'];
     }
-    
+
     /**
      * Set time
      *
      * @param string $date time
-     * 
+     *
      * @return boolean
      */
     public function setTime($date)
@@ -662,15 +652,15 @@ class Date
             return true;
         }
         if (preg_match("/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $date, $regs)) {
-            $this->_seconds=$regs[3];
-            $this->_minutes=$regs[2];
-            $this->_hour=$regs[1];
+            $this->seconds=$regs[3];
+            $this->minutes=$regs[2];
+            $this->hour=$regs[1];
             return true;
         } else {
             return false;
         }
     }
-    
+
     /**
      * Set present date
      *
@@ -678,29 +668,29 @@ class Date
      */
     public function setPresentDate()
     {
-    	$date=getdate();
-    	$this->_day     = sprintf("%02s",$date['mday']);
-    	$this->_month   = sprintf("%02s",$date['mon']);
-    	$this->_year    = $date['year'];
-    	$this->_hour    = sprintf("%02s",$date['hours']);
-    	$this->_minutes = sprintf("%02s",$date['minutes']);
-    	$this->_seconds = sprintf("%02s",$date['seconds']);
+        $date=getdate();
+        $this->day     = sprintf("%02s", $date['mday']);
+        $this->month   = sprintf("%02s", $date['mon']);
+        $this->year    = $date['year'];
+        $this->hour    = sprintf("%02s", $date['hours']);
+        $this->minutes = sprintf("%02s", $date['minutes']);
+        $this->seconds = sprintf("%02s", $date['seconds']);
     }
 
     /**
      * Show date
      *
      * @param string $separator seperator
-     * 
+     *
      * @return string
      */
-    public function showDate($separator='/')
+    public function showDate($separator = '/')
     {
-        if ($this->_day !="" && $this->_month !="" && $this->_year !="") {
+        if ($this->day !="" && $this->month !="" && $this->year !="") {
             if ($this->isActually()) {
                 return _('Actually');
             } else {
-                return $this->_day.$separator.$this->_month.$separator.$this->_year;
+                return $this->day.$separator.$this->month.$separator.$this->year;
             }
         }
     }
@@ -712,18 +702,18 @@ class Date
      */
     public function showDateTime()
     {
-        if ($this->_day !="" && $this->_month !="" && $this->_year !=""
-            && $this->_hour !="" && $this->_minutes !="" && $this->_seconds !=""
+        if ($this->day !="" && $this->month !="" && $this->year !=""
+            && $this->hour !="" && $this->minutes !="" && $this->seconds !=""
         ) {
-            if ($this->_day =="00" && $this->_month =="00" && $this->_year =="0000"
-                && $this->_hour =="00" && $this->_minutes =="00"
-                && $this->_seconds =="00"
+            if ($this->day =="00" && $this->month =="00" && $this->year =="0000"
+                && $this->hour =="00" && $this->minutes =="00"
+                && $this->seconds =="00"
             ) {
                 return _('Actually');
             } else {
-                return sprintf("%02s", $this->_day)."/".
-                    sprintf("%02s", $this->_month)."/".sprintf("%02s", $this->_year).
-                    " ".$this->_hour.":".$this->_minutes.":".$this->_seconds;
+                return sprintf("%02s", $this->day)."/".
+                    sprintf("%02s", $this->month)."/".sprintf("%02s", $this->year).
+                    " ".$this->hour.":".$this->minutes.":".$this->seconds;
             }
         }
     }
@@ -732,22 +722,22 @@ class Date
      * Show hour
      *
      * @param string  $separator   string separatos. By default ":"
-     * @param boolean $showseconds determina si muestra o no los segundos. 
+     * @param boolean $showseconds determina si muestra o no los segundos.
      *                             Por defecto sí
-     * 
+     *
      * @return string
      */
-    public function showHour($separator=':', $showseconds=true)
+    public function showHour($separator = ':', $showseconds = true)
     {
-        if ($this->_hour !='' && $this->_minutes !='' && $this->_seconds !='') {
-            if ($this->_hour =='00'
-                && $this->_minutes =='00' && $this->_seconds =='00'
+        if ($this->hour !='' && $this->minutes !='' && $this->seconds !='') {
+            if ($this->hour =='00'
+                && $this->minutes =='00' && $this->seconds =='00'
             ) {
                 return _('Actually');
             } else {
-                $hora= $this->_hour.$separator.$this->_minutes;
+                $hora= $this->hour.$separator.$this->minutes;
                 if ($showseconds) {
-                    $hora.=$separator.$this->_seconds;
+                    $hora.=$separator.$this->seconds;
                 }
                 return $hora;
             }
@@ -758,7 +748,7 @@ class Date
      * Get month by name
      *
      * @param integer $month month
-     * 
+     *
      * @return string
      */
     public static function getMonthName($month)
@@ -782,7 +772,7 @@ class Date
      * Get day by name
      *
      * @param integer $day day
-     * 
+     *
      * @return string
      */
     public static function getDayName($day)
@@ -796,12 +786,12 @@ class Date
         $week[]  = _('Sunday');
         return $week[(int)$day];
     }
-    
+
     /**
      * Determine if date
      *
      * @param string $date date
-     * 
+     *
      * @return boolean
      */
     public static function isDate($date)
@@ -812,13 +802,13 @@ class Date
             return false;
         }
     }
-    
+
     public function isToday()
     {
         $date=getdate();
-        if ($date['mday'] == $this->_day
-            && $date['mon'] == $this->_month
-            && $date['year'] == $this->_year
+        if ($date['mday'] == $this->day
+            && $date['mon'] == $this->month
+            && $date['year'] == $this->year
         ) {
             return true;
         }
@@ -827,7 +817,7 @@ class Date
 
     /**
      * Difference between dates
-     * 
+     *
      * @param number $year    year
      * @param number $month   month
      * @param number $day     day
@@ -835,86 +825,86 @@ class Date
      * @param number $minutes minutes
      * @param number $seconds seconds
      * @param number $diffin  diff type
-     * 
+     *
      * @return integer
      */
-    public function diffToDate(
-        $year, $month, $day, $hour, $minutes, $seconds, $diffin=Date::SECONDS
-    ) {
+    public function diffToDate($year, $month, $day, $hour, $minutes, $seconds, $diffin = Date::SECONDS)
+    {
         if ($this->isDateTimeEmpty()) {
             return 0;
         }
-        $time1 = mktime(
-            $this->_hour, $this->_minutes, $this->_seconds,
-            $this->_month, $this->_day, $this->_year
-        );
+        $time1 = mktime($this->hour, $this->minutes, $this->seconds, $this->month, $this->day, $this->year);
         $time2 = mktime($hour, $minutes, $seconds, $month, $day, $year);
-        
+
         $diff= $time1-$time2;
         switch ($diffin) {
-        case Date::SECONDS:
-            return $diff;
-            break;
-        case Date::MINUTES:
-            return round($diff/60, 0);
-            break;
-        case Date::HOURS:
-            return round($diff/3600, 0);
-            break;
-        case Date::DAYS:
-            return round($diff/86400, 0);
-            break;
-        case Date::MONTHS:
-            // TODO: make better
-            return round($diff/2592000, 0);
-            break;
-        case Date::YEARS:
-            // TODOS: make better
-            return round($diff/31536000, 0);
+            case Date::SECONDS:
+                return $diff;
+                break;
+            case Date::MINUTES:
+                return round($diff/60, 0);
+                break;
+            case Date::HOURS:
+                return round($diff/3600, 0);
+                break;
+            case Date::DAYS:
+                return round($diff/86400, 0);
+                break;
+            case Date::MONTHS:
+                // TODO: make better
+                return round($diff/2592000, 0);
+                break;
+            case Date::YEARS:
+                // TODOS: make better
+                return round($diff/31536000, 0);
         }
     }
-    
+
     /**
      * Diference between now
      *
      * @param integer $diffin Return type
-     * 
+     *
      * @return integer
      */
-    public function diffToNow($diffin=Date::SECONDS)
+    public function diffToNow($diffin = Date::SECONDS)
     {
         if ($this->isDateEmpty()) {
             return false;
         }
         $time1 = mktime(
-            (float)$this->_hour, (float)$this->_minutes, (float)$this->_seconds,
-            (float)$this->_month, (float)$this->_day, (float)$this->_year
+            (float)$this->hour,
+            (float)$this->minutes,
+            (float)$this->seconds,
+            (float)$this->month,
+            (float)$this->day,
+            (float)$this->year
         );
         $time2 = time();
         $diff= $time1-$time2;
         switch ($diffin) {
-        case Date::SECONDS:
-            return (int)$diff;
-            break;
-        case Date::MINUTES:
-            return (int)round($diff/60, 0);
-            break;
-        case Date::HOURS:
-            return (int)round($diff/3600, 0);
-            break;
-        case Date::DAYS:
-            return (int)round($diff/86400, 0);
-            break;
-        case Date::MONTHS:
-            // TODO: make better
-            return (int)round($diff/2592000, 0);
-            break;
-        case Date::YEARS:
-            // TODOS: make better
-            return (int)round($diff/31536000, 0);
+            case Date::SECONDS:
+                return (int)$diff;
+                break;
+            case Date::MINUTES:
+                return (int)round($diff/60, 0);
+                break;
+            case Date::HOURS:
+                return (int)round($diff/3600, 0);
+                break;
+            case Date::DAYS:
+                return (int)round($diff/86400, 0);
+                break;
+            case Date::MONTHS:
+                // TODO: make better
+                return (int)round($diff/2592000, 0);
+                break;
+            case Date::YEARS:
+                // TODOS: make better
+                return (int)round($diff/31536000, 0);
         }
     }
-    
+
     /**
      * Diference between now by name
      *
@@ -923,13 +913,10 @@ class Date
     public function diffToNowByName()
     {
         if (!$this->isDateTimeEmpty()) {
-            $time1 = mktime(
-                $this->_hour, $this->_minutes, $this->_seconds,
-                $this->_month, $this->_day, $this->_year
-            );
+            $time1 = mktime($this->hour, $this->minutes, $this->seconds, $this->month, $this->day, $this->year);
             $time2 = time();
             $diff= $time1-$time2;
-            
+
             if (abs($diff)>31536000) {
                 // TODOS: make better
                 if ($diff>0) {
@@ -987,15 +974,9 @@ class Date
     {
         if (!$this->isTimeEmpty()) {
             $date = getdate();
-
-            $time1 = mktime(
-                $this->_hour, $this->_minutes, $this->_seconds,
-                $date['mon'], $date['mday'], $date['year']
-            );
+            $time1 = mktime($this->hour, $this->minutes, $this->seconds, $date['mon'], $date['mday'], $date['year']);
             $time2 = time();
             $diff = $time1 - $time2;
-
-
             if (abs($diff) > 3600) {
                 if ($diff > 0) {
                     return _('On ') . ceil(abs($diff) / 3600) . _(' hours');
@@ -1019,7 +1000,7 @@ class Date
                 }
             }
             return $diff;
-            
+
         }
     }
 
@@ -1028,7 +1009,7 @@ class Date
      *
      * @param string  $date    date
      * @param integer $minutes minutes
-     * 
+     *
      * @return Fecha
      */
     public static function minusMinutes($date, $minutes)

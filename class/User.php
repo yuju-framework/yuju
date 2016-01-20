@@ -2,28 +2,10 @@
 /**
  * User File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -132,7 +113,7 @@ class User implements IYuju_Array
      * Setter name
      *
      * @param string $name user name
-     * 
+     *
      * @access public
      * @return string
      */
@@ -156,7 +137,7 @@ class User implements IYuju_Array
      * Setter user
      *
      * @param string $user user
-     * 
+     *
      * @access public
      * @return void
      */
@@ -167,9 +148,9 @@ class User implements IYuju_Array
 
     /**
      * Setter Password
-     * 
+     *
      * @param string $pass Password
-     * 
+     *
      * @return void
      */
     public function setPass($pass)
@@ -179,7 +160,7 @@ class User implements IYuju_Array
 
     /**
      * Getter Role
-     *     
+     *
      * @access public
      * @return string
      */
@@ -187,12 +168,12 @@ class User implements IYuju_Array
     {
         return $this->role;
     }
-    
+
     /**
      * Determine if user is a role
-     * 
+     *
      * @param string $role role
-     * 
+     *
      * @return boolean
      */
     public function isA($role)
@@ -201,7 +182,7 @@ class User implements IYuju_Array
         if (count($explode)>0) {
             if (array_search($role, $explode) !== false) {
                 return true;
-            } 
+            }
         }
         return false;
     }
@@ -210,7 +191,7 @@ class User implements IYuju_Array
      * Setter role
      *
      * @param string $role user role
-     * 
+     *
      * @access public
      * @return string
      */
@@ -221,9 +202,9 @@ class User implements IYuju_Array
 
     /**
      * Setter ACL
-     * 
+     *
      * @param string $var Permission
-     * 
+     *
      * @return void
      */
     public function setAcl($var)
@@ -255,7 +236,7 @@ class User implements IYuju_Array
      * Setter valid
      *
      * @param integer $valid valid
-     * 
+     *
      * @return void
      */
     public function setValid($valid)
@@ -267,7 +248,7 @@ class User implements IYuju_Array
      * Update valid
      *
      * @param integer $valid valid
-     * 
+     *
      * @return void
      */
     public function updateValid($valid)
@@ -278,9 +259,9 @@ class User implements IYuju_Array
 
     /**
      * Have Permission
-     * 
+     *
      * @param string $var Permission
-     * 
+     *
      * @return boolean
      */
     public function havePermission($var)
@@ -297,7 +278,7 @@ class User implements IYuju_Array
         $this->valid = new Boolean();
         $this->id = new Number();
     }
-    
+
     /**
      * Clone
      */
@@ -306,6 +287,23 @@ class User implements IYuju_Array
         $this->acl = clone($this->acl);
         $this->valid = clone($this->valid);
         $this->id = clone($this->id);
+    }
+
+    public function jsonSerialize($array = false)
+    {
+        $object['id'] = $this->id->getValue();
+        $object['user'] = $this->user;
+        $object['name'] = $this->name;
+        // Todo: ACL to JSON
+        $object['acl'] = array();
+        $object['role'] = $this->role;
+        $object['valid'] = ($this->valid->getValue()==1)?true:false;
+
+        if ($array) {
+            return $object;
+        } else {
+            return json_encode((object)$object);
+        }
     }
 
     /**
@@ -343,7 +341,7 @@ class User implements IYuju_Array
 
     /**
      * Insert user
-     * 
+     *
      * @return boolean
      */
     public function insert()
@@ -397,11 +395,11 @@ class User implements IYuju_Array
 
     /**
      * User login
-     * 
+     *
      * @param string $user user name
      * @param string $pass user password
      * @param array  $acl  restrictions
-     * 
+     *
      * @access public
      * @return boolean
      */
@@ -419,7 +417,7 @@ class User implements IYuju_Array
 
     /**
      * Logout user
-     * 
+     *
      * @access public
      * @return void
      */
@@ -430,9 +428,13 @@ class User implements IYuju_Array
         $_SESSION = array();
         $params = session_get_cookie_params();
         setcookie(
-            session_name(), '', time() - 42000, 
-            $params["path"], $params["domain"], 
-            $params["secure"], $params["httponly"]
+            session_name(),
+            '',
+            time() - 42000,
+            $params["path"],
+            $params["domain"],
+            $params["secure"],
+            $params["httponly"]
         );
         session_destroy();
     }
@@ -454,10 +456,10 @@ class User implements IYuju_Array
 
     /**
      * Get logged user
-     * 
+     *
      * @access public
      * @static
-     * @return User      
+     * @return User
      */
     public static function getLoggedUser()
     {
@@ -466,10 +468,10 @@ class User implements IYuju_Array
 
     /**
      * Authentication user
-     * 
+     *
      * @param string $user user name
      * @param string $pass user password
-     * 
+     *
      * @access public
      * @return integer user id or zero for non users
      */
@@ -489,9 +491,9 @@ class User implements IYuju_Array
 
     /**
      * Update user password
-     * 
+     *
      * @param string $pass password
-     * 
+     *
      * @access public
      * @return boolean
      */
@@ -506,9 +508,9 @@ class User implements IYuju_Array
 
     /**
      * Email remember
-     * 
+     *
      * @param string $email email
-     * 
+     *
      * @access public
      * @return boolean
      */
@@ -532,7 +534,7 @@ class User implements IYuju_Array
 
     /**
      * Save active user session
-     * 
+     *
      * @access public
      * @return void
      */
@@ -544,10 +546,10 @@ class User implements IYuju_Array
 
     /**
      * Check if username exist
-     * 
+     *
      * @param string  $user user name
      * @param integer $id   id
-     * 
+     *
      * @return boolean
      */
     public static function checkUsernameAvailability($user, $id = null)
@@ -559,7 +561,7 @@ class User implements IYuju_Array
         $sql = 'SELECT count(id) as total FROM user ';
         $sql.= 'WHERE user=\''.DB::parse($user).'\''. $where;
         $result = DB::query($sql);
-        
+
         $count = $result->fetchObject();
         $result->freeResult();
         if ($count->total == 0) {
@@ -567,7 +569,7 @@ class User implements IYuju_Array
         }
         return false;
     }
-    
+
     /**
      * Return all objects
      *
@@ -577,7 +579,7 @@ class User implements IYuju_Array
     {
         return User::search(array());
     }
-    
+
     /**
      * Search function
      *
@@ -588,9 +590,8 @@ class User implements IYuju_Array
      *
      * @return boolean|Yuju_Array
      */
-    public static function search(array $parameters, $num=null,
-        $page=null, $yuju=true
-    ) {
+    public static function search(array $parameters, $num = null, $page = null, $yuju = true)
+    {
         if ($yuju) {
             $array = new Yuju_Array();
         } else {
@@ -599,27 +600,27 @@ class User implements IYuju_Array
         $where = '';
         foreach ($parameters as $key => $param) {
             switch ($key) {
-            case "eq-user":
-                $where.='`user` =\''.DB::Parse($param) . '\' AND ';
-                break;
-            case "like-user":
-                $where.='`user` LIKE \'%'.DB::Parse($param) . '%\' AND ';
-                break;
-            case "eq-name":
-                $where.='`name` =\''.DB::Parse($param) . '\' AND ';
-                break;
-            case "like-name":
-                $where.='`name` LIKE \'%'.DB::Parse($param) . '%\' AND ';
-                break;
-            case "eq-role":
-                $where.='`role` =\''.DB::Parse($param) . '\' AND ';
-                break;
-            case "like-role":
-                $where.='`user` LIKE \'%'.DB::Parse($param) . '%\' AND ';
-                break;
-            case "eq-valid":
-                $where.='`valid` =\''.DB::Parse($param) . '\' AND ';
-                break;
+                case "eq-user":
+                    $where.='`user` =\''.DB::Parse($param) . '\' AND ';
+                    break;
+                case "like-user":
+                    $where.='`user` LIKE \'%'.DB::Parse($param) . '%\' AND ';
+                    break;
+                case "eq-name":
+                    $where.='`name` =\''.DB::Parse($param) . '\' AND ';
+                    break;
+                case "like-name":
+                    $where.='`name` LIKE \'%'.DB::Parse($param) . '%\' AND ';
+                    break;
+                case "eq-role":
+                    $where.='`role` =\''.DB::Parse($param) . '\' AND ';
+                    break;
+                case "like-role":
+                    $where.='`user` LIKE \'%'.DB::Parse($param) . '%\' AND ';
+                    break;
+                case "eq-valid":
+                    $where.='`valid` =\''.DB::Parse($param) . '\' AND ';
+                    break;
             }
         }
         $sql = 'SELECT * FROM ';
@@ -637,5 +638,3 @@ class User implements IYuju_Array
         return $array;
     }
 }
-
-?>

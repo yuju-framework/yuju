@@ -23,7 +23,7 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
+ * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -46,10 +46,10 @@ class ORM_MySQL extends AbstractYuju_ORM
      * Connect to database
      *
      * @param string $db_host host
-     * @param string $db_user user 
+     * @param string $db_user user
      * @param string $db_pass password
      * @param string $db_data database
-     *            
+     *
      * @return boolean
      */
     public function connect($db_host, $db_user, $db_pass, $db_data)
@@ -69,7 +69,7 @@ class ORM_MySQL extends AbstractYuju_ORM
      * Load table
      *
      * @param string $table table
-     *            
+     *
      * @return void
      */
     public function load($table)
@@ -161,7 +161,7 @@ class ORM_MySQL extends AbstractYuju_ORM
                     $type = 'set';
                     $number = $regs[1];
                 }
-                $this->_fields[$return->Field] = array(
+                $this->fields[$return->Field] = array(
                     'type' => $type,
                     'number' => $number,
                     'null' => ($return->Null == 'YES') ? true : false,
@@ -177,15 +177,15 @@ class ORM_MySQL extends AbstractYuju_ORM
      *
      * @param string $object_name
      *            object name
-     *            
+     *
      * @return string
      */
     public function generateObject($object_name = '')
     {
         if ($object_name != '') {
-            $this->object_name = ucwords($object_name);
+            $this->object_name = $this->getCamelCase($object_name);
         } else {
-            $this->object_name = ucwords($this->table);
+            $this->object_name = $this->getCamelCase($this->table);
         }
         $object = "<?php\n";
         $object .= $this->generateDocFile();
@@ -193,21 +193,23 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= $this->generateDocClass();
         // TODO: check if $_fileds null
         if ($object_name == '') {
-            $object .= 'class ' . ucwords($this->table) . " implements IYuju_Array\n{\n";
+            $object .= 'class ' . $this->getCamelCase($this->table) . " implements IYuju_Array\n{\n";
         } else {
-            $object .= 'class ' . ucwords($object_name) . " implements IYuju_Array\n{\n\n";
+            $object .= 'class ' . $this->getCamelCase($object_name) . " implements IYuju_Array\n{\n\n";
         }
         $object .= $this->generateVars();
         $object .= $this->generateConstructor();
         $object .= $this->generateGetterSetter();
         $object .= $this->generateLoad();
+        $object .= $this->generateJsonSerialize();
         $object .= $this->generateInsert();
         $object .= $this->generateUpdate();
         $object .= $this->generateDelete();
         $object .= $this->generateGetAll();
         $object .= $this->generateSearch();
         
-        $object .= "}";
+        $object .= "}\n";
+        
         return $object;
     }
 
@@ -218,7 +220,7 @@ class ORM_MySQL extends AbstractYuju_ORM
      */
     public function generateLoad()
     {
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             if ($field['primary_key']) {
                 $id = $name;
             }
@@ -239,14 +241,14 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '                $' . $this->table . ' = $return->fetchObject();' . "\n";
         $object .= '                $return->freeResult();' . "\n";
         $object .= '            } else {' . "\n";
-        $object .= '               $' . $this->table . ' = null;' . "\n";
+        $object .= '                $' . $this->table . ' = null;' . "\n";
         $object .= '            }' . "\n";
         $object .= '        } else {' . "\n";
-        $object .= '           $' . $this->table . ' = $var;' . "\n";
+        $object .= '            $' . $this->table . ' = $var;' . "\n";
         $object .= '        }' . "\n";
         $object .= '        if ($' . $this->table . ' != null) {' . "\n";
         
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             $object .= str_repeat(' ', 12);
             switch ($field['type']) {
                 case 'date':
@@ -302,6 +304,89 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= "    }\n\n";
         return $object;
     }
+    
+    /**
+     * Generate jsonSerialize
+     *
+     * @return string
+     */
+    public function generateJsonSerialize()
+    {
+        $object = '    /**' . "\n";
+        $object .= '     * Load ' . $this->object_name . "\n";
+        $object .= '     *' . "\n";
+        $object .= '     * @param boolean $array return object as array' . "\n";
+        $object .= '     *' . "\n";
+        $object .= '     * @return boolean' . "\n";
+        $object .= '     */' . "\n";
+        $object .= '    public function jsonSerialize($array = false)' . "\n";
+        $object .= "    {\n";
+        foreach ($this->fields as $name => $field) {
+            if ($field['primary_key']) {
+                $object .= '        if ($this->'.$name.'->getValue()==\'\') {' . "\n";
+                $object .= '            return null;'."\n";
+                $object .= '        }'."\n";
+            }
+        }
+        foreach ($this->fields as $name => $field) {
+            $object .= str_repeat(' ', 8).'$object[\''.$name.'\'] = ';
+            switch ($field['type']) {
+                case 'date':
+                    $object .= '$this->' . $name . '->toISO8601();' . "\n";
+                    break;
+                case 'datetime':
+                    $object .= '$this->' . $name . '->toISO8601();' . "\n";
+                    break;
+                case 'time':
+                    $object .= '$this->' . $name . '->toISO8601();' . "\n";
+                    break;
+                case 'timestamp':
+                    $object .= '$this->' . $name . '->toISO8601();' . "\n";
+                    break;
+                case 'year':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'bigint':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'decimal':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'double':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'float':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'int':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'mediumint':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'smallint':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'tinyint':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                case 'bit':
+                    $object .= '$this->' . $name . '->getValue();' . "\n";
+                    break;
+                default:
+                    $object .= '$this->' . $name . ';' . "\n";
+                    break;
+            }
+        }
+        
+        $object .= '        if ($array) {' . "\n";
+        $object .= '            return $object;' . "\n";
+        $object .= '        } else {' . "\n";
+        $object .= '            return json_encode((object)$object);' . "\n";
+        $object .= '        }' . "\n";
+        $object .= "    }\n\n";
+        return $object;
+    }
 
     /**
      * Generate inserts
@@ -320,19 +405,19 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '        $sql=\'INSERT INTO ' . $this->table . ' (\';' . "\n";
         $fields = '';
         $values = '';
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             if ($field['auto_incremental']) {
                 continue;
             } else {
                 $fields .= '        $sql.=\'' . $name . ',\';' . "\n";
-                $values .= '        $sql.=' . $this->_valueToDB($name, $field) . ',\';' . "\n";
+                $values .= '        $sql.=' . $this->valueToDB($name, $field) . ',\';' . "\n";
             }
         }
         $fields = substr($fields, 0, strlen($fields) - 4) . '\';' . "\n";
         $values = substr($values, 0, strlen($values) - 4) . ')\';' . "\n";
         $object .= $fields . '        $sql.=\') VALUES(\';' . "\n" . $values;
         $object .= '        if (DB::query($sql)) {' . "\n";
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             if ($field['auto_incremental']) {
                 $object .= '            $this->' . $name . '->setValue(DB::insertId());' . "\n";
             }
@@ -362,11 +447,11 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '    public function update()' . "\n";
         $object .= "    {\n";
         $object .= '        $sql=\'UPDATE ' . $this->table . ' SET \';' . "\n";
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             if ($field['auto_incremental']) {
-                $where .= '        $sql.=\'' . $name . '=\'.' . $this->_valueToDB($name, $field) . '\';' . "\n";
+                $where .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name, $field) . '\';' . "\n";
             } else {
-                $object .= '        $sql.=\'' . $name . '=\'.' . $this->_valueToDB($name, $field) . ',\';' . "\n";
+                $object .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name, $field) . ',\';' . "\n";
             }
         }
         $object = substr($object, 0, strlen($object) - 4) . ' \';' . "\n" . $where;
@@ -394,10 +479,10 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '    public function delete()' . "\n";
         $object .= "    {\n";
         $object .= '        $sql=\'DELETE FROM ' . $this->table . ' WHERE \';' . "\n";
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             // TODO: Make to Primary key
             if ($field['auto_incremental']) {
-                $object .= '        $sql.=\'' . $name . '=\'.' . $this->_valueToDB($name, $field) . '\';' . "\n";
+                $object .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name, $field) . '\';' . "\n";
             }
         }
         $object .= '        if (DB::query($sql)) {' . "\n";
@@ -418,21 +503,25 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '     * @param array   $parametros filter array' . "\n";
         $object .= '     * @param integer $num        number of elements' . "\n";
         $object .= '     * @param integer $page       page number' . "\n";
-        $object .= '     * @param integer $yuju       return a Yuju_Array or array' . "\n";
+        $object .= '     * @param integer $yuju       return a Yuju_Array, array or json' . "\n";
         $object .= '     *' . "\n";
         $object .= '     * @return boolean|Yuju_Array' . "\n";
         $object .= '     */' . "\n";
-        $object .= '     public static function search(array $parametros, $num=null, $page=null, $yuju=true) {' . "\n";
-        $object .= '        if ($yuju) {' . "\n";
+        $object .= '    public static function search(array $parametros, $num = null, $page = null, $yuju = 0)' . "\n";
+        $object .= '    {' . "\n";
+        $object .= '        if ($yuju == 0) {' . "\n";
         $object .= '            $array = new Yuju_Array();' . "\n";
+        $object .= '        } elseif ($yuju == 1) {' . "\n";
+        $object .= '            $array = array();' . "\n";
         $object .= '        } else {' . "\n";
-        $object .= '                $array = array();' . "\n";
-        $object .= '        } ' . "\n";
-        $object .= '        $where = "";' . "\n";
+        $object .= '            $array = new Yuju_Array();' . "\n";
+        $object .= '        }' . "\n";
+        $object .= '        $where = \'\';' . "\n";
+        $object .= '        $order = \'\';' . "\n";
         
         $object .= '        foreach ($parametros as $key => $param) {' . "\n";
         $object .= '            switch ($key) {' . "\n";
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             if (! $field['auto_incremental']) {
                 switch ($field['type']) {
                     case "char":
@@ -441,17 +530,17 @@ class ORM_MySQL extends AbstractYuju_ORM
                     case "mediumtext":
                     case "text":
                     case "tinytext":
-                        $object .= '            case "like-' . $name . '":' . "\n";
-                        $object .= "                \$where.='" . $name . " LIKE \'%'.DB::Parse(\$param) . '%\' AND ';" . "\n";
-                        $object .= '                break;' . "\n";
-                        $object .= '            case "eq-' . $name . '":' . "\n";
-                        $object .= "                \$where.='" . $name . " =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                break;' . "\n";
+                        $object .= '                case "like-' . $name . '":' . "\n";
+                        $object .= "                    \$where.='" . $name . " LIKE \'%'.DB::Parse(\$param) . '%\' AND ';" . "\n";
+                        $object .= '                    break;' . "\n";
+                        $object .= '                case "eq-' . $name . '":' . "\n";
+                        $object .= "                    \$where.='" . $name . " =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    break;' . "\n";
                         break;
                     case "bit":
-                        $object .= '            case "eq-' . $name . '":' . "\n";
-                        $object .= "                \$where.='" . $name . " =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                break;' . "\n";
+                        $object .= '                case "eq-' . $name . '":' . "\n";
+                        $object .= "                    \$where.='" . $name . " =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    break;' . "\n";
                         break;
                     case "double":
                     case "bigint":
@@ -461,48 +550,48 @@ class ORM_MySQL extends AbstractYuju_ORM
                     case "tinyint":
                     case "mediumint":
                     case "smallint":
-                        $object .= '            case "eq-' . $name . '":' . "\n";
-                        $object .= '                if (is_numeric($param)) {' . "\n";
-                        $object .= "                    \$where.='`" . $name . "` =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                } else {' . "\n";
-                        $object .= '                    Error::setError("' . $this->object_name . 'SearchError", "Value $param in eq-' . $name . ' is not a number");' . "\n";
-                        $object .= '                }' . "\n";
-                        $object .= '                break;' . "\n";
-                        $object .= '            case "like-' . $name . '":' . "\n";
-                        $object .= '                if (is_numeric($param)) {' . "\n";
-                        $object .= "                    \$where.='`" . $name . "` LIKE \'%'.DB::Parse(\$param) . '%\' AND ';" . "\n";
-                        $object .= '                } else {' . "\n";
-                        $object .= '                    Error::setError("' . $this->object_name . 'SearchError", "Value $param in like-' . $name . ' is not a number");' . "\n";
-                        $object .= '                }' . "\n";
-                        $object .= '                break;' . "\n";
-                        $object .= '            case "from-' . $name . '":' . "\n";
-                        $object .= '                if (is_numeric($param)) {' . "\n";
-                        $object .= "                    \$where.='`" . $name . "` >= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                } else {' . "\n";
-                        $object .= '                    Error::setError("' . $this->object_name . 'SearchError", "Value $param in from-' . $name . ' is not a number");' . "\n";
-                        $object .= '                }' . "\n";
-                        $object .= '                break;' . "\n";
-                        $object .= '            case "to-' . $name . '":' . "\n";
-                        $object .= '                if (is_numeric($param)) {' . "\n";
-                        $object .= "                    \$where.='`" . $name . "` <= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                } else {' . "\n";
-                        $object .= '                    Error::setError("' . $this->object_name . 'SearchError", "Value $param in to-' . $name . ', is not a number");' . "\n";
-                        $object .= '                }' . "\n";
-                        $object .= '                break;' . "\n";
+                        $object .= '                case "eq-' . $name . '":' . "\n";
+                        $object .= '                    if (is_numeric($param)) {' . "\n";
+                        $object .= "                        \$where.='`" . $name . "` =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    } else {' . "\n";
+                        $object .= '                        Error::setError("' . $this->object_name . 'SearchError", "Value $param in eq-' . $name . ' is not a number");' . "\n";
+                        $object .= '                    }' . "\n";
+                        $object .= '                    break;' . "\n";
+                        $object .= '                case "like-' . $name . '":' . "\n";
+                        $object .= '                    if (is_numeric($param)) {' . "\n";
+                        $object .= "                        \$where.='`" . $name . "` LIKE \'%'.DB::Parse(\$param) . '%\' AND ';" . "\n";
+                        $object .= '                    } else {' . "\n";
+                        $object .= '                        Error::setError("' . $this->object_name . 'SearchError", "Value $param in like-' . $name . ' is not a number");' . "\n";
+                        $object .= '                    }' . "\n";
+                        $object .= '                    break;' . "\n";
+                        $object .= '                case "from-' . $name . '":' . "\n";
+                        $object .= '                    if (is_numeric($param)) {' . "\n";
+                        $object .= "                        \$where.='`" . $name . "` >= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    } else {' . "\n";
+                        $object .= '                        Error::setError("' . $this->object_name . 'SearchError", "Value $param in from-' . $name . ' is not a number");' . "\n";
+                        $object .= '                    }' . "\n";
+                        $object .= '                    break;' . "\n";
+                        $object .= '                case "to-' . $name . '":' . "\n";
+                        $object .= '                    if (is_numeric($param)) {' . "\n";
+                        $object .= "                        \$where.='`" . $name . "` <= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    } else {' . "\n";
+                        $object .= '                        Error::setError("' . $this->object_name . 'SearchError", "Value $param in to-' . $name . ', is not a number");' . "\n";
+                        $object .= '                    }' . "\n";
+                        $object .= '                    break;' . "\n";
                         break;
                     case "year":
                     case "time":
                     case "datetime":
                     case "date":
-                        $object .= '            case "eq-' . $name . '":' . "\n";
-                        $object .= "                \$where.='`" . $name . "` =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                break;' . "\n";
-                        $object .= '            case "ini-' . $name . '":' . "\n";
-                        $object .= "                \$where.='`" . $name . "` >= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                break;' . "\n";
-                        $object .= '            case "end-' . $name . '":' . "\n";
-                        $object .= "                \$where.='`" . $name . "` <= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
-                        $object .= '                break;' . "\n";
+                        $object .= '                case "eq-' . $name . '":' . "\n";
+                        $object .= "                    \$where.='`" . $name . "` =\''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    break;' . "\n";
+                        $object .= '                case "ini-' . $name . '":' . "\n";
+                        $object .= "                    \$where.='`" . $name . "` >= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    break;' . "\n";
+                        $object .= '                case "end-' . $name . '":' . "\n";
+                        $object .= "                    \$where.='`" . $name . "` <= \''.DB::Parse(\$param) . '\' AND ';" . "\n";
+                        $object .= '                    break;' . "\n";
                         break;
                 }
                 if ($field['primary_key']) {
@@ -514,9 +603,11 @@ class ORM_MySQL extends AbstractYuju_ORM
                 }
             }
         }
-        $object .= '          }    ' . "\n";
-        
-        $object .= '        } ' . "\n";
+        $object .= '                case "orderby":' . "\n";
+        $object .= "                    \$order = DB::Parse(\$param);" . "\n";
+        $object .= '                    break;' . "\n";
+        $object .= '            }' . "\n";
+        $object .= '        }' . "\n";
         $object .= '        if (Error::haveError("' . $this->object_name . 'SearchError")) {' . "\n";
         $object .= '            return false;' . "\n";
         $object .= '        } else {' . "\n";
@@ -525,16 +616,22 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '            if ($where != "") {' . "\n";
         $object .= '                $where = " WHERE " . substr($where, 0, strlen($where) - 4);' . "\n";
         $object .= '            }' . "\n";
-        $object .= "            \$return = DB::Query(\$sql . \$where);" . "\n";
-        $object .= '            if ($yuju) { ' . "\n";
+        $object .= '            if ($order != "") {' . "\n";
+        $object .= '                $order = " ORDER BY ". $order;' . "\n";
+        $object .= '            }' . "\n";
+        
+        $object .= "            \$return = DB::Query(\$sql . \$where . \$order);" . "\n";
+        $object .= '            if ($yuju == 0) {' . "\n";
         $object .= '                $array->loadFromDB($return, new ' . $this->object_name . '(), $num, $page);' . "\n";
-        $object .= '            } else { ' . "\n";
+        $object .= '            } elseif ($yuju==1) {' . "\n";
         $object .= '                $array = $return->toArray($num, $page);' . "\n";
-        $object .= '            } ' . "\n";
+        $object .= '            } else {' . "\n";
+        $object .= '                $array = $array->toJson($return, new ' . $this->object_name . '(), $num, $page);' . "\n";
+        $object .= '            }' . "\n";
         $object .= '            $return->freeResult();' . "\n";
         $object .= '            return $array;' . "\n";
-        $object .= '        } ' . "\n";
-        $object .= '     }' . "\n";
+        $object .= '        }' . "\n";
+        $object .= '    }' . "\n";
         
         return $object;
     }
@@ -544,10 +641,10 @@ class ORM_MySQL extends AbstractYuju_ORM
      *
      * @param string $name   field name
      * @param array  &$field field
-     *            
+     *
      * @return string
      */
-    private function _valueToDB($name, &$field)
+    private function valueToDB($name, &$field)
     {
         $value = '';
         switch ($field['type']) {
@@ -594,7 +691,7 @@ class ORM_MySQL extends AbstractYuju_ORM
             $value .= '$this->' . $name . '->getValueDB().\'';
             break;
         default:
-            $value .= '\'\\\'\'.$this->' . $name . '.\'\\\'';
+            $value .= '\'\\\'\'.DB::parse($this->' . $name . ').\'\\\'';
             break;
         }
         return $value;
@@ -602,9 +699,9 @@ class ORM_MySQL extends AbstractYuju_ORM
 
     /**
      * Generate base
-     * 
+     *
      * @param string $directory directory
-     * 
+     *
      * @return boolean
      */
     public function generateBase($directory)

@@ -2,28 +2,10 @@
 /**
  * Contact File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -35,7 +17,6 @@
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
@@ -51,8 +32,8 @@ class Contact
     protected $template;
     // TODO: contact type
     protected $type;
-    
-    private $_state;
+
+    private $state;
 
     /**
      * Constructot
@@ -61,13 +42,12 @@ class Contact
      * @param string $emailfromcontact email from contact
      * @param string $template         template
      */
-    public function __construct(
-        $emailcontact, $emailfromcontact, $template='contact.tpl'
-    ) {
+    public function __construct($emailcontact, $emailfromcontact, $template = 'contact.tpl')
+    {
         $this->setEmailContact($emailcontact);
         $this->setEmailFromContact($emailfromcontact);
         $this->template=$template;
-        $this->_state=0;
+        $this->state=0;
     }
 
     /**
@@ -94,7 +74,7 @@ class Contact
      * Setter subject
      *
      * @param string $val subject
-     * 
+     *
      * @return boolean
      */
     public function setSubject($val)
@@ -107,7 +87,7 @@ class Contact
      * Setter telephone
      *
      * @param string $val telephone
-     * 
+     *
      * @return boolean
      */
     public function setTelephone($val)
@@ -130,7 +110,7 @@ class Contact
      * Setter message
      *
      * @param string $val message
-     * 
+     *
      * @return boolean
      */
     public function setMessage($val)
@@ -148,7 +128,7 @@ class Contact
     {
         return $this->email;
     }
-    
+
     /**
      * Getter email contact
      *
@@ -158,12 +138,12 @@ class Contact
     {
         return $this->emailcontact;
     }
-    
+
     /**
      * Setter email contact
      *
      * @param string $val email
-     * 
+     *
      * @return boolean
      */
     public function setEmailContact($val)
@@ -171,7 +151,7 @@ class Contact
         $this->emailcontact=$val;
         return true;
     }
-    
+
     /**
      * Getter email from
      *
@@ -181,12 +161,12 @@ class Contact
     {
         return $this->emailfromcontact;
     }
-    
+
     /**
      * Setter email from
      *
      * @param string $val email
-     * 
+     *
      * @return boolean
      */
     public function setEmailFromContact($val)
@@ -194,12 +174,12 @@ class Contact
         $this->emailfromcontact=$val;
         return true;
     }
-    
+
     /**
      * Set email
      *
      * @param string $val email
-     * 
+     *
      * @return boolean
      */
     public function setEmail($val)
@@ -227,7 +207,7 @@ class Contact
      * Setter name
      *
      * @param string $val name
-     * 
+     *
      * @return boolean
      */
     public function setName($val)
@@ -238,17 +218,17 @@ class Contact
 
     /**
      * Get state
-     * 
+     *
      * States:
      * 0  : pending send
      * 1  : send
-     * -1 : error    
+     * -1 : error
      *
      * @return number
      */
     public function getState()
     {
-        return $this->_state;
+        return $this->state;
     }
 
     /**
@@ -268,21 +248,20 @@ class Contact
             $email->assignByRef('message', $this->message);
             $message=$email->fetch(ROOT.'modules/contact/view/'.$this->template);
             if (mail(
-                $this->emailcontact, _('Contact ').$this->subject,
-                $message, "From: ".$this->emailfromcontact."\n"
+                $this->emailcontact,
+                _('Contact ').$this->subject,
+                $message,
+                "From: ".$this->emailfromcontact."\n"
             )
             ) {
-                $this->_state=1;
+                $this->state=1;
                 return true;
             } else {
-                $this->_state=-1;
-                Error::setError(
-                    "contact-send", _("Failed to send the contact form")
-                );
+                $this->state=-1;
+                Error::setError("contact-send", _("Failed to send the contact form"));
                 return false;
             }
         }
         return false;
     }
 }
-?>

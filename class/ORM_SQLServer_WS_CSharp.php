@@ -2,54 +2,28 @@
 /**
  * ORM_SQLServer_WS_CSharp File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 /**
  * ORM_SQLServer_WS_CSharp Class
- *
- * @category Core
- * @package  YujuFramework
- * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
- * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
- * @link     https://github.com/yuju-framework/yuju
- * @since    version 1.0
  */
 class ORM_SQLServer_WS_CSharp extends ORM_SQLServer
 {
     protected $namespace = 'WebService';
-    
+
     protected $urlnamespace = 'http://www.temp-uri.com';
-    
+
     /**
      * Setter NameSpace
-     * 
+     *
      * @param string $var namespace
-     * 
+     *
      * @return boolean
      */
     public function setNameSpace($var)
@@ -57,12 +31,12 @@ class ORM_SQLServer_WS_CSharp extends ORM_SQLServer
         $this->namespace = $var;
         return true;
     }
-    
+
     /**
      * Setter URL NameSpace
-     * 
+     *
      * @param string $var URL namespace
-     * 
+     *
      * @return boolean
      */
     public function setURLNameSpace($var)
@@ -75,7 +49,7 @@ class ORM_SQLServer_WS_CSharp extends ORM_SQLServer
      * Generate object
      *
      * @param string $object_name object name
-     * 
+     *
      * @return string
      */
     public function generateObject($object_name = '')
@@ -105,7 +79,7 @@ namespace ".$this->namespace."
     public class WS_".$this->object_name.":WSBase
     {
         public WSAuthenticationHeader auth;
-        
+
 ";
         $object.= $this->generateLoad();
         $object.= $this->generateInsert();
@@ -116,7 +90,7 @@ namespace ".$this->namespace."
                 ."}";
         return $object;
     }
-    
+
     /**
      * Generate file doc
      *
@@ -129,7 +103,7 @@ namespace ".$this->namespace."
         $return .= '/// </summary>'."\n";
         return $return;
     }
-    
+
     /**
      * Generate class doc
      *
@@ -161,7 +135,7 @@ namespace '.$this->namespace.'
         $object.= $this->generateDocClass()."\n";
         $object.= '    public class '.$this->object_name.':WSBase'."\n";
         $object.= '    {'."\n";
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->_fields as $name => $field) {
             $object .= "        [XmlElement(IsNullable = true)]\n";
             $object .= "        public string ".$name.";\n\n";
         }
@@ -178,12 +152,12 @@ namespace '.$this->namespace.'
     public function generateLoad()
     {
 
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->_fields as $name => $field) {
             if ($field['primary_key']) {
                 $id=$name;
             }
         }
-        
+
         $object='        [WebMethod(Description = "Loader '.$this->object_name.'")]'."\n";
         $object .= '        [SoapHeader("auth")]'."\n";
         $object .= '        public '.$this->object_name.' WS_'.$this->object_name.'load(string id)'."\n";
@@ -202,20 +176,22 @@ namespace '.$this->namespace.'
         $object .= "                SqlCommand command = new SqlCommand(null, conexion);\n";
         $select = "";
         $campos = '';
-        foreach ($this->_fields as $name=> $field) {
-                $campos.=$name.',';
+        foreach ($this->_fields as $name => $field) {
+            $campos.=$name.',';
         }
-        $campos = substr($campos,0, -1);
-        $object .= '                command.CommandText = "SELECT '.$campos.' FROM '.$this->table.' WHERE '.$id.'=@id;";'."\n";
+        $campos = substr($campos, 0, -1);
+        $object .= '                command.CommandText = "SELECT '.$campos.
+            ' FROM '.$this->table.' WHERE '.$id.'=@id;";'."\n";
         $object .= '                command.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(id);'."\n";
         $object .= "                command.Prepare();\n";
-        $object .= "                using (SqlDataReader myReader = command.ExecuteReader(CommandBehavior.CloseConnection))\n";
+        $object .= "                using (SqlDataReader myReader =
+            command.ExecuteReader(CommandBehavior.CloseConnection))\n";
         $object .= "                {\n";
         $object .= "                    while (myReader.Read())\n";
         $object .= "                    {\n";
         $i=0;
-        
-        foreach ($this->_fields as $name=> $field) {
+
+        foreach ($this->_fields as $name => $field) {
             $object .= "                        retorno.".$name." = ";
             if ($field['type'] == 'int') {
                 $object .= '(myReader.IsDBNull('.$i.') == true) ? "" : myReader.GetInt32('.$i.').ToString();'."\n";
@@ -241,23 +217,23 @@ namespace '.$this->namespace.'
 
     public function generateSearch()
     {
-
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->_fields as $name => $field) {
             if ($field['primary_key']) {
                 $id=$name;
             }
         }
-        
+
         $object  = "        [WebMethod(Description = \"Buscador tabla ".$this->object_name."\")]\n";
         $object .= "        [SoapHeader(\"auth\")]\n";
-        $object .= "        public WSSearch WS_".$this->object_name."Search(string[] fields, string[] values, string num = null, string page = null)\n";
+        $object .= "        public WSSearch WS_".$this->object_name.
+            "Search(string[] fields, string[] values, string num = null, string page = null)\n";
         $object .= "        {\n";
         $object .= "            if (auth.User != WSConfig.WSUser || auth.Password != WSConfig.WSPassword) {\n";
-		$object .= "                WSSearch error = new WSSearch ();\n";
-		$object .= "                error.error_code = \"0\";\n";
-		$object .= "                error.error_msj = \"Failed to authenticate user\";\n";
-		$object .= "                return error;\n";
-		$object .= "            }\n";
+        $object .= "                WSSearch error = new WSSearch ();\n";
+        $object .= "                error.error_code = \"0\";\n";
+        $object .= "                error.error_msj = \"Failed to authenticate user\";\n";
+        $object .= "                return error;\n";
+        $object .= "            }\n";
         $object .= "            string where = \"\";\n";
         $object .= "            string order = \"\";\n";
         $object .= "            string orderdir = \"\";\n";
@@ -272,7 +248,7 @@ namespace '.$this->namespace.'
         $object .= "                    switch (fields [iter]) {\n";
 
 
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->_fields as $name => $field) {
             $object .= $this->getSearchVar($name, $field);
         }
 
@@ -292,50 +268,61 @@ namespace '.$this->namespace.'
         $object .= "                if (num != null && page != null) {\n";
         $object .= "                    int numero = Convert.ToInt32 (num);\n";
         $object .= "                    int pagina = Convert.ToInt32 (page);\n";
-        $object .= "                    whereNums=\") AS a WHERE rows >= \" + (((pagina - 1) * numero) + 1) + \" AND rows <= \" + (pagina * numero);\n";
+        $object .= "                    whereNums=\") AS a WHERE rows
+            >= \" + (((pagina - 1) * numero) + 1) + \" AND rows <= \" + (pagina * numero);\n";
         $object .= "                } else {\n";
         $object .= "                    whereNums = \") AS a\";\n";
         $object .= "                }\n";
         $object .= "                \n";
         $campos ='';
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->_fields as $name => $field) {
             $campos.=$name.',';
         }
-        $campos = substr($campos,0, -1);
-        $object .= "                command.CommandText=\"SELECT ".$campos." FROM (SELECT ".$campos.", ROW_NUMBER() OVER (ORDER BY \"+order+\" \"+orderdir+\") AS rows FROM ".$this->table." \" + where + whereNums + \" ORDER BY \"+order+\" \"+orderdir;\n";
+        $campos = substr($campos, 0, -1);
+        $object .= "                command.CommandText=\"SELECT ".$campos.
+            " FROM (SELECT ".$campos.
+            ", ROW_NUMBER() OVER (ORDER BY \"+order+\" \"+orderdir+\") AS rows FROM ".$this->table.
+            " \" + where + whereNums + \" ORDER BY \"+order+\" \"+orderdir;\n";
         $object .= "                command.Prepare ();\n";
         $object .= "                using (SqlDataReader myReader = command.ExecuteReader (CommandBehavior.Default))\n";
         $object .= "                {\n";
         $object .= "                    while (myReader.Read()) {\n";
-        $object .= "                        ".$this->object_name." ".strtolower($this->object_name)." = new ".$this->object_name."();\n";
+        $object .= "                        ".$this->object_name." ".strtolower($this->object_name).
+            " = new ".$this->object_name."();\n";
         $c = 0;
-        foreach ($this->_fields as $name=> $field) {
+        foreach ($this->_fields as $name => $field) {
             switch ($field['type']) {
                 case "int":
-                    $object .= "                        ".strtolower($this->object_name).".".$name." = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetInt32 (".$c.").ToString ();\n";
+                    $object .= "                        ".strtolower($this->object_name).".".$name.
+                        " = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetInt32 (".$c.").ToString ();\n";
                     break;
                 case "varchar":
                 case "nvarchar":
-                    $object .= "                        ".strtolower($this->object_name).".".$name." = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetString (".$c.");\n";
+                    $object .= "                        ".strtolower($this->object_name).".".$name.
+                        " = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetString (".$c.");\n";
                     break;
                 case "datetime":
-                    $object .= "                        ".strtolower($this->object_name).".".$name." = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetDateTime (".$c.").ToString();\n";
+                    $object .= "                        ".strtolower($this->object_name).".".$name.
+                        " = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetDateTime (".$c.").ToString();\n";
                     break;
                 case "decimal":
-                    $object .= "                        ".strtolower($this->object_name).".".$name." = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetDecimal (".$c.").ToString();\n";
+                    $object .= "                        ".strtolower($this->object_name).".".$name.
+                        " = (myReader.IsDBNull (".$c.") == true) ? \"\" : myReader.GetDecimal (".$c.").ToString();\n";
                     break;
             }
             $c++;
         }
-        
+
         $object .= "                        AL.Add (".strtolower($this->object_name).");\n";
         $object .= "                    }\n";
         $object .= "                    myReader.Close();\n";
         $object .= "                }\n";
         $object .= "                \n";
-        $object .= "                command.CommandText = \"SELECT count(*) AS total FROM ".$this->table." \" + where;\n";
+        $object .= "                command.CommandText = \"SELECT count(*) AS total FROM ".$this->table.
+            " \" + where;\n";
         $object .= "                command.Prepare ();\n";
-        $object .= "                using (SqlDataReader myReader = command.ExecuteReader (CommandBehavior.CloseConnection))\n";
+        $object .= "                using (SqlDataReader myReader =
+            command.ExecuteReader (CommandBehavior.CloseConnection))\n";
         $object .= "                {\n";
         $object .= "                    myReader.Read ();\n";
         $object .= "                    retorno.num_rows = myReader.GetInt32 (0).ToString ();\n";
@@ -343,12 +330,13 @@ namespace '.$this->namespace.'
         $object .= "                }\n";
         $object .= "                conexion.Close();\n";
         $object .= "            }\n";
-        $object .= "            retorno.result = AL.ToArray (typeof(".$this->object_name.")) as ".$this->object_name."[];\n";
+        $object .= "            retorno.result = AL.ToArray (typeof(".$this->object_name.")) as ".
+            $this->object_name."[];\n";
         $object .= "            return retorno;\n";
         $object .= "        }\n\n";
         return $object;
     }
-    
+
     protected function getSearchVar($name, $field)
     {
         $object ='';
@@ -356,31 +344,37 @@ namespace '.$this->namespace.'
             case "char":
                 $object .= '                    case "like-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." LIKE @like_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@like_".$name."\", SqlDbType.Char, ".$field['number'].").Value = \"%\" + values [iter] + \"%\";\n";
+                $object .= "                        command.Parameters.Add (\"@like_".$name.
+                    "\", SqlDbType.Char, ".$field['number'].").Value = \"%\" + values [iter] + \"%\";\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "eq-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." = @eq_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@eq_".$name."\", SqlDbType.Char, ".$field['number'].").Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@eq_".$name.
+                    "\", SqlDbType.Char, ".$field['number'].").Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 break;
             case "varchar":
                 $object .= '                    case "like-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." LIKE @like_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@like_".$name."\", SqlDbType.VarChar, ".$field['number'].").Value = \"%\" + values [iter] + \"%\";\n";
+                $object .= "                        command.Parameters.Add (\"@like_".$name.
+                    "\", SqlDbType.VarChar, ".$field['number'].").Value = \"%\" + values [iter] + \"%\";\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "eq-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." = @eq_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@eq_".$name."\", SqlDbType.VarChar, ".$field['number'].").Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@eq_".$name.
+                    "\", SqlDbType.VarChar, ".$field['number'].").Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 break;
             case "nchar":
                 $object .= '                    case "like-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." LIKE @like_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@like_".$name."\", SqlDbType.NChar, ".$field['number'].").Value = \"%\" + values [iter] + \"%\";\n";
+                $object .= "                        command.Parameters.Add (\"@like_".$name.
+                    "\", SqlDbType.NChar, ".$field['number'].").Value = \"%\" + values [iter] + \"%\";\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "eq-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." = @eq_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@eq_".$name."\", SqlDbType.NChar, ".$field['number'].").Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@eq_".$name.
+                    "\", SqlDbType.NChar, ".$field['number'].").Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 break;
             case "bit":
@@ -398,54 +392,65 @@ namespace '.$this->namespace.'
             case "smallint":
                 $object .= '                    case "eq-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." = @eq_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@eq_".$name."\", SqlDbType.Int).Value = Convert.ToInt32(values [iter]);\n";
+                $object .= "                        command.Parameters.Add (\"@eq_".$name.
+                    "\", SqlDbType.Int).Value = Convert.ToInt32(values [iter]);\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "like-'.$name.'":'."\n";
-                $object .= "                        where+=\"Cast(".$name." As nvarchar(20)) LIKE @like_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@like_".$name."\", SqlDbType.NVarChar, 20).Value = \"%\" + values [iter] + \"%\";\n";
+                $object .= "                        where+=\"Cast(".$name.
+                    " As nvarchar(20)) LIKE @like_".$name." AND \";\n";
+                $object .= "                        command.Parameters.Add (\"@like_".$name.
+                    "\", SqlDbType.NVarChar, 20).Value = \"%\" + values [iter] + \"%\";\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "from-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." >= @from_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@from_".$name."\", SqlDbType.Int).Value = Convert.ToInt32(values [iter]);\n";
+                $object .= "                        command.Parameters.Add (\"@from_".$name.
+                    "\", SqlDbType.Int).Value = Convert.ToInt32(values [iter]);\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "to-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." <= @to_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@to_".$name."\", SqlDbType.Int).Value = Convert.ToInt32(values [iter]);\n";
+                $object .= "                        command.Parameters.Add (\"@to_".$name.
+                    "\", SqlDbType.Int).Value = Convert.ToInt32(values [iter]);\n";
                 $object .= '                        break;'."\n";
                 break;
             case "datetime":
                 $object .= '                    case "eq-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." = @eq_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@eq_".$name."\", SqlDbType.DateTime).Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@eq_".$name.
+                    "\", SqlDbType.DateTime).Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "ini-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." >= @ini_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@ini_".$name."\", SqlDbType.DateTime).Value = values [iter] + \" 00:00:00\";\n";
+                $object .= "                        command.Parameters.Add (\"@ini_".$name.
+                    "\", SqlDbType.DateTime).Value = values [iter] + \" 00:00:00\";\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "end-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." <= @end_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@end_".$name."\", SqlDbType.DateTime).Value = values [iter] + \" 23:59:59\";\n";
+                $object .= "                        command.Parameters.Add (\"@end_".$name.
+                    "\", SqlDbType.DateTime).Value = values [iter] + \" 23:59:59\";\n";
                 $object .= '                        break;'."\n";
                 break;
             case "date":
                 $object .= '                    case "eq-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." = @eq_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@eq_".$name."\", SqlDbType.Date).Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@eq_".$name.
+                    "\", SqlDbType.DateTime).Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "ini-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." >= @ini_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@ini_".$name."\", SqlDbType.Date).Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@ini_".$name.
+                    "\", SqlDbType.DateTime).Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 $object .= '                    case "end-'.$name.'":'."\n";
                 $object .= "                        where+=\"".$name." >= @end_".$name." AND \";\n";
-                $object .= "                        command.Parameters.Add (\"@end_".$name."\", SqlDbType.Date).Value = values [iter];\n";
+                $object .= "                        command.Parameters.Add (\"@end_".$name.
+                    "\", SqlDbType.DateTime).Value = values [iter];\n";
                 $object .= '                        break;'."\n";
                 break;
         }
         return $object;
     }
 
-    
+
     /**
      * Generate inserts
      *
@@ -459,8 +464,8 @@ namespace '.$this->namespace.'
         foreach ($this->_fields as $name => $field) {
             $object .= 'string '.$name.', ';
         }
-        
-        $object = substr($object, 0,-2).')' . "\n";
+
+        $object = substr($object, 0, -2).')' . "\n";
         $object .= "        {\n";
         $object .= '            if (auth.User != WSConfig.WSUser || auth.Password != WSConfig.WSPassword) {' . "\n";
         $object .= '                return 0;' . "\n";
@@ -479,8 +484,8 @@ namespace '.$this->namespace.'
             }
         }
         $values = substr($values, 0, -1);
-        $object=substr($object, 0,-1).') VALUES('.$values.")\";\n";
-        foreach($this->_fields as $name => $field) {
+        $object=substr($object, 0, -1).') VALUES('.$values.")\";\n";
+        foreach ($this->_fields as $name => $field) {
             if (!$field['primary_key']) {
                 $object.='                '.$this->getParameterVar($name, $field)."\n";
             }
@@ -499,20 +504,20 @@ namespace '.$this->namespace.'
 
     /**
      * Generate update function
-     * 
+     *
      * @return string
      */
     public function generateUpdate()
     {
-        
+
         $object  = "        [WebMethod(Description = \"Update ".$this->object_name."\")]\n";
         $object .= "        [SoapHeader(\"auth\")]\n";
         $object .= '        public int WS_'.$this->object_name.'Update(';
         foreach ($this->_fields as $name => $field) {
             $object .= 'string '.$name.', ';
         }
-        
-        $object = substr($object, 0,-2).')' . "\n";
+
+        $object = substr($object, 0, -2).')' . "\n";
         $object .= "        {\n";
         $object .= '            if (auth.User != WSConfig.WSUser || auth.Password != WSConfig.WSPassword) {' . "\n";
         $object .= '                return 0;' . "\n";
@@ -530,8 +535,8 @@ namespace '.$this->namespace.'
                 $object .=$name.'=@'.$name.',';
             }
         }
-        $object=substr($object, 0,-1).' '.$primary."\";\n";
-        foreach($this->_fields as $name => $field) {
+        $object=substr($object, 0, -1).' '.$primary."\";\n";
+        foreach ($this->_fields as $name => $field) {
             $object.='                '.$this->getParameterVar($name, $field)."\n";
         }
         $object .= '                command.Prepare();' . "\n";
@@ -542,16 +547,18 @@ namespace '.$this->namespace.'
         $object .= "        }\n\n";
         return $object;
     }
-      
+
     public function getParameterVar($name, $field)
     {
         $object ='';
         switch ($field['type']) {
             case 'varchar':
-                $object .='command.Parameters.Add("@'.$name.'", SqlDbType.NVarChar, '.$field['number'].').Value = '.$name.';';
+                $object .='command.Parameters.Add("@'.$name.
+                    '", SqlDbType.NVarChar, '.$field['number'].').Value = '.$name.';';
                 break;
             case 'int':
-                $object .='command.Parameters.Add("@'.$name.'", SqlDbType.Int).Value = '.$name.';';
+                $object .='command.Parameters.Add("@'.$name.
+                    '", SqlDbType.Int).Value = '.$name.';';
                 break;
         }
         return $object;
@@ -581,7 +588,8 @@ namespace '.$this->namespace.'
                 $primary = $name;
             }
         }
-        $object .= '                command.CommandText = "DELETE FROM '.$this->table.' WHERE '.$primary.'=@id";' . "\n";
+        $object .= '                command.CommandText = "DELETE FROM '.$this->table.
+            ' WHERE '.$primary.'=@id";' . "\n";
         $object .= '                command.Parameters.Add("@id", SqlDbType.Int).Value = id;' . "\n";
         $object .= '                command.Prepare();' . "\n";
         $object .= '                r = command.ExecuteNonQuery();' . "\n";
@@ -591,15 +599,15 @@ namespace '.$this->namespace.'
         $object .= "        }\n\n";
         return $object;
     }
-    
+
     /**
      * Generate base files
-     * 
+     *
      * @param string $directory project directory
      */
     public function generateBase($directory)
     {
-        $file = new File(); 
+        $file = new File();
         $file->setContent('using System;
 using System.Collections;
 using System.Web;
@@ -655,17 +663,18 @@ namespace '.$this->namespace.'
 		protected static string DBPASS = "'.$this->db_pass.'";
 
 		protected static string DBNAME = "'.$this->db_data.'";
-		public static string connectionString = "Data Source="+DBHOST+";Initial Catalog="+DBNAME+";User ID="+DBUSER+";Password="+DBPASS;
-        
+		public static string connectionString =
+        "Data Source="+DBHOST+";Initial Catalog="+DBNAME+";User ID="+DBUSER+";Password="+DBPASS;
+
         public static string WSUser = "user";
 		public static string WSPassword = "pass";
-                        
+
 		public static string SMTPHOST = "";
 		public static string SMTPUSER = "";
 		public static string SMTPPASS = "";
 	}
 }');
         $file->create($directory.'WSConfig.cs');
-        
+
     }
 }
