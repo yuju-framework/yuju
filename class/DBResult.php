@@ -1,6 +1,6 @@
 <?php
 /**
- * DB_Result File
+ * DBResult File
  *
  * @category Core
  * @package  YujuFramework
@@ -11,7 +11,7 @@
  */
 
 /**
- * DB_Result Class
+ * DBResult Class
  *
  * @category Core
  * @package  YujuFramework
@@ -20,7 +20,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class DB_Result
+class DBResult
 {
 
     private $dbtype;

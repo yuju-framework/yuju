@@ -207,7 +207,7 @@ class DB
         $con = null;
         switch ($dbtype) {
             case 'mysql':
-                $con = @new mysqli($dbhost, $dbuser, $dbpass, $dbdata);
+                $con = @new \mysqli($dbhost, $dbuser, $dbpass, $dbdata);
                 if ($con->connect_error) {
                     return false;
                 }
@@ -238,8 +238,8 @@ class DB
                 //mssql_select_db($dbdata, $con);
                 self::$connection[] = array('oracle', $con);
                 break;
-            }
-            return count(self::$connection);
+        }
+        return count(self::$connection);
     }
 
     /**
@@ -342,7 +342,7 @@ class DB
                     echo self::$connection[$connection - 1][1]->error;
                     return false;
                 }
-                return new DB_Result('mysql', $result);
+                return new DBResult('mysql', $result);
                 break;
             case 'sqlserver':
                 $result = mssql_query($sql, self::$connection[$connection - 1][1]);
@@ -350,12 +350,12 @@ class DB
                     echo mssql_get_last_message();
                     return false;
                 }
-                return new DB_Result('sqlserver', $result);
+                return new DBResult('sqlserver', $result);
                 break;
             case 'oracle':
                 $result = oci_parse(self::$connection[$connection - 1][1], $sql);
                 oci_execute($result);
-                return new DB_Result('oracle', $result);
+                return new DBResult('oracle', $result);
                 break;
         }
     }
@@ -391,7 +391,7 @@ class DB
      * @param string  $name       database name
      * @param integer $connection connection id
      *
-     * @return boolean|DB_Result
+     * @return boolean|DBResult
      * @since version 1.0
      */
     public static function createSchema($name, $connection = 1)
@@ -420,7 +420,7 @@ class DB
                     );
                     return false;
                 }
-                return new DB_Result('mysql', $result);
+                return new DBResult('mysql', $result);
                 break;
         }
     }
@@ -431,7 +431,7 @@ class DB
      * @param string  $name       database name
      * @param integer $connection connection id
      *
-     * @return boolean|DB_Result
+     * @return boolean|DBResult
      * @since version 1.0
      */
     public static function dropSchema($name, $connection = 1)
@@ -459,7 +459,7 @@ class DB
                     );
                     return false;
                 }
-                return new DB_Result('mysql', $result);
+                return new DBResult('mysql', $result);
                 break;
         }
     }

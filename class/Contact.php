@@ -30,13 +30,10 @@ class Contact
     protected $emailcontact;
     protected $emailfromcontact;
     protected $template;
-    // TODO: contact type
-    protected $type;
-
     private $state;
 
     /**
-     * Constructot
+     * Constructor
      *
      * @param string $emailcontact     email contact
      * @param string $emailfromcontact email from contact
@@ -240,7 +237,7 @@ class Contact
     {
         if (!Error::exist()) {
             // Email view template
-            $email=new Yuju_View();
+            $email=new YujuView();
             $email->caching=false;
             $email->assignByRef('name', $this->name);
             $email->assignByRef('email', $this->email);

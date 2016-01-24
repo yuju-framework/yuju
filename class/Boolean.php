@@ -25,7 +25,7 @@ class Boolean
     /**
      * Value
      *
-     * @var    int
+     * @var    boolean
      * @access protected
      */
     private $value;
@@ -36,7 +36,7 @@ class Boolean
      */
     public function __construct()
     {
-        $this->value= 0;
+        $this->value= null;
     }
 
     /**
@@ -48,7 +48,7 @@ class Boolean
      */
     protected function isBoolean($val)
     {
-        if ($val== 0 || $val== 1) {
+        if ($val === 0 || $val === 1 || $val === true || $val === false) {
             return true;
         } else {
             return false;
@@ -75,7 +75,13 @@ class Boolean
      */
     public function getValueToDB()
     {
-        return $this->value;
+        if ($this->value === null) {
+            return 'NULL';
+        } elseif ($this->value === true) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -87,27 +93,20 @@ class Boolean
      */
     public function setValue($val)
     {
-        if ($this->isBoolean($val)) {
-            $this->value=intval($val);
+        if ($val === null || $val === '') {
+            $this->value=null;
             return true;
-        } else {
-            if ($val==null || $val=='') {
-                $this->value='NULL';
-                return true;
+        } elseif ($this->isBoolean($val)) {
+            if ($val===1 || $val === true) {
+                $this->value = true;
+            } else {
+                $this->value = false;
             }
+            return true;
         }
         return false;
     }
-
-    public function getBoolean()
-    {
-        if ($this->value == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    
     /**
      * Get value name
      *

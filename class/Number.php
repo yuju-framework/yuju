@@ -32,49 +32,49 @@ class Number
      *
      * @var mixed
      */
-    private $_value;
+    private $value;
 
     /**
      * Number type
      *
      * @var integer
      */
-    private $_type;
+    private $type;
 
     /**
      * Unsigned
      *
      * @var boolean
      */
-    private $_unsigned;
+    private $unsigned;
 
     /**
      * Number integer
      *
      * @var integer
      */
-    private $_integer;
+    private $integer;
 
     /**
      * Number decimal
      *
      * @var integer
      */
-    private $_decimal;
+    private $decimal;
 
     /**
      * Maximum
      *
      * @var mixed
      */
-    private $_max;
+    private $max;
 
     /**
      * Minimum value
      *
      * @var mixed
      */
-    private $_min;
+    private $min;
 
     /**
      * Setter Type
@@ -84,13 +84,13 @@ class Number
      * @return boolean
      * @since version 1.0
      */
-    private function _setType($type)
+    private function setType($type)
     {
         if ($type == Number::INTEGER
             || $type == Number::DECIMAL
             || $type == Number::FLOAT
         ) {
-            $this->_type = $type;
+            $this->type = $type;
             return true;
         } else {
             return false;
@@ -105,13 +105,13 @@ class Number
      * @return boolean
      * @since version 1.0
      */
-    private function _setUnsigned($unsigned)
+    private function setUnsigned($unsigned)
     {
         if (!is_bool($unsigned)) {
-            $this->_unsigned = true;
+            $this->unsigned = true;
             return false;
         }
-        $this->_unsigned = $unsigned;
+        $this->unsigned = $unsigned;
         return true;
     }
 
@@ -123,13 +123,13 @@ class Number
      * @return boolean
      * @since version 1.0
      */
-    private function _setInteger($integer)
+    private function setInteger($integer)
     {
-        if ($this->_type == Number::INTEGER) {
-            $this->_integer = null;
+        if ($this->type == Number::INTEGER) {
+            $this->integer = null;
             return false;
         }
-        $this->_integer = $integer;
+        $this->integer = $integer;
         return true;
     }
 
@@ -141,13 +141,13 @@ class Number
      * @return boolean
      * @since version 1.0
      */
-    private function _setDecimal($decimal)
+    private function setDecimal($decimal)
     {
-        if ($this->_type == Number::INTEGER) {
-            $this->_decimal = null;
+        if ($this->type == Number::INTEGER) {
+            $this->decimal = null;
             return false;
         }
-        $this->_decimal = $decimal;
+        $this->decimal = $decimal;
         return true;
     }
 
@@ -159,17 +159,17 @@ class Number
      * @return boolean
      * @since version 1.0
      */
-    private function _setMax($max)
+    private function setMax($max)
     {
-        $this->_max = PHP_INT_MAX;
-        if ($this->_type == Number::INTEGER
-            || $this->_type == Number::DECIMAL
-            || $this->_type == Number::FLOAT
+        $this->max = PHP_INT_MAX;
+        if ($this->type == Number::INTEGER
+            || $this->type == Number::DECIMAL
+            || $this->type == Number::FLOAT
         ) {
             if (is_int($max)) {
-                $this->_max = $max;
+                $this->max = $max;
             } else {
-                $this->_max = PHP_INT_MAX;
+                $this->max = PHP_INT_MAX;
             }
         }
     }
@@ -182,21 +182,21 @@ class Number
      * @return boolean
      * @since version 1.0
      */
-    private function _setMin($min)
+    private function setMin($min)
     {
-        $this->_min = -PHP_INT_MAX;
-        if ($this->_type == Number::INTEGER
-            || $this->_type == Number::DECIMAL
-            || $this->_type == Number::FLOAT
+        $this->min = -PHP_INT_MAX;
+        if ($this->type == Number::INTEGER
+            || $this->type == Number::DECIMAL
+            || $this->type == Number::FLOAT
         ) {
             if (is_int($min)) {
-                if ($this->_unsigned && $min < 0) {
-                    $this->_min = 0;
+                if ($this->unsigned && $min < 0) {
+                    $this->min = 0;
                 } else {
-                    $this->_min = $min;
+                    $this->min = $min;
                 }
-            } elseif ($this->_unsigned) {
-                $this->_min = 0;
+            } elseif ($this->unsigned) {
+                $this->min = 0;
             }
         }
     }
@@ -219,14 +219,14 @@ class Number
         $max = null,
         $min = null
     ) {
-        $this->_setType($type);
-        $this->_setUnsigned($unsigned);
-        $this->_setInteger($integer);
-        $this->_setDecimal($decimal);
-        $this->_setMax($max);
-        $this->_setMin($min);
+        $this->setType($type);
+        $this->setUnsigned($unsigned);
+        $this->setInteger($integer);
+        $this->setDecimal($decimal);
+        $this->setMax($max);
+        $this->setMin($min);
 
-        $this->_value = null;
+        $this->value = null;
     }
 
     /**
@@ -236,8 +236,8 @@ class Number
      */
     public function getValue()
     {
-        if (!is_null($this->_value)) {
-            return $this->_value;
+        if (!is_null($this->value)) {
+            return $this->value;
         } else {
             return null;
         }
@@ -250,8 +250,8 @@ class Number
      */
     public function getValueToDB()
     {
-        if (!is_null($this->_value)) {
-            return $this->_value;
+        if (!is_null($this->value)) {
+            return $this->value;
         } else {
             return 'NULL';
         }
@@ -260,37 +260,37 @@ class Number
     /**
      * Setter value
      *
-     * @param unknown_type $var value
+     * @param unknowntype $var value
      *
      * @return boolean
      */
     public function setValue($var)
     {
         if ($var == '' || $var === null) {
-            $this->_value = null;
+            $this->value = null;
             return true;
         }
-        if (!is_numeric($var) || $this->_max < $var || $this->_min > $var) {
+        if (!is_numeric($var) || $this->max < $var || $this->min > $var) {
             return false;
         }
         $var = 0 + $var;
-        if ($this->_type == Number::INTEGER) {
+        if ($this->type == Number::INTEGER) {
             if (!is_int($var)) {
                 return false;
             }
-        } elseif ($this->_type == Number::DECIMAL) {
-            if (Number::countNumbers($var) > $this->_integer
-                || Number::countDecimals($var) > $this->_decimal
+        } elseif ($this->type == Number::DECIMAL) {
+            if (Number::countNumbers($var) > $this->integer
+                || Number::countDecimals($var) > $this->decimal
             ) {
                 return false;
             }
-            $maxDecimals=$this->_decimal;
+            $maxDecimals=$this->decimal;
             $var=number_format($var, $maxDecimals, '.', '');
-        } elseif ($this->_type == Number::FLOAT) {
-            $maxDecimals=$this->_decimal;
+        } elseif ($this->type == Number::FLOAT) {
+            $maxDecimals=$this->decimal;
             $var=number_format($var, $maxDecimals, '.', '');
         }
-        $this->_value = $var;
+        $this->value = $var;
         return true;
     }
 
@@ -301,10 +301,10 @@ class Number
      */
     public function toDB()
     {
-        if ($this->_value == null) {
+        if ($this->value == null) {
             return 'NULL';
         } else {
-            return DB::parse($this->_value);
+            return DB::parse($this->value);
         }
     }
 

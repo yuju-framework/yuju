@@ -1,6 +1,6 @@
 <?php
 /**
- * Yujuarray Class
+ * YujuArray Class
  *
  * @category Core
  * @package  YujuFramework
@@ -11,7 +11,7 @@
  */
 
 /**
- * Class Yujuarray
+ * Class YujuArray
  *
  * @category Core
  * @package  YujuFramework
@@ -20,7 +20,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class Yujuarray implements Iterator
+class YujuArray implements Iterator
 {
 
     /**
@@ -218,13 +218,13 @@ class Yujuarray implements Iterator
      * Load object from database
      *
      * @param mixed       &$return return database object
-     * @param IYujuarray $object  object
+     * @param IYujuArray $object  object
      * @param string      $num     num rows
      * @param string      $page    page number
      *
      * @return void
      */
-    public function loadFromDB(&$return, IYujuarray $object, $num = null, $page = null)
+    public function loadFromDB(&$return, IYujuArray $object, $num = null, $page = null)
     {
         if ($return->numRows() > 0) {
             if ($num == null || $page == null) {
@@ -257,7 +257,7 @@ class Yujuarray implements Iterator
         }
     }
 
-    public function toJson(&$return, IYujuarray $object, $num = null, $page = null)
+    public function toJson(&$return, IYujuArray $object, $num = null, $page = null)
     {
         $array = array();
         if ($return->numRows() > 0) {

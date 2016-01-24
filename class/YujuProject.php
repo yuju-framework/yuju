@@ -1,6 +1,6 @@
 <?php
 /**
- * Yuju_Project File
+ * YujuProject File
  *
  * @category Core
  * @package  YujuFramework
@@ -10,10 +10,18 @@
  * @since    version 1.0
  */
 
-/**
- * Class Yuju_Project
- */
-class Yuju_Project
+
+ /**
+  * YujuProject Class
+  *
+  * @category Core
+  * @package  YujuFramework
+  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
+  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
+  * @link     https://github.com/yuju-framework/yuju
+  * @since    version 1.0
+  */
+class YujuProject
 {
 
     /**
@@ -661,7 +669,7 @@ class Yuju_Project
     public function compileAll()
     {
         include_once $this->root.'conf/site.php';
-        return Yuju_View::compileAll();
+        return YujuView::compileAll();
     }
 
     /**

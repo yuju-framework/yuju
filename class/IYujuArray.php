@@ -1,6 +1,6 @@
 <?php
 /**
- * IYuju_Array File
+ * IYujuArray File
  *
  * @category Core
  * @package  YujuFramework
@@ -11,7 +11,7 @@
  */
 
 /**
- * IYuju_Array Interface
+ * IYujuArray Interface
  *
  * @category Core
  * @package  YujuFramework
@@ -20,12 +20,12 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-interface IYuju_Array
+interface IYujuArray
 {
     /**
      * Load Object
      *
-     * @param mixed $var Id or DB_Result fetch object
+     * @param mixed $var Id or DBResult fetch object
      *
      * @return boolean
      */

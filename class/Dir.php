@@ -28,7 +28,7 @@ class Dir
      *
      * @var string
      */
-    private $_path;
+    private $path;
 
     /**
      * Getter directory path
@@ -38,7 +38,7 @@ class Dir
      */
     public function getPath()
     {
-        return $this->_path;
+        return $this->path;
     }
 
     /**
@@ -51,7 +51,7 @@ class Dir
      */
     public function setPath($path)
     {
-        $this->_path=$path;
+        $this->path=$path;
         return true;
     }
 

@@ -1,45 +1,26 @@
 <?php
 /**
- * ORM_MySQL File
- *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * ORMMySQL File
  *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 /**
- * ORM_MySQL Class
+ * ORMMySQL Class
  *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class ORM_MySQL extends AbstractYuju_ORM
+class ORMMySQL extends AbstractYujuORM
 {
 
     /**
@@ -193,9 +174,9 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= $this->generateDocClass();
         // TODO: check if $_fileds null
         if ($object_name == '') {
-            $object .= 'class ' . $this->getCamelCase($this->table) . " implements IYuju_Array\n{\n";
+            $object .= 'class ' . $this->getCamelCase($this->table) . " implements IYujuArray\n{\n";
         } else {
-            $object .= 'class ' . $this->getCamelCase($object_name) . " implements IYuju_Array\n{\n\n";
+            $object .= 'class ' . $this->getCamelCase($object_name) . " implements IYujuArray\n{\n\n";
         }
         $object .= $this->generateVars();
         $object .= $this->generateConstructor();
@@ -229,7 +210,7 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object = '    /**' . "\n";
         $object .= '     * Load ' . $this->object_name . "\n";
         $object .= '     *' . "\n";
-        $object .= '     * @param mixed $var Id or DB_Result fetch object' . "\n";
+        $object .= '     * @param mixed $var Id or DBResult fetch object' . "\n";
         $object .= '     *' . "\n";
         $object .= '     * @return boolean' . "\n";
         $object .= '     */' . "\n";
@@ -503,18 +484,18 @@ class ORM_MySQL extends AbstractYuju_ORM
         $object .= '     * @param array   $parametros filter array' . "\n";
         $object .= '     * @param integer $num        number of elements' . "\n";
         $object .= '     * @param integer $page       page number' . "\n";
-        $object .= '     * @param integer $yuju       return a Yuju_Array, array or json' . "\n";
+        $object .= '     * @param integer $yuju       return a YujuArray, array or json' . "\n";
         $object .= '     *' . "\n";
-        $object .= '     * @return boolean|Yuju_Array' . "\n";
+        $object .= '     * @return boolean|YujuArray' . "\n";
         $object .= '     */' . "\n";
         $object .= '    public static function search(array $parametros, $num = null, $page = null, $yuju = 0)' . "\n";
         $object .= '    {' . "\n";
         $object .= '        if ($yuju == 0) {' . "\n";
-        $object .= '            $array = new Yuju_Array();' . "\n";
+        $object .= '            $array = new YujuArray();' . "\n";
         $object .= '        } elseif ($yuju == 1) {' . "\n";
         $object .= '            $array = array();' . "\n";
         $object .= '        } else {' . "\n";
-        $object .= '            $array = new Yuju_Array();' . "\n";
+        $object .= '            $array = new YujuArray();' . "\n";
         $object .= '        }' . "\n";
         $object .= '        $where = \'\';' . "\n";
         $object .= '        $order = \'\';' . "\n";

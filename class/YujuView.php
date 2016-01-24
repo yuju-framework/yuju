@@ -1,6 +1,6 @@
 <?php
 /**
- * Yuju_View File
+ * YujuView File
  *
  * @category Core
  * @package  YujuFramework
@@ -10,10 +10,17 @@
  * @since    version 1.0
  */
 
-/**
- * Class Yuju_View
- */
-class Yuju_View
+ /**
+  * YujuView Class
+  *
+  * @category Core
+  * @package  YujuFramework
+  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
+  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
+  * @link     https://github.com/yuju-framework/yuju
+  * @since    version 1.0
+  */
+class YujuView
 {
     protected $name;
     protected $title;
@@ -334,7 +341,7 @@ class Yuju_View
         } else {
             include_once ROOT . 'lib/Smarty/Smarty.class.php';
         }
-        $this->template = new Smarty();
+        $this->template = new \Smarty();
         $this->cssfile = array();
         $this->jsfile = array();
         $this->template->template_dir = ROOT . 'templates/';
@@ -401,7 +408,7 @@ class Yuju_View
      */
     public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
     {
-        if (Yuju_View::exist(str_replace('&', '/', substr($template, 0, strlen($template) - 4)))) {
+        if (YujuView::exist(str_replace('&', '/', substr($template, 0, strlen($template) - 4)))) {
             $this->load(str_replace('&', '/', substr($template, 0, strlen($template) - 4)));
             return $this->template->display($template, $cache_id, $compile_id, $parent);
         }
@@ -419,7 +426,7 @@ class Yuju_View
         if ($n == '') {
             $n = 'index';
         }
-        $template = Yuju_View::exist($n);
+        $template = YujuView::exist($n);
         if ($template!==false) {
             if ($n != $template) {
                 $this->regex = substr($n, strlen($template));
@@ -452,7 +459,7 @@ class Yuju_View
     public static function exist($n)
     {
         $explode = explode('/', $n);
-
+        
         $result = DB::Query(
             'SELECT name from page WHERE name=\'' . DB::Parse($n) . '\'
             OR (regex=1 AND name=\''.DB::parse($explode[0]).'\')'
@@ -548,7 +555,7 @@ class Yuju_View
         $all = array();
         $result = DB::query('SELECT * from page ORDER BY name ASC');
         while ($obj = $result->fetchObject()) {
-            $w = new Yuju_View();
+            $w = new YujuView();
             $w->load($obj->name);
             $all[] = $w;
         }
@@ -769,7 +776,7 @@ class Yuju_View
         if ($name == 'compile-all-web-pages') {
             $result = DB::query('SELECT * from page');
             while ($obj = $result->fetchObject()) {
-                $w = new Yuju_View();
+                $w = new YujuView();
                 $w->MakeTemplate($obj->name);
             }
             return true;
@@ -939,7 +946,7 @@ class Yuju_View
      */
     public static function compileAll()
     {
-        $view = new Yuju_View();
+        $view = new YujuView();
         $view->makeTemplate("compile-all-web-pages");
         return true;
     }

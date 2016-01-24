@@ -1,6 +1,6 @@
 <?php
 /**
- * ORM_SQLServer_WS_CSharp File
+ * ORMSQLServerWSCSharp File
  *
  * @category Core
  * @package  YujuFramework
@@ -11,14 +11,14 @@
  */
 
 /**
- * ORM_SQLServer_WS_CSharp Class
+ * ORMSQLServerWSCSharp Class
  */
-class ORM_SQLServer_WS_CSharp extends ORM_SQLServer
+class ORMSQLServerWSCSharp extends ORMSQLServer
 {
     protected $namespace = 'WebService';
 
     protected $urlnamespace = 'http://www.temp-uri.com';
-
+    
     /**
      * Setter NameSpace
      *

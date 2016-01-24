@@ -1,25 +1,31 @@
 <?php
 /**
- * Yuju_ORM File
+ * YujuORM File
  *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
-/**
- * Yuju_ORM Class
- */
-class Yuju_ORMTest
+ /**
+  * YujuORMTest Class
+  *
+  * @category Core
+  * @package  YujuFramework
+  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
+  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
+  * @link     https://github.com/yuju-framework/yuju
+  * @since    version 1.0
+  */
+class YujuORMTest
 {
     protected $table;
     protected $object_name;
     private $fields;
-
+    
     /**
      * Getter table
      *
@@ -78,9 +84,7 @@ class Yuju_ORMTest
                     $type = 'mediumblob';
                 } elseif ($return->Type == 'tinyblob') {
                     $type = 'tinyblob';
-                } elseif (
-                        preg_match("/varbinary\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/varbinary\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'varbinary';
                     $number = $regs[1];
                 } elseif (preg_match("/binary\(([0-9]{1,3})\)/", $return->Type, $regs)) {
@@ -100,54 +104,34 @@ class Yuju_ORMTest
                     $type = 'timestamp';
                 } elseif ($return->Type == 'year(4)') {
                     $type = 'year';
-                } elseif (
-                        preg_match("/bigint\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/bigint\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'bigint';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/decimal\(([0-9]{1,3},[0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/decimal\(([0-9]{1,3},[0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'decimal';
                     $number = $regs[1];
-                } elseif (
-                    preg_match("/float\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/float\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'float';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/double\(([0-9]{1,3},[0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/double\(([0-9]{1,3},[0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'float';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/tinyint\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/tinyint\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'tinyint';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/mediumint\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/mediumint\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'mediumint';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/smallint\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/smallint\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'smallint';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/int\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/int\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'int';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/varchar\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/varchar\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'varchar';
                     $number = $regs[1];
-                } elseif (
-                        preg_match("/char\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/char\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'char';
                     $number = $regs[1];
                 } elseif ($return->Type == 'longtext') {
@@ -158,9 +142,7 @@ class Yuju_ORMTest
                     $type = 'text';
                 } elseif ($return->Type == 'tinytext') {
                     $type = 'tinytext';
-                } elseif (
-                        preg_match("/bit\(([0-9]{1,3})\)/", $return->Type, $regs)
-                ) {
+                } elseif (preg_match("/bit\(([0-9]{1,3})\)/", $return->Type, $regs)) {
                     $type = 'bit';
                     $number = $regs[1];
                 } elseif (preg_match("/enum\(\'(.+)\'\)/", $return->Type, $regs)) {
@@ -314,7 +296,7 @@ class Yuju_ORMTest
         $object.= '    {' . "\n";
         $object.= '		require_once __DIR__."/../config.php";' . "\n";
         $object.= '		$gestor = fopen(ROOT."'.$this->object_name.'.php", "w");' . "\n";
-        $object.= '		$orm = new Yuju_ORM();' . "\n";
+        $object.= '		$orm = new YujuORM();' . "\n";
         $object.= '		$orm->load("'.$this->table.'");' . "\n";
         $object.= '		$obj = $orm->generateObject("'.$this->object_name.'");   ' . "\n";
         $object.= '		fputs($gestor,$obj);' . "\n";
@@ -916,7 +898,7 @@ class Yuju_ORMTest
         $object  = '    /**' . "\n";
         $object .= '     * Return all objects' . "\n";
         $object .= '     *' . "\n";
-        $object .= '     * @return Yuju_Array' . "\n";
+        $object .= '     * @return YujuArray' . "\n";
         $object .= '     */' . "\n";
         $object .= '    public function testGetAll()' . "\n";
         $object .= '    {' . "\n";

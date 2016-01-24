@@ -1,6 +1,6 @@
 <?php
 /**
- * ORM_SQLServer_WS File
+ * ORMSQLServerWS File
  *
  * @category Core
  * @package  YujuFramework
@@ -10,7 +10,10 @@
  * @since    version 1.0
  */
 
-class ORM_SQLServer_WS extends ORM_SQLServer
+/**
+ * ORMSQLServerWS Class
+ */
+class ORMSQLServerWS extends ORMSQLServer
 {
     /**
      * Generate Load
@@ -201,11 +204,11 @@ class ORM_SQLServer_WS extends ORM_SQLServer
         $object .= '     * @param integer $page       page number'."\n";
         $object .= '     * @param boolean $yuju       return Yuju array or array'."\n";
         $object .= '     *'."\n";
-        $object .= '     * @return Yuju_Array'."\n";
+        $object .= '     * @return YujuArray'."\n";
         $object .= '     */'."\n";
         $object .= '     public static function search(array $parameters, $num=null, $page=null, $yuju=true)'."\n";
         $object .= '     {'."\n";
-        $object .= '        $array = new Yuju_Array(new '.$this->object_name.'());'."\n";
+        $object .= '        $array = new YujuArray(new '.$this->object_name.'());'."\n";
         $object .= '        $fields = array();'."\n";
         $object .= '        $values = array();'."\n";
         $object .= '        foreach ($parameters as $key=> $param) {'."\n";

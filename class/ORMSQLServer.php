@@ -1,6 +1,6 @@
 <?php
 /**
- * ORM_SQLServer File
+ * ORMSQLServer File
  *
  * @category Core
  * @package  YujuFramework
@@ -11,7 +11,7 @@
  */
 
 /**
- * ORM_SQLServer Class
+ * ORMSQLServer Class
  *
  * @category Core
  * @package  YujuFramework
@@ -20,7 +20,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class ORM_SQLServer extends AbstractYuju_ORM
+class ORMSQLServer extends AbstractYujuORM
 {
     /**
      * Connect to database
@@ -132,9 +132,9 @@ class ORM_SQLServer extends AbstractYuju_ORM
         $object.= $this->generateDocClass();
         //TODO: check if $_fileds null
         if ($object_name == '') {
-            $object .= 'class '.ucwords($this->table)." implements IYuju_Array\n{\n";
+            $object .= 'class '.ucwords($this->table)." implements IYujuArray\n{\n";
         } else {
-            $object .= 'class '.ucwords($object_name)." implements IYuju_Array\n{\n\n";
+            $object .= 'class '.ucwords($object_name)." implements IYujuArray\n{\n\n";
         }
         $object.= $this->generateVars();
         $object.= $this->generateConstructor();
@@ -354,9 +354,9 @@ class ORM_SQLServer extends AbstractYuju_ORM
         $object .= '     public static function search(array $parametros, $num=null, $page=null, $yuju=true) {'."\n";
         $object .= '        if ($yuju) {'."\n";
         if ($this->object_name == '') {
-            $object .= '            $array = new Yuju_Array(new '.ucwords($this->table).'());'."\n";
+            $object .= '            $array = new YujuArray(new '.ucwords($this->table).'());'."\n";
         } else {
-            $object .= '            $array = new Yuju_Array(new '.$this->object_name.'());'."\n";
+            $object .= '            $array = new YujuArray(new '.$this->object_name.'());'."\n";
         }
         $object .= '        } else {'."\n";
         $object .= '                $array = array();'."\n";

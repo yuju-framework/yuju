@@ -25,46 +25,46 @@ class Log
     /**
     * Date
     *
-    * @var    Date $_date
+    * @var    Date $date
     * @access private
     */
-    private $_date;
+    private $date;
 
     /**
      * Message Trace
      *
-     * @var    string $_message
+     * @var    string $message
      * @access private
      */
-    private $_message;
+    private $message;
 
     /**
      * User Id
      *
      * @var number
      */
-    private $_iduser;
+    private $iduser;
 
     /**
      * User
      *
      * @var string
      */
-    private $_user;
+    private $user;
 
     /**
      * URI
      *
      * @var string
      */
-    private $_uri;
+    private $uri;
 
     /**
      * IP
      *
      * @var string
      */
-    private $_ip;
+    private $ip;
 
     /**
      * Table name
@@ -79,8 +79,8 @@ class Log
      */
     public function __construct()
     {
-        $this->_date= new Date();
-        $this->_iduser='NULL';
+        $this->date= new Date();
+        $this->iduser='NULL';
     }
 
     /**
@@ -98,8 +98,8 @@ class Log
         if (isset($_SESSION['iduser']) && is_numeric($_SESSION['iduser'])) {
             $iduser=$_SESSION['iduser'];
         }
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $uri=$_SERVER['REQUEST_URI'];
+        if (isset($_SERVER['REQUESTuri'])) {
+            $uri=$_SERVER['REQUESTuri'];
         }
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $ip=$_SERVER['REMOTE_ADDR'];
@@ -123,7 +123,7 @@ class Log
      */
     public function getMessage()
     {
-        return $this->_message;
+        return $this->message;
     }
 
     /**
@@ -133,7 +133,7 @@ class Log
      */
     public function getIdUser()
     {
-        return $this->_iduser;
+        return $this->iduser;
     }
 
     /**
@@ -143,7 +143,7 @@ class Log
      */
     public function getDate()
     {
-        return $this->_date;
+        return $this->date;
     }
 
     /**
@@ -153,7 +153,7 @@ class Log
      */
     public function getIP()
     {
-        return $this->_ip;
+        return $this->ip;
     }
 
     /**
@@ -163,7 +163,7 @@ class Log
      */
     public function getURI()
     {
-        return $this->_uri;
+        return $this->uri;
     }
 
     /**
@@ -175,7 +175,7 @@ class Log
      */
     public function setMessage($val)
     {
-        $this->_message=$val;
+        $this->message=$val;
     }
 
     /**
@@ -188,7 +188,7 @@ class Log
     public function setIdUser($val)
     {
         if (is_numeric($val)) {
-            $this->_iduser=$val;
+            $this->iduser=$val;
         }
     }
 
@@ -199,7 +199,7 @@ class Log
      */
     public function getUser()
     {
-        return $this->_user;
+        return $this->user;
     }
 
     /**

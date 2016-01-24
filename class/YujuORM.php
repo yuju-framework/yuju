@@ -1,6 +1,6 @@
 <?php
 /**
- * Yuju_ORM File
+ * YujuORM File
  *
  * @category Core
  * @package  YujuFramework
@@ -11,7 +11,7 @@
  */
 
 /**
- * Yuju_ORM Class
+ * YujuORM Class
  *
  * @category Core
  * @package  YujuFramework
@@ -20,12 +20,12 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class Yuju_ORM
+class YujuORM
 {
     /**
      * ORM
      *
-     * @var AbstractYuju_ORM
+     * @var AbstractYujuORM
      */
     protected $orm;
 
@@ -42,7 +42,7 @@ class Yuju_ORM
     /**
      * Getter ORM
      *
-     * @return AbstractYuju_ORM
+     * @return AbstractYujuORM
      */
     public function getORM()
     {
@@ -64,9 +64,9 @@ class Yuju_ORM
     /**
      * Constructor
      *
-     * @param AbstractYuju_ORM $orm orm object
+     * @param AbstractYujuORM $orm orm object
      */
-    public function __construct(AbstractYuju_ORM $orm)
+    public function __construct(AbstractYujuORM $orm)
     {
         $this->orm = $orm;
     }

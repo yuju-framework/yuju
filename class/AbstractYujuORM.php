@@ -1,28 +1,26 @@
 <?php
 /**
- * AbstractYuju_ORM File
+ * AbstractYujuORM File
  *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT:
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 /**
- * AbstractYuju_ORM Class
+ * AbstractYujuORM Class
  *
  * @category Core
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  Release: 1.0
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-abstract class AbstractYuju_ORM
+abstract class AbstractYujuORM
 {
     protected $db_host;
     protected $db_user;
@@ -369,7 +367,7 @@ abstract class AbstractYuju_ORM
         $object='    /**'."\n";
         $object .= '     * Return all objects'."\n";
         $object .= '     *'."\n";
-        $object .= '     * @return Yuju_Array'."\n";
+        $object .= '     * @return YujuArray'."\n";
         $object .= '     */'."\n";
         $object .= '    public static function getAll()'."\n";
         $object .= '    {'."\n";

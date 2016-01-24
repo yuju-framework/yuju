@@ -20,7 +20,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class User implements IYuju_Array
+class User implements IYujuArray
 {
 
     /**
@@ -309,7 +309,7 @@ class User implements IYuju_Array
     /**
      * Load user
      *
-     * @param mixed $var Id or DB_Result fetch object
+     * @param mixed $var Id or DBResult fetch object
      *
      * @access public
      * @return User
@@ -573,7 +573,7 @@ class User implements IYuju_Array
     /**
      * Return all objects
      *
-     * @return Yuju_Array
+     * @return YujuArray
      */
     public static function getAll()
     {
@@ -586,14 +586,14 @@ class User implements IYuju_Array
      * @param array   $parameters filter array
      * @param integer $num        number of elements
      * @param integer $page       page number
-     * @param integer $yuju       return a Yuju_Array or array
+     * @param integer $yuju       return a YujuArray or array
      *
-     * @return boolean|Yuju_Array
+     * @return boolean|YujuArray
      */
     public static function search(array $parameters, $num = null, $page = null, $yuju = true)
     {
         if ($yuju) {
-            $array = new Yuju_Array();
+            $array = new YujuArray();
         } else {
             $array = array();
         }

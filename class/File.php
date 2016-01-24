@@ -20,7 +20,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-class File implements IYuju_Array
+class File implements IYujuArray
 {
 
     /**
@@ -63,7 +63,7 @@ class File implements IYuju_Array
      *
      * @var resource
      */
-    private $_resource;
+    private $resource;
 
     /**
      * Setter name
@@ -197,7 +197,7 @@ class File implements IYuju_Array
         if ($this->content != '') {
             return $this->content;
         } else {
-            return fread($this->_resource, $this->size);
+            return fread($this->resource, $this->size);
         }
     }
 
@@ -231,8 +231,8 @@ class File implements IYuju_Array
         if (!File::exist($file)) {
             return false;
         }
-        $this->_resource=@fopen($file, $mode);
-        if ($this->_resource === false) {
+        $this->resource=@fopen($file, $mode);
+        if ($this->resource === false) {
             return false;
         }
         $this->place=$file;
@@ -258,11 +258,11 @@ class File implements IYuju_Array
         if (File::exist($file)) {
             return false;
         }
-        $this->_resource=@fopen($file, 'w');
-        if ($this->_resource === false) {
+        $this->resource=@fopen($file, 'w');
+        if ($this->resource === false) {
             return false;
         }
-        fwrite($this->_resource, $this->getContent());
+        fwrite($this->resource, $this->getContent());
         $this->place=$file;
         $this->type=mime_content_type($this->place);
         $name=explode("/", $this->place);
@@ -330,7 +330,7 @@ class File implements IYuju_Array
     {
         $this->close();
         $this->open($this->place, false, 'w');
-        return fwrite($this->_resource, $this->getContent());
+        return fwrite($this->resource, $this->getContent());
     }
 
     /**
@@ -342,7 +342,7 @@ class File implements IYuju_Array
     {
         //$this->close();
         $this->open($this->place, false, 'w');
-        return fwrite($this->_resource, $this->getContent());
+        return fwrite($this->resource, $this->getContent());
     }
 
     /**
@@ -448,13 +448,13 @@ class File implements IYuju_Array
      */
     public function close()
     {
-        if (fclose($this->_resource)) {
+        if (fclose($this->resource)) {
             $this->name='';
             $this->place='';
             $this->type='';
             $this->size='';
             $this->content='';
-            $this->_resource=null;
+            $this->resource=null;
             return true;
         }
         return false;
@@ -467,7 +467,7 @@ class File implements IYuju_Array
      */
     public function eof()
     {
-        return feof($this->_resource);
+        return feof($this->resource);
     }
 
     /**
@@ -478,6 +478,6 @@ class File implements IYuju_Array
      */
     public function getLine()
     {
-        return fgets($this->_resource);
+        return fgets($this->resource);
     }
 }
