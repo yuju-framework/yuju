@@ -25,7 +25,7 @@ function orm($directory, $command, $type, $table, $name = null)
         $directory=$directory.'/';
     }
     include $directory.'conf/site.php';
-    $orm = new Yuju_ORM(new $type);
+    $orm = new YujuORM(new $type);
     switch ($command) {
         case 'object':
             $orm->load($table);

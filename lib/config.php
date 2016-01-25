@@ -2,37 +2,19 @@
 /**
  * Yuju config command line File
  *
- * PHP version 5
- *
- * Copyright individual contributors as indicated by the @authors tag.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category CLI
  * @package  YujuFramework
  * @author   Daniel Fernández <daniel.fdez.fdez@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version  GIT: 
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
 
 /**
  * Read config file and return array values
- * 
+ *
  * @param string $file config file
- * 
+ *
  * @return array
  */
 function readconfig($file)
@@ -52,13 +34,12 @@ function readconfig($file)
     }
     return $config;
 }
-
 /**
  * Set config vars
- * 
+ *
  * @param string $file config file
  * @param array  $vars array vars
- * 
+ *
  * @return void
  */
 function setconfig($file, array $vars)
@@ -93,5 +74,3 @@ function setconfig($file, array $vars)
     fwrite($openfile, $newfile);
     fclose($openfile);
 }
-
-?>
