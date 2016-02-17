@@ -1,6 +1,6 @@
 <?php
 /**
- * Yuju_ProjectTest File
+ * YujuProjectTest File
 *
 * @category Test
 * @package  YujuFramework
@@ -12,7 +12,7 @@
 */
 
 /**
- * Class Yuju_ProjectTest
+ * Class YujuProjectTest
 *
 * @category Test
 * @package  YujuFramework
@@ -22,7 +22,7 @@
 * @link     https://github.com/yuju-framework/yuju
 * @since    version 1.0
 */
-class Yuju_ProjectTest extends PHPUnit_Framework_TestCase
+class YujuProjectTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Function made to test create Yuju project

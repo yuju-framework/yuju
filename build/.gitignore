@@ -1,0 +1,5 @@
+*
+!phpdox.xml
+!phpmd.xml
+!phpunit.xml
+!.gitignore
