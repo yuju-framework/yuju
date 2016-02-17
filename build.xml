@@ -206,7 +206,7 @@
    <arg value="--log-pmd" />
    <arg path="${basedir}/build/logs/pmd-cpd.xml" />
    <arg value="--exclude" />
-   <arg path="${basedir}/src/lib/Smarty/" />
+   <arg value="${basedir}/src/lib/Smarty/" />
    <arg path="${basedir}/src" />
   </exec>
 
