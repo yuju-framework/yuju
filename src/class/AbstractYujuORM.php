@@ -68,11 +68,9 @@ abstract class AbstractYujuORM
     /**
      * Getter Object Name
      *
-     * @param string $var object name
-     *
      * @return boolean
      */
-    public function getObjectName($var)
+    public function getObjectName()
     {
         return $this->object_name;
     }
@@ -153,7 +151,8 @@ abstract class AbstractYujuORM
     public function generateVars()
     {
         $object='';
-        foreach ($this->fields as $name => $field) {
+        $fields_name = array_keys($this->fields);
+        foreach ($fields_name as $name) {
             $object .= "    protected $".$name.";\n\n";
         }
         return $object;
