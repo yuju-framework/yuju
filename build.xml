@@ -191,7 +191,7 @@
          description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="${phpcpd}" taskname="phpcpd">
     <arg value="--exclude" />
-   <arg path="${basedir}/src/lib/Smarty/" />
+   <arg value="${basedir}/src/lib/Smarty/" />
    <arg path="${basedir}/src" />
   </exec>
 
@@ -204,9 +204,8 @@
          description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
   <exec executable="${phpcpd}" taskname="phpcpd">
    <arg value="--log-pmd" />
-   <arg path="${basedir}/build/logs/pmd-cpd.xml" />
-   <arg value="--exclude" />
-   <arg value="${basedir}/src/lib/Smarty/" />
+   <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+   <arg line="--exclude Smarty/" />
    <arg path="${basedir}/src" />
   </exec>
 
