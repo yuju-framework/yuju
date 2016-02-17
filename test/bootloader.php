@@ -10,6 +10,8 @@
  * @since    version 1.0
  */
 
+
+
 /**
  * Function that creates an autoloadre for the object system
  *
@@ -19,10 +21,12 @@
  */
 function classAutoLoad($class_name)
 {
-    if (file_exists(__DIR__.'/../class/'.$class_name . '.php')) {
-        include_once __DIR__.'/../class/'.$class_name . '.php';
-    } elseif (defined('API') && file_exists(API . 'class/'.$class_name . '.php')) {
-        include_once API . 'class/'.$class_name . '.php';
+    $base_dir = substr(__DIR__, 0, strlen(__DIR__)-4);
+    if (file_exists($base_dir.'src/class/'.$class_name . '.php')) {
+        include_once $base_dir.'src/class/'.$class_name . '.php';
     }
 }
+
+require_once('PHP/Token/Stream/Autoload.php');
+
 spl_autoload_register('classAutoLoad');

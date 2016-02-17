@@ -4,7 +4,7 @@
   <collector publiconly="false">
    <include mask="*.php" />
    <exclude mask="*autoload.php" />
-   <exclude mask="*lib/Smarty" />
+   <exclude mask="*lib/Smarty*" />
   </collector>
 
   <generator output=".">
