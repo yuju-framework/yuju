@@ -123,19 +123,7 @@ class YujuArray implements Iterator
         $this->count++;
         $this->array[] = clone($object);
     }
-
-    /**
-     * Delete
-     *
-     * @param number $num number
-     *
-     * @return void
-     */
-    public function del($num)
-    {
-        //TODO: todo
-    }
-
+    
     /**
      * Count
      *

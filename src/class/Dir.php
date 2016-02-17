@@ -64,7 +64,7 @@ class Dir
      */
     public function __construct($path = null)
     {
-
+        $this->path = $path;
     }
 
     /**

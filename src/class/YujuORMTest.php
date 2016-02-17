@@ -682,7 +682,6 @@ class YujuORMTest
                             ucfirst($name).'()->getSeconds());'."\n";
                         break;
                     case 'time':
-                        $time = "00:00:30";
                         $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.
                             ucfirst($name).'()->getHour());'."\n";
                         $object .= '        $this->assertEquals(00,$this->_'.strtolower($this->object_name).'->get'.
@@ -750,8 +749,6 @@ class YujuORMTest
         $object.= '     *' . "\n";
         $object.= '     * @return boolean' . "\n";
         $object.= '     */' . "\n";
-
-        $where = '        $sql.=\'WHERE \';' . "\n";
         $object .= '    public function testUpdate()' . "\n";
         $object .= "    {\n";
         $object .= '        $this->setUp();'."\n";

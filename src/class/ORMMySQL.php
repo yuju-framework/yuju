@@ -391,7 +391,7 @@ class ORMMySQL extends AbstractYujuORM
                 continue;
             } else {
                 $fields .= '        $sql.=\'' . $name . ',\';' . "\n";
-                $values .= '        $sql.=' . $this->valueToDB($name, $field) . ',\';' . "\n";
+                $values .= '        $sql.=' . $this->valueToDB($name) . ',\';' . "\n";
             }
         }
         $fields = substr($fields, 0, strlen($fields) - 4) . '\';' . "\n";
@@ -430,9 +430,9 @@ class ORMMySQL extends AbstractYujuORM
         $object .= '        $sql=\'UPDATE ' . $this->table . ' SET \';' . "\n";
         foreach ($this->fields as $name => $field) {
             if ($field['auto_incremental']) {
-                $where .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name, $field) . '\';' . "\n";
+                $where .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name) . '\';' . "\n";
             } else {
-                $object .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name, $field) . ',\';' . "\n";
+                $object .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name) . ',\';' . "\n";
             }
         }
         $object = substr($object, 0, strlen($object) - 4) . ' \';' . "\n" . $where;
@@ -463,7 +463,7 @@ class ORMMySQL extends AbstractYujuORM
         foreach ($this->fields as $name => $field) {
             // TODO: Make to Primary key
             if ($field['auto_incremental']) {
-                $object .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name, $field) . '\';' . "\n";
+                $object .= '        $sql.=\'' . $name . '=\'.' . $this->valueToDB($name) . '\';' . "\n";
             }
         }
         $object .= '        if (DB::query($sql)) {' . "\n";
@@ -621,11 +621,10 @@ class ORMMySQL extends AbstractYujuORM
      * Get string value to database
      *
      * @param string $name   field name
-     * @param array  &$field field
      *
      * @return string
      */
-    private function valueToDB($name, &$field)
+    private function valueToDB($name)
     {
         $value = '';
         switch ($field['type']) {

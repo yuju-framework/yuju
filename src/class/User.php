@@ -398,17 +398,15 @@ class User implements IYujuArray
      *
      * @param string $user user name
      * @param string $pass user password
-     * @param array  $acl  restrictions
      *
      * @access public
      * @return boolean
      */
-    public function login($user, $pass, $acl = array())
+    public function login($user, $pass)
     {
         $login = $this->authentication($user, $pass);
         if ($login) {
             $this->load($login);
-            // TODO: ACLs
             $this->saveUser();
             return true;
         }

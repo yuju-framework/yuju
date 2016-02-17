@@ -241,7 +241,7 @@ class File implements IYujuArray
         $name=explode("/", $this->place);
         $this->name=$name[count($name) - 1];
         if ($full) {
-            $this->setContent(fread($fp, filesize($file)));
+            $this->setContent(fread($this->resource, $this->size));
         }
         return true;
     }

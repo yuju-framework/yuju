@@ -22,12 +22,6 @@ class ORMSQLServerWS extends ORMSQLServer
      */
     public function generateLoad()
     {
-        foreach ($this->_fields as $name => $field) {
-            if ($field['primary_key']) {
-                $id=$name;
-            }
-        }
-        // TODO: make dinamic Primary Key
         $object='    /**'."\n";
         $object.= '     * Load '.$this->object_name."\n";
         $object.= '     *'."\n";
@@ -297,11 +291,10 @@ class ORMSQLServerWS extends ORMSQLServer
      * Get string value to database
      *
      * @param string $name   field name
-     * @param array  &$field field
      *
      * @return string
      */
-    private function valueToDB($name, &$field)
+    private function valueToDB($name)
     {
         $value='';
         switch ($field['type']) {

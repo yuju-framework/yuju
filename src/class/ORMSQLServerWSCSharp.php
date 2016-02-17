@@ -135,7 +135,8 @@ namespace '.$this->namespace.'
         $object.= $this->generateDocClass()."\n";
         $object.= '    public class '.$this->object_name.':WSBase'."\n";
         $object.= '    {'."\n";
-        foreach ($this->_fields as $name => $field) {
+        $name_fields = array_keys($this->fields);
+        foreach ($name_fields as $name) {
             $object .= "        [XmlElement(IsNullable = true)]\n";
             $object .= "        public string ".$name.";\n\n";
         }
@@ -174,7 +175,6 @@ namespace '.$this->namespace.'
         $object .= "            {\n";
         $object .= "                conexion.Open();\n";
         $object .= "                SqlCommand command = new SqlCommand(null, conexion);\n";
-        $select = "";
         $campos = '';
         foreach ($this->_fields as $name => $field) {
             $campos.=$name.',';
@@ -217,12 +217,6 @@ namespace '.$this->namespace.'
 
     public function generateSearch()
     {
-        foreach ($this->_fields as $name => $field) {
-            if ($field['primary_key']) {
-                $id=$name;
-            }
-        }
-
         $object  = "        [WebMethod(Description = \"Buscador tabla ".$this->object_name."\")]\n";
         $object .= "        [SoapHeader(\"auth\")]\n";
         $object .= "        public WSSearch WS_".$this->object_name.

@@ -598,7 +598,7 @@ class YujuView
                 $$namemod = '';
             }
             // Include modules PHP
-            foreach ($mod as $name => $vars) {
+            foreach ($mod as $vars) {
                 $tmp = '';
                 $htmp = '';
                 $idmod++;
