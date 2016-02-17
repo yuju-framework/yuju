@@ -205,7 +205,7 @@
   <exec executable="${phpcpd}" taskname="phpcpd">
    <arg value="--log-pmd" />
    <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-   <arg line="--exclude Smarty/" />
+   <arg line="--exclude Smarty" />
    <arg path="${basedir}/src" />
   </exec>
 
