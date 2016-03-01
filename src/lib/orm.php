@@ -20,16 +20,22 @@
  */
 function orm($directory, $command, $type, $table, $name = null)
 {
-    include 'lib/config.php';
     if (substr($directory, strlen($directory) - 1) != '/') {
         $directory=$directory.'/';
     }
+    if (strpos($type, '\\')=== false) {
+        $type = "YujuFramework\\ORM\\" .$type;
+    }
     include $directory.'conf/site.php';
-    $orm = new YujuORM(new $type);
+    
+    $orm = new $type;
+    
+    //$orm = new YujuFramework\ORM\ORMMySQL();
+    
     switch ($command) {
         case 'object':
             $orm->load($table);
-            $file = new File();
+            $file = new YujuFramework\File();
             if ($name == null) {
                 $name = $table;
             }

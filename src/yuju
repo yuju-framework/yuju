@@ -11,32 +11,20 @@
  * @since    version 1.0
  */
 
+require 'lib/autoload.php';
 require 'lib/common.php';
-
-/**
- * Autoload classes
- *
- * @param string $class_name class name
- *
- * @return void
- */
-function classAutoLoad($class_name)
-{
-    $root = substr(__FILE__, 0, strlen(__FILE__)-9);
-    if (file_exists($root.'/class/'.$class_name . '.php')) {
-        include_once $root.'/class/'.$class_name . '.php';
-    }
-}
-spl_autoload_register('classAutoLoad');
 
 if (count($argv)<2) {
     showHelp();
     exit;
 }
 
+require 'lib/downloadlibs.php';
+
 switch ($argv[1]) {
     case 'create':
         include 'lib/create.php';
+        create();
         break;
     case 'delete':
         include 'lib/delete.php';

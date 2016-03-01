@@ -9,9 +9,11 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
+use YujuFramework\YujuView;
+
 if (!isset($_SESSION['adminsession'])) {
     header("Location: admin-login");
-    exit();
+    exit;
 }
 
 if (isset($_GET['logout'])) {

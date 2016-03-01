@@ -11,15 +11,15 @@
  */
 
 define('PROJECT_NAME', ' ');
-define('API', '/');
-define('MAILADM', 'root');
-define('DOMAIN', 'http://localhost/');
-define('ROOT', '/tmp');
-define('DBHOST', 'localhost');
-define('DBTYPE', 'mysql');
-define('DBUSER', 'user');
-define('DBPASS', 'pass');
-define('DBDATA', 'database');
-define('ADMINPASS', 'adminpass');
-define('LANGUAGE', 'lang');
-define('TIMEZONE', 'Europe/Madrid');
+define('API', '');
+define('MAILADM', '');
+define('DOMAIN', '');
+define('ROOT', '');
+define('DBHOST', '');
+define('DBTYPE', '');
+define('DBUSER', '');
+define('DBPASS', '');
+define('DBDATA', '');
+define('ADMINPASS', '');
+define('LANGUAGE', '');
+define('TIMEZONE', '');

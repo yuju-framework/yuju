@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         bootstrap="../test/bootloader.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.2/phpunit.xsd"
+         bootstrap="../tests/bootloader.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"
-         checkForUnintentionallyCoveredCode="true"
          forceCoversAnnotation="true"
          verbose="true">
     <testsuites>
         <testsuite name="YujuFramework">
-            <directory suffix="Test.php">../test</directory>
+            <directory suffix="Test.php">../tests</directory>
         </testsuite>
     </testsuites>
 
@@ -18,7 +21,8 @@
         <log type="coverage-clover" target="logs/clover.xml"/>
         <log type="coverage-crap4j" target="logs/crap4j.xml"/>
         <log type="coverage-xml" target="logs/coverage"/>
-        <log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
+        <log type="junit" target="logs/junit.xml"/>
+        <log type="testdox-html" target="testdox/index.html"/>
     </logging>
 
     <filter>
@@ -26,6 +30,8 @@
             <directory suffix=".php">../src</directory>
             <exclude>
                 <directory suffix=".php">../src/lib/Smarty</directory>
+                <directory suffix=".php">../src/modules</directory>
+                <directory suffix=".php">../src/templates</directory>
             </exclude>
         </whitelist>
     </filter>

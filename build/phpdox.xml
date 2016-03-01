@@ -6,20 +6,20 @@
    <exclude mask="*autoload.php" />
    <exclude mask="*lib/Smarty*" />
   </collector>
-
+  
   <generator output=".">
-   <enrich base="logs">
-    <source type="build" />
-    <source type="git" />
-    <source type="phploc" />
-    <source type="checkstyle" />
-    <source type="pmd" />
-    <source type="phpunit" />
-   </enrich>
+    <enrich base="logs">
+     <source type="build" />
+     <source type="git" />
+     <source type="phploc" />
+     <source type="checkstyle" />
+     <source type="pmd" />
+     <source type="phpunit" />
+    </enrich>
 
-   <build engine="html" enabled="true" output="api">
-    <file extension="html" />
-   </build>
-  </generator>
- </project>
-</phpdox>
+    <build engine="html" enabled="true" output="api">
+     <file extension="html" />
+    </build>
+   </generator>
+  </project>
+ </phpdox>

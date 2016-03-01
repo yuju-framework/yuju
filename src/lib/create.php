@@ -10,105 +10,130 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
-$project = new YujuProject();
-$project->setApi(substr(__FILE__, 0, strlen(__FILE__) - 14));
 
-$createadmin = false;
-/*
- * Project name
+use YujuFramework\YujuProject;
+
+/**
+ * Create project
+ *
+ * @return void
  */
-echo _('Project name: ');
-if (!$project->setName(trim(fgets(STDIN)))) {
-    echo _('Invalid name') . "\n";
-    exit;
-}
-
-/*
- * Mail administrator
- */
-do {
-    echo _('Email administrator: ');
-} while (!$project->setAdminEmail(trim(fgets(STDIN))));
-
-/*
- * Directory
- */
-echo _('Directory: ');
-if (!$project->setRoot(trim(fgets(STDIN)))) {
-    echo _('Invalid directory') . "\n";
-    exit;
-}
-echo _('Creating structure...')."\n";
-if (!$project->createStructure()) {
-    echo _('Error creating structure') . "\n";
-    exit;
-}
-
-/*
- * Domain
- */
-echo _('Domain: ');
-if (!$project->setDomain(trim(fgets(STDIN)))) {
-    echo _('Invalid domain') . "\n";
-    exit;
-}
-
-/*
- * Database host
- */
-echo _('Database Host: ');
-$project->setDBHost(trim(fgets(STDIN)));
-
-/*
- * Database type
- */
-do {
-    echo _('Database Type (posibles values mysql, sqlserver, oracle (not implemented yet): ');
-} while (!$project->setDBType(trim(fgets(STDIN))));
-
-/*
- * Database
- */
-echo _('Database name: ');
-$project->setDBName(trim(fgets(STDIN)));
-
-/*
- * Database User
- */
-echo _('Database user: ');
-$project->setDBUser(trim(fgets(STDIN)));
-
-/*
- * Database Password
- */
-echo _('Database password: ');
-$project->setDBPass(trim(fgets(STDIN)));
-
-echo _('Create admin pages: [Y/n]');
-if (trim(fgets(STDIN)) == "y" || trim(fgets(STDIN)) == "") {
-    $createadmin = true;
-    echo _('Admin section password: ');
-    $project->setAdminpass(sha1(trim(fgets(STDIN))));
-} else {
+function create()
+{
+    $project = new YujuProject;
+    $api = substr(__DIR__, 0, strlen(__DIR__)-4).'/';
+    /*
+     * Project API or Standalone
+     */
+    $input_api = false;
+    do {
+        echo _('Project standalone (yes/no): ');
+        $input = trim(fgets(STDIN));
+        if ($input == _('yes')) {
+            $input_api = true;
+        } elseif ($input == _('no')) {
+            $project->setApi($api);
+            $input_api = true;
+        }
+    } while (!$input_api);
+    
     $createadmin = false;
-}
+    /*
+     * Project name
+     */
+    echo _('Project name: ');
+    if (!$project->setName(trim(fgets(STDIN)))) {
+        echo _('Invalid name') . "\n";
+        exit;
+    }
 
-echo _('Application language: [en_US] ');
-$project->setLanguage(trim(fgets(STDIN)));
+    /*
+     * Mail administrator
+     */
+    do {
+        echo _('Email administrator: ');
+    } while (!$project->setAdminEmail(trim(fgets(STDIN))));
 
-echo _('Creating database...') . "\n";
-if (!$project->createDatabase($createadmin)) {
-    echo _('Error creating database') . "\n";
-    exit;
-}
-$error = $project->setConfig();
-if ($error != 0) {
-    echo _('Error setting config') . "\n";
-    exit;
-}
+    /*
+     * Directory
+     */
+    echo _('Directory: ');
+    if (!$project->setRoot(trim(fgets(STDIN)))) {
+        echo _('Invalid directory') . "\n";
+        exit;
+    }
+    echo _('Creating structure...')."\n";
+    if (!$project->createStructure()) {
+        echo _('Error creating structure') . "\n";
+        exit;
+    }
 
-if (!$project->compileAll()) {
-    echo _('Error compiling project');
-    exit;
+    /*
+     * Domain
+     */
+    echo _('Domain: ');
+    if (!$project->setDomain(trim(fgets(STDIN)))) {
+        echo _('Invalid domain') . "\n";
+        exit;
+    }
+
+    /*
+     * Database type
+     */
+    do {
+        echo _('Database Type (posibles values mysql, sqlserver): ');
+    } while (!$project->setDBType(trim(fgets(STDIN))));
+
+    /*
+     * Database host
+     */
+    echo _('Database Host: ');
+    $project->setDBHost(trim(fgets(STDIN)));
+
+    /*
+     * Database
+     */
+    echo _('Database name: ');
+    $project->setDBName(trim(fgets(STDIN)));
+
+    /*
+     * Database User
+     */
+    echo _('Database user: ');
+    $project->setDBUser(trim(fgets(STDIN)));
+
+    /*
+     * Database Password
+     */
+    echo _('Database password: ');
+    $project->setDBPass(trim(fgets(STDIN)));
+
+    echo _('Create admin pages: [Y/n]');
+    if (trim(fgets(STDIN)) == "y" || trim(fgets(STDIN)) == "") {
+        $createadmin = true;
+        echo _('Admin section password: ');
+        $project->setAdminpass(sha1(trim(fgets(STDIN))));
+    } else {
+        $createadmin = false;
+    }
+
+    echo _('Application language: [en_US] ');
+    $project->setLanguage(trim(fgets(STDIN)));
+
+    echo _('Creating database...') . "\n";
+    if (!$project->createDatabase($createadmin)) {
+        echo _('Error creating database') . "\n";
+        exit;
+    }
+    $error = $project->setConfig();
+    if ($error != 0) {
+        echo _('Error setting config') . "\n";
+        exit;
+    }
+
+    if (!$project->compileAll()) {
+        echo _('Error compiling project');
+        exit;
+    }
+    echo _('Project ') . $project->getName() . _(' created') . "\n";
 }
-echo _('Project ') . $project->getName() . _(' created') . "\n";

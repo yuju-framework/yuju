@@ -9,6 +9,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
+use YujuFramework\YujuView;
 
 /**
  * Compile page
@@ -26,7 +27,6 @@ function compile($directory, $page)
         $directory=$directory.'/';
     }
     include $directory.'conf/site.php';
-    
     $view = new YujuView();
     $view->MakeTemplate($page);
 }

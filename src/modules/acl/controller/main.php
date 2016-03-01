@@ -9,6 +9,7 @@
  * @link     https://github.com/yuju-framework/yuju
  * @since    version 1.0
  */
+use YujuFramework\User;
 
 if (!isset($params['urlfail'])) {
     $urlfail=DOMAIN;
