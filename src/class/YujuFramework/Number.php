@@ -12,6 +12,8 @@
 
 namespace YujuFramework;
 
+use \Exception;
+
 /**
  * Number Class
  *
@@ -26,8 +28,7 @@ class Number
 {
 
     const INTEGER = 1;
-    const DECIMAL = 2;
-    const FLOAT = 3;
+    const FLOAT = 2;
 
     /**
      * Value
@@ -51,18 +52,11 @@ class Number
     private $unsigned;
 
     /**
-     * Number integer
+     * Precision on FLOAT type
      *
      * @var integer
      */
-    private $integer;
-
-    /**
-     * Number decimal
-     *
-     * @var integer
-     */
-    private $decimal;
+    private $precision;
 
     /**
      * Maximum
@@ -79,152 +73,24 @@ class Number
     private $min;
 
     /**
-     * Setter Type
-     *
-     * @param integer $type number type
-     *
-     * @return boolean
-     * @since version 1.0
-     */
-    private function setType($type)
-    {
-        if ($type == Number::INTEGER
-            || $type == Number::DECIMAL
-            || $type == Number::FLOAT
-        ) {
-            $this->type = $type;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Setter Unsigned
-     *
-     * @param boolean $unsigned unsigned
-     *
-     * @return boolean
-     * @since version 1.0
-     */
-    private function setUnsigned($unsigned)
-    {
-        if (!is_bool($unsigned)) {
-            $this->unsigned = true;
-            return false;
-        }
-        $this->unsigned = $unsigned;
-        return true;
-    }
-
-    /**
-     * Setter Integer
-     *
-     * @param integer $integer integer
-     *
-     * @return boolean
-     * @since version 1.0
-     */
-    private function setInteger($integer)
-    {
-        if ($this->type == Number::INTEGER) {
-            $this->integer = null;
-            return false;
-        }
-        $this->integer = $integer;
-        return true;
-    }
-
-    /**
-     * Setter decimal
-     *
-     * @param integer $decimal decimal
-     *
-     * @return boolean
-     * @since version 1.0
-     */
-    private function setDecimal($decimal)
-    {
-        if ($this->type == Number::INTEGER) {
-            $this->decimal = null;
-            return false;
-        }
-        $this->decimal = $decimal;
-        return true;
-    }
-
-    /**
-     * Setter Max value
-     *
-     * @param number $max max value
-     *
-     * @return boolean
-     * @since version 1.0
-     */
-    private function setMax($max)
-    {
-        $this->max = PHP_INT_MAX;
-        if ($this->type == Number::INTEGER
-            || $this->type == Number::DECIMAL
-            || $this->type == Number::FLOAT
-        ) {
-            if (is_int($max)) {
-                $this->max = $max;
-            } else {
-                $this->max = PHP_INT_MAX;
-            }
-        }
-    }
-
-    /**
-     * Setter Min value
-     *
-     * @param number $min min value
-     *
-     * @return boolean
-     * @since version 1.0
-     */
-    private function setMin($min)
-    {
-        $this->min = -PHP_INT_MAX;
-        if ($this->type == Number::INTEGER
-            || $this->type == Number::DECIMAL
-            || $this->type == Number::FLOAT
-        ) {
-            if (is_int($min)) {
-                if ($this->unsigned && $min < 0) {
-                    $this->min = 0;
-                } else {
-                    $this->min = $min;
-                }
-            } elseif ($this->unsigned) {
-                $this->min = 0;
-            }
-        }
-    }
-
-    /**
      * Constructor
      *
-     * @param integer $type     type
-     * @param boolean $unsigned unsigned
-     * @param integer $integer  number integer part
-     * @param integer $decimal  number decimal part
-     * @param mixed   $max      max number
-     * @param mixed   $min      min number
+     * @param integer $type      type
+     * @param boolean $unsigned  unsigned
+     * @param integer $precision number precision for FLOAT type
+     * @param mixed   $max       max number
+     * @param mixed   $min       min number
      */
     public function __construct(
         $type = Number::INTEGER,
         $unsigned = false,
-        $integer = null,
-        $decimal = null,
+        $precision = null,
         $max = null,
         $min = null
     ) {
         $this->setType($type);
         $this->setUnsigned($unsigned);
-        $this->setInteger($integer);
-        $this->setDecimal($decimal);
+        $this->setPrecision($precision);
         $this->setMax($max);
         $this->setMin($min);
 
@@ -246,16 +112,105 @@ class Number
     }
 
     /**
-     * Getter value to database format
+     * Setter Type
      *
-     * @return integer|string
+     * @param integer $type number type
+     *
+     * @return void
+     * @since version 1.0
      */
-    public function getValueToDB()
+    private function setType($type)
     {
-        if (!is_null($this->value)) {
-            return $this->value;
+        if ($type == Number::INTEGER || $type == Number::FLOAT) {
+            $this->type = $type;
         } else {
-            return 'NULL';
+            throw new Exception('Number type undefined');
+        }
+    }
+
+    /**
+     * Setter Unsigned
+     *
+     * @param boolean $unsigned unsigned
+     *
+     * @return boolean
+     * @since version 1.0
+     */
+    private function setUnsigned($unsigned)
+    {
+        if (!is_bool($unsigned)) {
+            throw new Exception('Unsigned type is not boolean');
+        }
+        $this->unsigned = $unsigned;
+        return true;
+    }
+
+    /**
+     * Setter precision
+     *
+     * @param integer $precision precision for FLOAT type
+     *
+     * @return void
+     * @since version 1.0
+     */
+    private function setPrecision($precision)
+    {
+        if ($this->type == Number::INTEGER) {
+            if ($precision !== null) {
+                throw new Exception('Integer can not set precision');
+            } else {
+                $this->precision = null;
+            }
+        } else {
+            if (is_int($precision) || $precision == null) {
+                $this->precision = $precision;
+            } else {
+                throw new Exception('Precision not number');
+            }
+        }
+    }
+
+    /**
+     * Setter Max value
+     *
+     * @param number $max max value
+     *
+     * @return boolean
+     * @since version 1.0
+     */
+    private function setMax($max)
+    {
+        $this->max = PHP_INT_MAX;
+        if (is_int($max)) {
+            $this->max = $max;
+        } elseif ($max !== null) {
+            throw new Exception('Max value not number');
+        }
+    }
+
+    /**
+     * Setter Min value
+     *
+     * @param number $min min value
+     *
+     * @return boolean
+     * @since version 1.0
+     */
+    private function setMin($min)
+    {
+        if ($this->unsigned) {
+            $this->min = 0;
+        } else {
+            $this->min = -PHP_INT_MAX;
+        }
+        if (is_int($min)) {
+            if ($this->unsigned && $min < 0) {
+                throw new Exception('Set min value for unsigned not valid');
+            } else {
+                $this->min = $min;
+            }
+        } elseif ($min !== null) {
+            throw new Exception('Min value not number');
         }
     }
 
@@ -280,18 +235,13 @@ class Number
             if (!is_int($var)) {
                 return false;
             }
-        } elseif ($this->type == Number::DECIMAL) {
-            if (Number::countNumbers($var) > $this->integer
-                || Number::countDecimals($var) > $this->decimal
-            ) {
+        } else {
+            if ($this->countPrecision($var) > $this->precision) {
                 return false;
             }
-            $maxDecimals=$this->decimal;
-            $var=number_format($var, $maxDecimals, '.', '');
-        } elseif ($this->type == Number::FLOAT) {
-            $maxDecimals=$this->decimal;
-            $var=number_format($var, $maxDecimals, '.', '');
+            $var = number_format($var, $this->precision, '.', '');
         }
+        
         $this->value = $var;
         return true;
     }
@@ -306,47 +256,24 @@ class Number
         if ($this->value == null) {
             return 'NULL';
         } else {
-            return DB::parse($this->value);
+            return $this->value;
         }
     }
 
     /**
-     * Get number of decimals
+     * Get number of precision
      *
      * @param number $var number
      *
      * @return number|boolean
      */
-    public static function countDecimals($var)
+    private function countPrecision($var)
     {
         if ((int) $var == $var) {
             return 0;
-        } elseif (!is_numeric($var)) {
-            return false;
         }
-
+        
         $ex = explode(".", $var);
-        if (count($ex)==1) {
-            return 0;
-        } else {
-            return strlen($ex[1]);
-        }
-    }
-
-    /**
-     * Get integer of number
-     *
-     * @param number $var number
-     *
-     * @return boolean|number
-     */
-    public static function countNumbers($var)
-    {
-        if (!is_numeric($var)) {
-            return false;
-        }
-        $ex = explode(".", $var);
-        $ex[0] = str_replace('-', '', $ex[0]);
-        return strlen($ex[0]);
+        return strlen($ex[1]);
     }
 }
