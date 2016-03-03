@@ -50,7 +50,7 @@ class Boolean
      */
     protected function isBoolean($val)
     {
-        if ($val == 0 || $val == 1 || $val === true || $val === false) {
+        if ($val === 0 || $val === 1 || $val === true || $val === false) {
             return true;
         } else {
             return false;
@@ -70,17 +70,15 @@ class Boolean
         }
     }
     
+    /**
+     * Getter bolean
+     *
+     * @access public
+     * @return boolean
+     */
     public function getBoolean()
     {
-        if ($this->isBoolean($this->value)) {
-            if ($this->value == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return null;
-        }
+        return $this->value;
     }
 
     /**
@@ -88,7 +86,7 @@ class Boolean
      *
      * @return integer
      */
-    public function getValueToDB()
+    public function toDB()
     {
         if ($this->value === null) {
             return 'NULL';
@@ -112,7 +110,7 @@ class Boolean
             $this->value=null;
             return true;
         } elseif ($this->isBoolean($val)) {
-            if ($val==1 || $val === true) {
+            if ($val===1 || $val === true) {
                 $this->value = true;
             } else {
                 $this->value = false;
