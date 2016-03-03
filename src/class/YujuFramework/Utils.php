@@ -72,31 +72,20 @@ class Utils
     }
 
     /**
-     * Return Server OS
-     *
-     * @return string
-     * @since version 1.0
-     */
-    public static function getOS()
-    {
-        switch (php_uname('s')) {
-            case 'Linux':
-                return 'linux';
-                break;
-        }
-    }
-
-    /**
      * Check valid URI
      *
      * @param string $uri URI
      *
-     * @return mixed return filter URI or false
+     * @return boolean
      * @since version 1.0
      */
     public static function validURI($uri)
     {
-        return filter_var($uri, FILTER_VALIDATE_URL);
+        if (filter_var($uri, FILTER_VALIDATE_URL)=== false) {
+            return false;
+        } else {
+            return true;
+        }
     }
     
     /**
@@ -139,9 +128,6 @@ class Utils
                 case 3:
                     $text .= chr(rand(97, 122));
                     break;
-                default:
-                    $text .= chr(rand(97, 122));
-                    break;
             }
         }
         return $text;
@@ -151,6 +137,7 @@ class Utils
      * Check if lagnuage is supported
      *
      * @param string $language URI
+     * @codeCoverageIgnore
      *
      * @return boolean return filter URI or false
      * @since version 1.0
@@ -174,6 +161,8 @@ class Utils
 
     /**
      * Get the list of the supported languages
+     *
+     * @codeCoverageIgnore
      *
      * @return boolean return filter URI or false
      * @since version 1.0
