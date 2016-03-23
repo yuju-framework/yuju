@@ -395,6 +395,27 @@ class File implements IYujuArray
         }
         return false;
     }
+    
+    /**
+     * Move document
+     *
+     * @param string $newlocation new location
+     *
+     * @return boolean
+     */
+    public static function copy($source, $dest)
+    {
+        if (!File::exist($source)) {
+            return false;
+        }
+        
+        if (copy($source, $dest)) {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
+    }
 
     /**
      * Determine if is image

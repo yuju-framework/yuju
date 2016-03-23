@@ -44,16 +44,6 @@ class YujuArray implements \Iterator
     private $count = 0;
 
     /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * Rewind
      *
      * @access public

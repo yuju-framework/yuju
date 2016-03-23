@@ -13,6 +13,10 @@
 namespace YujuFramework;
 
 use YujuFramework\Utils;
+use YujuFramework\YujuView;
+use YujuFramework\Dir;
+use YujuFramework\File;
+use YujuFramework\DataBase\DB;
 
  /**
   * YujuProject Class
@@ -98,6 +102,7 @@ class YujuProject
     protected $api;
     protected $adminpass;
     protected $language;
+    protected $timezone;
 
     /**
      * Getter project name
@@ -121,6 +126,31 @@ class YujuProject
     public function setName($name)
     {
         $this->name=$name;
+        return true;
+    }
+    
+    /**
+     * Getter project timezone
+     *
+     * @return string
+     * @since version 1.0
+     */
+    public function getTimeZone()
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * Setter project timezone
+     *
+     * @param string $name project timezone
+     *
+     * @return boolean
+     * @since version 1.0
+     */
+    public function setTimeZone($name)
+    {
+        $this->timezone=$name;
         return true;
     }
 
@@ -418,8 +448,7 @@ class YujuProject
      */
     public function setLanguage($language)
     {
-        if (Utils::isLanguageSupported($language)) {
-
+        if (YujuProject::isLanguageSupported($language)) {
             $this->language=$language;
         } else {
             $this->language="en_US";
@@ -436,12 +465,94 @@ class YujuProject
     {
         if (!Dir::exist($this->root)) {
             if (!Dir::mkdir($this->root, true)) {
+                Error::setError('createStructure', _('Error creating root folder '.$this->root));
                 return false;
             }
         }
         
-        if (!Dir::copy($this->api.'templates/', $this->root)) {
-            echo _("Copying");
+        if (!Dir::mkdir($this->root.'cache', true)) {
+            Error::setError('createStructure', _('Error creating cache folder'));
+            return false;
+        }
+        if (!Dir::mkdir($this->root.'class', true)) {
+            Error::setError('createStructure', _('Error creating class folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'compiled', true)) {
+            Error::setError('createStructure', _('Error creating compiled folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'conf', true)) {
+            Error::setError('createStructure', _('Error creating conf folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'htdocs', true)) {
+            Error::setError('createStructure', _('Error creating htdocs folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'include', true)) {
+            Error::setError('createStructure', _('Error creating include folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'modules', true)) {
+            Error::setError('createStructure', _('Error creating module folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'schema', true)) {
+            Error::setError('createStructure', _('Error creating schema folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'templates', true)) {
+            Error::setError('createStructure', _('Error creating templates folder'));
+            return false;
+        }
+        
+        if (!Dir::mkdir($this->root.'locales', true)) {
+            Error::setError('createStructure', _('Error creating locales folder'));
+            return false;
+        }
+        
+        if (!File::copy($this->api.'lib/template/.htaccess', $this->root.'htdocs/.htaccess')) {
+            Error::setError('createStructure', _('Error copy .htaccess on htdocs folder'));
+            return false;
+        }
+        if (!File::copy($this->api.'lib/template/index.php', $this->root.'htdocs/index.php')) {
+            Error::setError('createStructure', _('Error copy index.php on htdocs folder'));
+            return false;
+        }
+        if (!File::copy($this->api.'lib/template/rpc.php', $this->root.'htdocs/rpc.php')) {
+            Error::setError('createStructure', _('Error copy rpc.php on htdocs folder'));
+            return false;
+        }
+        if (!File::copy($this->api.'lib/template/default.tpl', $this->root.'schema/default.tpl')) {
+            Error::setError('createStructure', _('Error copy on schema folder'));
+            return false;
+        }
+        if (!File::copy($this->api.'lib/template/not-found.tpl', $this->root.'schema/not-found.tpl')) {
+            Error::setError('createStructure', _('Error copy on schema folder'));
+            return false;
+        }
+        if (!File::copy($this->api.'lib/template/text.tpl', $this->root.'schema/text.tpl')) {
+            Error::setError('createStructure', _('Error copy text.tpl on schema folder'));
+            return false;
+        }
+        if (!File::copy($this->api.'lib/template/site.php', $this->root.'conf/site.php')) {
+            Error::setError('createStructure', _('Error copy site.php on conf folder'));
+            return false;
+        }
+        if (!Dir::copy($this->api.'lib/template/locales/', $this->root.'/locales/')) {
+            Error::setError('createStructure', _('Error copy on locale folder'));
+            return false;
+        }
+        if (!Dir::copy($this->api.'lib/template/html', $this->root.'modules')) {
+            Error::setError('createStructure', _('Error copy on module folder'));
             return false;
         }
         if (!Dir::chmod($this->root.'compiled/', 0777)) {
@@ -459,7 +570,7 @@ class YujuProject
      * @return boolean
      * @since version 1.0
      */
-    public function createDatabase($adminSect)
+    public function createDatabase()
     {
         if (!DB::connection($this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass, $this->dbname)) {
             if (!DB::connection($this->dbtype, $this->dbhost, $this->dbuser, $this->dbpass)) {
@@ -482,9 +593,11 @@ class YujuProject
         DB::beginTransaction();
         $sql='CREATE TABLE `page` (';
         $sql.='`name` varchar(300) NOT NULL,';
+        $sql.='`regex` bit(1) DEFAULT NULL,';
         $sql.='`title` varchar(200) DEFAULT NULL,';
         $sql.='`schema` varchar(100) NOT NULL,';
         $sql.='`type` varchar(100) NOT NULL,';
+        $sql.='`html` mediumtext,';
         $sql.='`cssfiles` MEDIUMTEXT,';
         $sql.='`jsfiles` MEDIUMTEXT,';
         $sql.='`keyword` varchar(400) DEFAULT NULL,';
@@ -498,66 +611,12 @@ class YujuProject
             DB::rollback();
             return false;
         }
-        $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`modules`,`parent`,`sitemap`) ';
-        $sql.='VALUES(\'index\',\'Home\',\'default\',\'html\',';
+        $sql='INSERT INTO `page` (`name`,`regex`,`title`,`schema`,`type`,`html`,`modules`,`parent`,`sitemap`) ';
+        $sql.='VALUES(\'index\',0,\'Home\',\'default\',\'html\',\'\',';
         $sql.='\'{"MOD1":[{"html": {"value": "<p>Hello World!</p>"}}]}\',\'\',1)';
         if (!DB::query($sql)) {
             DB::rollback();
             return false;
-        }
-
-
-        if ($adminSect) {
-            $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`, `cssfiles`, `jsfiles`, `modules`) ';
-            $sql.='VALUES(\'admin\', \'Admin yuju\', \'default\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
-                \"{$DOMAIN}css/font-awesome.min.css\"]\',
-                \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"MOD1":[{"admin-content":{"_empty_":""}}]}\')';
-            if (!DB::query($sql)) {
-                DB::rollback();
-                return false;
-            }
-            $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
-            $sql.='VALUES(\'admin-editpage\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
-                \"{$DOMAIN}css/font-awesome.min.css\"]\',
-                \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"MOD1":[{"admin-editcontent":{"_empty_":""}}]}\')';
-            if (!DB::query($sql)) {
-                DB::rollback();
-                return false;
-            }
-            $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
-            $sql.='VALUES(\'admin-editsettings\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
-                \"{$DOMAIN}css/font-awesome.min.css\"]\',
-                \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"MOD1":[{"admin-editsettings":{"_empty_":""}}]}\')';
-            if (!DB::query($sql)) {
-                DB::rollback();
-                return false;
-            }
-            $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
-            $sql.='VALUES(\'admin-editsiteconfig\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
-                \"{$DOMAIN}css/font-awesome.min.css\"]\',
-                \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"MOD1":[{"admin-editsiteconfig":{"_empty_":""}}]}\')';
-            if (!DB::query($sql)) {
-                DB::rollback();
-                return false;
-            }
-            $sql='INSERT INTO `page` (`name`,`title`,`schema`,`type`,`cssfiles`, `jsfiles`, `modules`) ';
-            $sql.='VALUES(\'admin-login\', \'Admin yuju\', \'admin\', \'html\',
-                \'[\"{$DOMAIN}css/bootstrap.min.css\",\"{$DOMAIN}css/sb-admin-2.css\",
-                \"{$DOMAIN}css/font-awesome.min.css\"]\',
-                \'[\"{$DOMAIN}js/jquery.js\",\"{$DOMAIN}js/bootstrap.min.js\",\"{$DOMAIN}js/sb-admin-2.js\"]\',
-                \'{"MOD1":[{"admin-login":{"_empty_":""}}]}\')';
-            if (!DB::query($sql)) {
-                DB::rollback();
-                return false;
-            }
         }
         DB::commit();
         return true;
@@ -578,7 +637,7 @@ class YujuProject
         if (!$config_file->open($this->root.'conf/site.php')) {
             return -2;
         }
-        if (!Email::validEmail($this->admin_email)) {
+        if (!Utils::validEmail($this->admin_email)) {
             return -3;
         }
         $newfile='';
@@ -599,7 +658,8 @@ class YujuProject
                 'DBPASS'=>&$this->dbpass,
                 'DBDATA'=>&$this->dbname,
                 'ADMINPASS'=>&$this->adminpass,
-                'LANGUAGE'=>&$this->language
+                'LANGUAGE'=>&$this->language,
+                'TIMEZONE'=>&$this->timezone,
             );
             foreach ($vars as $key => $value) {
                 $newline=preg_replace(
@@ -629,7 +689,7 @@ class YujuProject
         if (!$trans_file->open($this->root.'locales/translate.sh')) {
             return -2;
         }
-        if (!Email::validEmail($this->admin_email)) {
+        if (!Utils::validEmail($this->admin_email)) {
             return -3;
         }
         $newfile='';
@@ -658,9 +718,6 @@ class YujuProject
             return -4;
         }
         $trans_file->close();
-
-
-
         return 0;
     }
 
@@ -735,5 +792,45 @@ class YujuProject
             }
         }
         return $modules;
+    }
+    
+    /**
+     * Check if lagnuage is supported
+     *
+     * @param string $language URI
+     *
+     * @return boolean
+     * @since version 1.0
+     */
+    public static function isLanguageSupported($language)
+    {
+        $file = new File();
+        $root = substr(__DIR__, 0, strlen(__DIR__)-20);
+        $file->open($root . "/lib/languages.txt");
+        while (!$file->eof()) {
+            $line = $file->getLine();
+            if ($line == $language) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get the list of the supported languages
+     *
+     * @return boolean return filter URI or false
+     * @since version 1.0
+     */
+    public static function getSupportedLanguages()
+    {
+        $file = new File();
+        $file->open(__DIR__ . "/lib/languages.txt");
+        $lang = array();
+        while (!$file->eof()) {
+            $line = $file->getLine();
+            $lang[] = $line;
+        }
+        return $lang;
     }
 }

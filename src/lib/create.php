@@ -12,6 +12,7 @@
  */
 
 use YujuFramework\YujuProject;
+use YujuFramework\Error;
 
 /**
  * Create project
@@ -55,6 +56,13 @@ function create()
     } while (!$project->setAdminEmail(trim(fgets(STDIN))));
 
     /*
+     * Time Zone
+     */
+    do {
+        echo _('Timezone: ');
+    } while (!$project->setTimeZone(trim(fgets(STDIN))));
+
+    /*
      * Directory
      */
     echo _('Directory: ');
@@ -65,6 +73,7 @@ function create()
     echo _('Creating structure...')."\n";
     if (!$project->createStructure()) {
         echo _('Error creating structure') . "\n";
+        echo Error::toString();
         exit;
     }
 
@@ -107,16 +116,8 @@ function create()
      */
     echo _('Database password: ');
     $project->setDBPass(trim(fgets(STDIN)));
-
-    echo _('Create admin pages: [Y/n]');
-    if (trim(fgets(STDIN)) == "y" || trim(fgets(STDIN)) == "") {
-        $createadmin = true;
-        echo _('Admin section password: ');
-        $project->setAdminpass(sha1(trim(fgets(STDIN))));
-    } else {
-        $createadmin = false;
-    }
-
+    
+    
     echo _('Application language: [en_US] ');
     $project->setLanguage(trim(fgets(STDIN)));
 

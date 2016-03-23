@@ -633,7 +633,7 @@ class ORMMySQL extends AbstractYujuORM
         $value = '';
         switch ($field['type']) {
         case 'date':
-            $value .= '$this->' . $name . '->dateToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'datetime':
             $value .= '$this->' . $name . '->dateTimeToDB().\'';
@@ -645,31 +645,31 @@ class ORMMySQL extends AbstractYujuORM
             $value .= '$this->' . $name . '->dateTimeToDB().\'';
             break;
         case 'year':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'bigint':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'decimal':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'double':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'float':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'int':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'mediumint':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'smallint':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'tinyint':
-            $value .= '$this->' . $name . '->getValueToDB().\'';
+            $value .= '$this->' . $name . '->toDB().\'';
             break;
         case 'bit':
             $value .= '$this->' . $name . '->getValueDB().\'';

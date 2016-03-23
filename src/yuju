@@ -20,7 +20,6 @@ if (count($argv)<2) {
 }
 
 require 'lib/downloadlibs.php';
-
 switch ($argv[1]) {
     case 'create':
         include 'lib/create.php';
@@ -33,6 +32,10 @@ switch ($argv[1]) {
     case 'compile':
         include 'lib/compile.php';
         compile($argv[2], $argv[3]);
+        break;
+    case 'install':
+        include 'lib/packages.php';
+        install($argv[2]);
         break;
     case 'orm':
         include 'lib/orm.php';

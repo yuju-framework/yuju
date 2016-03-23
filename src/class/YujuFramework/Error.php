@@ -86,8 +86,6 @@ class Error
             foreach (Error::$errors as $error) {
                 if ($error[0]==$cod) {
                     return true;
-                } else {
-                    return false;
                 }
             }
         }
@@ -98,15 +96,11 @@ class Error
      * Get errors
      *
      * @access public
-     * @return array|boolean
+     * @return array
      */
     public static function getErrors()
     {
-        if (Error::Exist()) {
-            return Error::$errors;
-        } else {
-            return false;
-        }
+        return Error::$errors;
     }
 
     public static function toString()
@@ -115,15 +109,15 @@ class Error
         foreach (Error::$errors as $error) {
             $errors .= $error[1]."\n";
         }
-        return $errors;
+        return substr($errors, 0, strlen($errors)-1);
     }
     
     public static function toHTML()
     {
         $errors ='';
         foreach (Error::$errors as $error) {
-            $errors .= $error[1].'<br />';
+            $errors .= $error[1].'<br>';
         }
-        return $errors;
+        return substr($errors, 0, strlen($errors)-4);
     }
 }

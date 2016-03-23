@@ -87,6 +87,21 @@ class Date
     {
         $this->setNull();
     }
+    
+    /**
+     * Date to Data Base format
+     *
+     * @access public
+     * @return string
+     */
+    public function toDB()
+    {
+        if ($this->hour === null) {
+            return $this->dateToDB();
+        } else {
+            return $this->dateTimeToDB();
+        }
+    }
 
     /**
      * Date to Data Base format YYYYMMDD
@@ -111,7 +126,7 @@ class Date
      */
     public function isDateEmpty()
     {
-        if ($this->dateToDB()=='NULL') {
+        if ($this->toDB()=='NULL') {
             return true;
         } else {
             return false;
@@ -225,9 +240,9 @@ class Date
         if (!checkdate($month, $day, $year)) {
             return false;
         }
-        $this->setDay($day);
-        $this->setMonth($month);
-        $this->setYear($year);
+        $this->day =$day;
+        $this->month = $month;
+        $this->year = $year;
         return true;
     }
 
@@ -399,78 +414,6 @@ class Date
     public function getDay()
     {
         return sprintf("%02s", $this->day);
-    }
-
-    /**
-     * Setter month
-     *
-     * @param integer $val month
-     *
-     * @return void
-     */
-    public function setMonth($val)
-    {
-        $this->month=$val;
-    }
-
-    /**
-     * Setter year
-     *
-     * @param integer $val year
-     *
-     * @return void
-     */
-    public function setYear($val)
-    {
-        $this->year=$val;
-    }
-
-    /**
-     * Setter day
-     *
-     * @param integer $val day
-     *
-     * @return void
-     */
-    public function setDay($val)
-    {
-        $this->day=$val;
-    }
-
-    /**
-     * Setter hour
-     *
-     * @param integer $val hour
-     *
-     * @return void
-     */
-    public function setHour($val)
-    {
-        $this->hour=$val;
-    }
-
-    /**
-     * Setter minutes
-     *
-     * @param integer $val minutes
-     *
-     * @return void
-     */
-    public function setMinutes($val)
-    {
-        $this->minutes=$val;
-    }
-
-    /**
-     * Setter seconds
-     *
-     * @param integer $val seconds
-     *
-     * @return void
-     */
-    public function setSeconds($val)
-    {
-        $this->seconds=$val;
     }
 
     /**
