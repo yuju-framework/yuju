@@ -722,14 +722,9 @@ class YujuView
             }
             $mods[$namemod] = $$namemod;
         }
-        // TODO: make type from templates files
-        if ($this->name == "index") {
-            $domain = DOMAIN;
-        } else {
-            $domain = DOMAIN . $this->name;
-        }
+        
         if ($this->type == 'html') {
-            $header = $this->generateHeader();
+            $header = $this->generateHeader($type);
         } else {
             $header = '';
         }
@@ -748,8 +743,14 @@ class YujuView
         return $hload . $mods['__MOD0'] . $header . $schema . $foot;
     }
     
-    private function generateHeader()
+    private function generateHeader($type)
     {
+        if ($this->name == "index") {
+            $domain = DOMAIN;
+        } else {
+            $domain = DOMAIN . $this->name;
+        }
+        
         if ($type == 'edit') {
             $header ='';
         } else {
